@@ -1,0 +1,20 @@
+.pf-head{display:grid;justify-items:center;gap:4px;padding:8px 0 18px;text-align:center}
+.pf-av{width:84px;height:84px;font-size:32px;display:grid;place-items:center;border-radius:50%;margin-bottom:6px;box-shadow:var(--shadow-sm)!important}
+.pf-head b{font-size:20px;font-weight:700}.pf-head small{color:var(--muted);font-size:13px}
+.menu{list-style:none;margin:0 0 16px;padding:4px 0;overflow:hidden}
+.menu li+li{border-top:1px solid var(--border)}
+.menu button{width:100%;min-height:54px;display:flex;align-items:center;gap:14px;padding:0 16px;font-size:15px;font-weight:600;color:var(--text);text-align:start}
+.menu button>span{flex:1}.menu button .ic{color:var(--accent);flex:none}.menu button .row-chev{color:var(--muted);width:18px;height:18px}
+.menu button:active{background:var(--soft)}
+#pf-logout{width:100%}
+.sec{font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 8px;text-transform:none}
+.chips.opt button{flex:1;min-height:44px;font-size:14px}
+.set-err{color:var(--danger);font-size:13px;font-weight:600}
+.faq{overflow:hidden;margin-bottom:16px}
+.faq details+details{border-top:1px solid var(--border)}
+.faq summary{list-style:none;cursor:pointer;min-height:54px;display:flex;align-items:center;padding:0 16px;font-weight:600;font-size:14px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";margin-inline-start:auto;color:var(--accent);font-size:20px;font-weight:500}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:0;padding:0 16px 16px;color:var(--muted);font-size:14px;line-height:1.6}
+#help-report{width:100%}

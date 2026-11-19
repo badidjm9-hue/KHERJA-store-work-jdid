@@ -1,0 +1,5 @@
+{
+  "avoid": ["inDrive", "inDriver", "Indrive", "Indriver", "Sibur", "Tomsky"],
+  "domains": ["indrive.com", "indriver.com"],
+  "colors": ["#c6f04e", "#c8f35a", "#c5ee4d", "#bef264"]
+}

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075BFF">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="color-scheme" content="light dark">
+<script>(function(){try{var v=localStorage.getItem("kherja-theme");if(v==="light"||v==="dark")document.documentElement.dataset.theme=v}catch(e){}})()</script>
+<title>خرجة سائق</title>
+<style>
+/*__CSS__*/
+.screen.scroll{overflow-y:auto;padding-bottom:128px}
+/* floating glass tab bar with sliding indicator */
+.tabbar{position:absolute;bottom:max(14px,env(safe-area-inset-bottom));inset-inline:16px;z-index:8;display:none;grid-template-columns:repeat(3,1fr);padding:6px;border-radius:30px;background:var(--glass-strong);backdrop-filter:blur(26px) saturate(1.8);-webkit-backdrop-filter:blur(26px) saturate(1.8);border:1px solid var(--glass-border);box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.5)}
+.app.tabs .tabbar{display:grid}
+.tabbar::before{content:"";position:absolute;top:6px;bottom:6px;inset-inline-start:6px;width:calc((100% - 12px)/3);border-radius:24px;background:var(--soft);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 22%,transparent);transition:transform .5s var(--spring);transform:translateX(calc(var(--i,0) * 100%))}
+[dir=rtl] .tabbar::before{transform:translateX(calc(var(--i,0) * -100%))}
+.tabbar button{position:relative;min-height:58px;border-radius:24px;display:grid;justify-items:center;align-content:center;gap:2px;font-size:12px;font-weight:700;color:var(--muted);transition:color .25s}
+.tabbar button .ic{width:26px;height:26px;transition:transform .4s var(--spring)}
+.tabbar button[aria-current=page]{color:var(--accent-text)}
+.tabbar button[aria-current=page] .ic{transform:translateY(-2px) scale(1.12)}
+.tabbar button:active .ic{transform:scale(.88)}
+.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px}
+.hdr h1{margin:0;font-size:28px}
+.card{background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--r-md);padding:16px;margin-bottom:12px}
+.banner{border-radius:var(--r-md);padding:14px 16px;margin-bottom:12px;font-weight:700;display:flex;gap:12px;align-items:center;background:#FFF1CC;color:#5C3D00}
+.banner.ok{background:var(--teal-soft);color:var(--price)}.banner.bad{background:#FDE2E2;color:#7A0010}
+@media(prefers-color-scheme:dark){.banner{background:#3B2E10;color:#FCE7A8}.banner.bad{background:#3F1418;color:#FFC9CF}}
+.banner .btn{min-height:44px;padding:0 16px;margin-inline-start:auto;font-size:14px}
+.doc{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
+.doc .thumb{width:72px;height:72px;border-radius:var(--r-sm);background:var(--soft);color:var(--accent-text);display:grid;place-items:center;overflow:hidden}
+.doc .thumb img{width:100%;height:100%;object-fit:cover}
+.doc h3{margin:0;font-size:16px}.doc p{margin:2px 0 8px;font-size:13px;color:var(--muted);line-height:1.6}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:2px 10px;border-radius:12px}
+.st.pending{background:#FFF1CC;color:#5C3D00}.st.approved{background:var(--teal-soft);color:var(--price)}.st.rejected{background:#FDE2E2;color:#7A0010}.st.missing{background:var(--soft);color:var(--muted)}
+.doc .row{margin-top:8px;flex-wrap:wrap}.doc .btn{min-height:44px;font-size:14px;padding:0 16px}
+.doc input[type=date]{min-height:44px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);padding:0 10px;font:inherit;font-size:14px}
+.reason{font-size:13px;color:var(--danger);font-weight:700;margin:0 0 6px}
+.bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin:8px 0 4px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--pop));border-radius:5px;transition:width .6s var(--spring)}
+.kv{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}.kv:last-child{border:0}.kv span:first-child{color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:32px 12px}
+.calls{display:grid;gap:8px;margin-top:10px}.calls .btn{min-height:48px;justify-content:flex-start}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 10px;border-radius:12px;background:var(--teal);color:#fff;margin-inline-end:6px}
+a.btn{text-decoration:none}
+.chk{display:flex;gap:12px;align-items:center;min-height:48px;margin:6px 0 12px;font-weight:500}.chk input{width:24px;height:24px;accent-color:var(--accent);flex:none}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<!--__SPRITE__-->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<section class="screen on" id="s-phone">
+  <div class="spacer"></div>
+  <div class="logo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3c-5.5 0-9 4-9 8.6 0 6 9 15.4 9 15.4s9-9.4 9-15.4C25 7 21.5 3 16 3z" fill="#fff"/><circle cx="16" cy="11.5" r="3.8" fill="#B6360A"/><path d="M5 29c6-2.6 16-2.6 22 0" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".75"/></svg></div>
+  <p class="wm">خرجة · Kherja</p>
+  <h1 data-i="d_h"></h1><p class="sub" data-i="d_s"></p>
+  <div class="lang" role="group" aria-label="Language / اللغة" style="margin-bottom:16px;grid-template-columns:1fr 1fr">
+    <button data-lang="ar" aria-pressed="true">العربية</button><button data-lang="fr" aria-pressed="false">Français</button></div>
+  <label class="field"><span data-i="phone_l"></span><input class="input num" id="phone" inputmode="tel" autocomplete="tel" placeholder="06 55 12 34 56" maxlength="14"></label>
+  <div class="err" id="phone-err" role="alert"></div>
+  <div class="spacer"></div>
+  <button class="btn primary" id="send-otp" data-i="send_code"></button>
+</section>
+
+<section class="screen" id="s-otp">
+  <div class="spacer"></div>
+  <h1 data-i="otp_h"></h1><p class="sub"><span data-i="otp_s"></span> <span class="num" id="otp-to"></span></p>
+  <div class="otp" id="otp" role="group" data-aria="otp_g"><input inputmode="numeric" maxlength="1" aria-label="1"><input inputmode="numeric" maxlength="1" aria-label="2"><input inputmode="numeric" maxlength="1" aria-label="3"><input inputmode="numeric" maxlength="1" aria-label="4"><input inputmode="numeric" maxlength="1" aria-label="5"><input inputmode="numeric" maxlength="1" aria-label="6"></div>
+  <div class="err" id="otp-err" role="alert"></div>
+  <p class="sub"><span data-i="demo_code"></span> <b class="num">123456</b></p>
+  <div class="spacer"></div>
+  <button class="btn primary" id="verify" data-i="verify"></button>
+</section>
+
+<section class="screen scroll" id="s-profile">
+  <h1 data-i="prof_h"></h1><p class="sub" data-i="prof_s"></p>
+  <label class="field"><span data-i="name_l"></span><input class="input" id="name" autocomplete="name"></label>
+  <div class="field"><span data-i="veh_l"></span>
+    <div class="seg" role="group" data-aria="veh_l"><button data-veh="car" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg><span data-i="veh_car"></span></button><button data-veh="moto" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-moto"/></svg><span data-i="veh_moto"></span></button></div></div>
+  <label class="field"><span data-i="model_l"></span><input class="input" id="model" placeholder="Renault Symbol"></label>
+  <label class="field"><span data-i="plate_l"></span><input class="input num" id="plate" placeholder="12345-116-16" style="text-align:start"></label>
+  <label class="chk"><input type="checkbox" id="woman"> <span data-i="woman_l"></span></label>
+  <div class="err" id="prof-err" role="alert"></div>
+  <button class="btn primary" id="save-prof" data-i="next"></button>
+</section>
+
+<section class="screen scroll" id="s-docs">
+  <div class="hdr"><h1 data-i="docs_h"></h1></div>
+  <p class="sub" data-i="docs_s"></p>
+  <div class="card"><b><span id="docs-count">0</span>/4</b><div class="bar"><i id="docs-bar" style="width:0"></i></div></div>
+  <div id="docs-list"></div>
+  <p class="sub" style="font-size:13px" data-i="docs_priv"></p>
+</section>
+
+<section class="screen scroll" id="s-home">
+  <div class="hdr"><h1 id="hello"></h1>
+    <button class="sw" id="online" role="switch" aria-checked="false" data-aria="online_l"></button></div>
+  <div id="banner"></div>
+  <p class="sub" id="dr-s"></p>
+  <div id="dr-req"></div>
+</section>
+
+<section class="screen scroll" id="s-account">
+  <div class="hdr"><h1 data-i="acc_h"></h1></div>
+  <div class="card" id="acc-card"></div>
+  <button class="btn ghost" id="logout" style="width:100%;margin-bottom:12px" data-i="logout"></button>
+  <button class="btn danger" id="delete" style="width:100%" data-i="delete"></button>
+</section>
+
+<nav class="tabbar" aria-label="Main">
+  <button data-tab="home" aria-current="page"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span data-i="tab_home"></span></button>
+  <button data-tab="docs"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg><span data-i="tab_docs"></span></button>
+  <button data-tab="account"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span data-i="tab_acc"></span></button>
+</nav>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const T={
+ ar:{d_h:"اربح بسعر عادل",d_s:"سجّل كسائق أو موصّل، وارفع وثائقك مرة واحدة.",phone_l:"رقم الهاتف",send_code:"إرسال الرمز",otp_h:"أدخل الرمز",otp_s:"أرسلناه إلى",demo_code:"رمز التجربة:",verify:"تأكيد",
+  invalid:"رقم غير صحيح",bad_code:"الرمز غير صحيح",too_many:"محاولات كثيرة، انتظر قليلًا",net:"تعذّر الاتصال",otp_g:"رمز التحقق",
+  prof_h:"بياناتك ومركبتك",prof_s:"تظهر للركاب عند تقديم عرضك.",name_l:"الاسم",veh_l:"نوع المركبة",veh_car:"سيارة",veh_moto:"دراجة",model_l:"الطراز",plate_l:"رقم اللوحة",woman_l:"أنا سائقة (يظهر لمن يطلب سائقة فقط)",next:"التالي",
+  f_name:"اكتب اسمك",f_model:"اكتب طراز المركبة",f_plate:"اكتب رقم اللوحة",plate_taken:"رقم اللوحة مسجّل مسبقًا",
+  docs_h:"الوثائق",docs_s:"نراجع كل وثيقة قبل أن تبدأ العمل. صوّرها بوضوح وبإضاءة جيدة.",docs_priv:"الصور تُخزَّن بأمان ويراها فريق المراجعة فقط، وتُحذف عند حذف حسابك.",
+  vehicle_photo:"صورة المركبة",vehicle_photo_h:"صورة واضحة للمركبة من الأمام تظهر فيها اللوحة.",license:"رخصة السياقة",license_h:"الوجه الأمامي للرخصة، سارية المفعول.",
+  registration:"البطاقة الرمادية",registration_h:"بطاقة تسجيل المركبة باسمك أو مع تفويض.",insurance:"وثيقة التأمين",insurance_h:"تأمين ساري المفعول للمركبة.",
+  expires:"تاريخ الانتهاء",take:"التقاط أو رفع صورة",replace:"استبدال الصورة",uploading:"جارٍ الرفع…",uploaded:"تم الرفع",up_fail:"تعذّر رفع الصورة، جرّب صورة أصغر",
+  st_missing:"لم تُرفع",st_pending:"قيد المراجعة",st_approved:"مقبولة",st_rejected:"مرفوضة",
+  hello:"أهلًا،",online_l:"متاح لاستقبال الطلبات",
+  b_missing:"أكمل رفع الوثائق لتبدأ العمل",b_pending:"وثائقك قيد المراجعة. سنخبرك عند القبول.",b_rejected:"رُفضت وثيقة، أعد رفعها من تبويب الوثائق",b_susp:"حسابك موقوف. تواصل مع الدعم.",b_ok:"حسابك مفعّل",go_docs:"الوثائق",
+  dr_off:"غير متصل",dr_on:"بانتظار الطلبات…",dr_new:"طلب جديد",dr_del:"توصيل",it_food:"أكل",it_parcel:"طرد",bid_same:"اقبل بسعره",bid_counter:"اقترح",km:"كم",drv_wait:"بانتظار ردّ الطالب…",
+  drv_ride:"رحلة جارية",nx_arrived:"وصلت",nx_in_progress:"ابدأ الرحلة",nx_completed:"أنهِ الرحلة",call_rider:"اتصل بالطالب",call_recv:"اتصل بالمستلم",offer_gone:"الطلب لم يعد متاحًا",loc_need:"فعّل خدمة الموقع لتستقبل الطلبات",no_online:"لا يمكنك الاتصال الآن",
+  tab_home:"الرئيسية",tab_docs:"الوثائق",tab_acc:"حسابي",acc_h:"حسابي",logout:"تسجيل الخروج",delete:"حذف حسابي نهائيًا",del_ask:"سيُحذف حسابك ووثائقك نهائيًا. متابعة؟",not_driver:"هذا الرقم مسجّل كراكب. استخدم تطبيق الراكب.",
+  k_phone:"الهاتف",k_veh:"المركبة",k_plate:"اللوحة",k_status:"حالة الوثائق"},
+ fr:{d_h:"Gagnez au juste prix",d_s:"Inscrivez-vous comme chauffeur ou livreur et envoyez vos documents une seule fois.",phone_l:"Numéro de téléphone",send_code:"Envoyer le code",otp_h:"Saisissez le code",otp_s:"Envoyé au",demo_code:"Code de démo :",verify:"Valider",
+  invalid:"Numéro invalide",bad_code:"Code incorrect",too_many:"Trop d'essais, patientez",net:"Connexion impossible",otp_g:"Code de vérification",
+  prof_h:"Vous et votre véhicule",prof_s:"Visible des clients quand vous proposez une offre.",name_l:"Prénom",veh_l:"Type de véhicule",veh_car:"Voiture",veh_moto:"Moto",model_l:"Modèle",plate_l:"Immatriculation",woman_l:"Je suis une conductrice (visible pour celles qui le demandent)",next:"Suivant",
+  f_name:"Saisissez votre prénom",f_model:"Saisissez le modèle",f_plate:"Saisissez l'immatriculation",plate_taken:"Immatriculation déjà enregistrée",
+  docs_h:"Documents",docs_s:"Chaque document est vérifié avant que vous commenciez. Photographiez-les nets et bien éclairés.",docs_priv:"Les photos sont stockées en sécurité, vues uniquement par l'équipe de vérification, et supprimées avec votre compte.",
+  vehicle_photo:"Photo du véhicule",vehicle_photo_h:"Photo nette de face, plaque visible.",license:"Permis de conduire",license_h:"Recto du permis, en cours de validité.",
+  registration:"Carte grise",registration_h:"Carte grise à votre nom ou avec autorisation.",insurance:"Assurance",insurance_h:"Attestation d'assurance en cours de validité.",
+  expires:"Date d'expiration",take:"Prendre ou envoyer une photo",replace:"Remplacer la photo",uploading:"Envoi…",uploaded:"Envoyé",up_fail:"Échec de l'envoi, essayez une photo plus légère",
+  st_missing:"Non envoyé",st_pending:"En vérification",st_approved:"Validé",st_rejected:"Refusé",
+  hello:"Bonjour,",online_l:"Disponible pour les demandes",
+  b_missing:"Envoyez tous vos documents pour commencer",b_pending:"Vos documents sont en vérification. Nous vous prévenons à la validation.",b_rejected:"Un document est refusé, renvoyez-le depuis l'onglet Documents",b_susp:"Compte suspendu. Contactez le support.",b_ok:"Compte activé",go_docs:"Documents",
+  dr_off:"Hors ligne",dr_on:"En attente de demandes…",dr_new:"Nouvelle demande",dr_del:"Livraison",it_food:"Repas",it_parcel:"Colis",bid_same:"Accepter son prix",bid_counter:"Proposer",km:"km",drv_wait:"En attente du client…",
+  drv_ride:"Course en cours",nx_arrived:"Arrivé",nx_in_progress:"Démarrer",nx_completed:"Terminer",call_rider:"Appeler le client",call_recv:"Appeler le destinataire",offer_gone:"Demande indisponible",loc_need:"Activez la localisation pour recevoir des demandes",no_online:"Connexion impossible pour le moment",
+  tab_home:"Accueil",tab_docs:"Documents",tab_acc:"Mon compte",acc_h:"Mon compte",logout:"Se déconnecter",delete:"Supprimer mon compte",del_ask:"Votre compte et vos documents seront supprimés définitivement. Continuer ?",not_driver:"Ce numéro est inscrit comme passager. Utilisez l'application passager.",
+  k_phone:"Téléphone",k_veh:"Véhicule",k_plate:"Plaque",k_status:"État des documents"}
+};
+let L='ar',ME=null,poll=null,sig='',locTimer=null,veh='car';
+const t=k=>T[L][k]??k;
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined,credentials:'same-origin'});let j={};try{j=await r.json()}catch{}if(!r.ok)throw Object.assign(new Error(j.error||r.status),{status:r.status});return j};
+function applyI18n(){document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';
+  $$('[data-i]').forEach(e=>{const v=t(e.dataset.i);if(typeof v==='string')e.textContent=v});$$('[data-aria]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.aria)));
+  $$('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===L));if(ME)renderAll()}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
+function screen(id){$$('.screen').forEach(s=>s.classList.toggle('on',s.id===id));const tab=['s-home','s-docs','s-account'].includes(id);$('#app').classList.toggle('tabs',tab);
+  $$('.tabbar button').forEach((b,i)=>{const on=('s-'+b.dataset.tab)===id;b.setAttribute('aria-current',on?'page':'false');if(on)$('.tabbar').style.setProperty('--i',i)})}
+const stop=()=>{clearInterval(poll);poll=null;clearInterval(locTimer);locTimer=null};
+
+/* auth */
+$$('[data-lang]').forEach(b=>b.onclick=()=>{L=b.dataset.lang;applyI18n()});
+let phoneN='';
+$('#send-otp').onclick=async()=>{const v=$('#phone').value.replace(/\D/g,'');if(!/^0[567]\d{8}$/.test(v)){$('#phone-err').textContent=t('invalid');$('#phone').focus();return}
+  try{await api('POST','/api/auth/otp',{phone:v})}catch(e){$('#phone-err').textContent=e.status===429?t('too_many'):t('net');return}
+  $('#phone-err').textContent='';phoneN=v;$('#otp-to').textContent='+213 '+v.slice(1);screen('s-otp');$('#otp input').focus()};
+$$('#otp input').forEach((i,n,all)=>{i.oninput=()=>{i.value=i.value.replace(/\D/g,'');if(i.value&&all[n+1])all[n+1].focus()};i.onkeydown=e=>{if(e.key==='Backspace'&&!i.value&&all[n-1])all[n-1].focus()}});
+$('#verify').onclick=async()=>{const code=$$('#otp input').map(i=>i.value).join('');
+  try{await api('POST','/api/auth/verify',{phone:phoneN,code,role:'driver',lang:L})}catch{$('#otp-err').textContent=t('bad_code');return}
+  $('#otp-err').textContent='';await boot()};
+
+/* profile */
+$$('[data-veh]').forEach(b=>b.onclick=()=>{veh=b.dataset.veh;$$('[data-veh]').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+$('#save-prof').onclick=async()=>{const name=$('#name').value.trim(),model=$('#model').value.trim(),plate=$('#plate').value.trim(),e=$('#prof-err');
+  if(!name)return e.textContent=t('f_name');if(!model)return e.textContent=t('f_model');if(!plate)return e.textContent=t('f_plate');e.textContent='';
+  try{await api('POST','/api/driver/profile',{name,vehicle_type:veh,car:model,plate,is_woman:$('#woman').checked})}catch(x){e.textContent=x.status===409?t('plate_taken'):t('net');return}
+  await boot('s-docs')};
+
+/* documents */
+const KINDS=['vehicle_photo','license','registration','insurance'];
+function renderDocs(){const docs=Object.fromEntries(ME.docs.map(d=>[d.kind,d]));const n=KINDS.filter(k=>docs[k]).length;$('#docs-count').textContent=n;$('#docs-bar').style.width=(n*25)+'%';
+  $('#docs-list').innerHTML='';
+  KINDS.forEach(k=>{const d=docs[k],st=d?d.status:'missing';const card=document.createElement('div');card.className='card doc';
+    card.innerHTML=`<div class="thumb">${d?`<img alt="${esc(t(k))}" src="/api/driver/docs/${d.id}/file?v=${d.id}">`:`<svg class="ic xl" aria-hidden="true"><use href="#i-${k==='vehicle_photo'?'camera':'file'}"/></svg>`}</div>
+     <div><h3>${t(k)}</h3><p>${t(k+'_h')}</p><span class="st ${st}">${t('st_'+st)}</span>${d&&d.reason?`<p class="reason">${esc(d.reason)}</p>`:''}
+     <div class="row">${k==='license'||k==='insurance'?`<label><span class="sr">${t('expires')}</span><input type="date" data-exp="${k}" value="${esc(d&&d.expires_on||'')}" aria-label="${t('expires')}"></label>`:''}
+     <label class="btn ghost" style="cursor:pointer"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg><span>${d?t('replace'):t('take')}</span><input class="sr" type="file" accept="image/*" capture="environment" data-kind="${k}" aria-label="${t(k)}"></label></div></div>`;
+    $('#docs-list').appendChild(card)});
+  $$('#docs-list input[type=file]').forEach(inp=>inp.onchange=()=>upload(inp))}
+async function shrink(file){const bmp=await createImageBitmap(file);const k=Math.min(1,1280/Math.max(bmp.width,bmp.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(bmp.width*k));c.height=Math.max(1,Math.round(bmp.height*k));
+  c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);let q=.82,blob;for(;;){blob=await new Promise(r=>c.toBlob(r,'image/jpeg',q));if(blob.size<1.4e6||q<.4)break;q-=.15}
+  const buf=new Uint8Array(await blob.arrayBuffer());let bin='';for(let i=0;i<buf.length;i+=0x8000)bin+=String.fromCharCode.apply(null,buf.subarray(i,i+0x8000));return btoa(bin)}
+async function upload(inp){const f=inp.files[0];if(!f)return;const kind=inp.dataset.kind;toast(t('uploading'));
+  try{const exp=($(`[data-exp="${kind}"]`)||{}).value||undefined;await api('POST','/api/driver/docs',{kind,data:await shrink(f),expires_on:exp});toast(t('uploaded'));await refresh()}catch{toast(t('up_fail'))}}
+
+/* home */
+function banner(){const p=ME.profile,n=ME.docs.length;let cls='',txt='',btn=true;
+  if(p.suspended){cls='bad';txt=t('b_susp');btn=false}else if(ME.can_go_online&&p.docs_status==='approved'){cls='ok';txt=t('b_ok');btn=false}
+  else if(p.docs_status==='rejected'){cls='bad';txt=t('b_rejected')}else if(n<4){txt=t('b_missing')}else if(p.docs_status==='pending'&&!ME.can_go_online){txt=t('b_pending');btn=false}else{btn=false}
+  $('#banner').innerHTML=txt?`<div class="banner ${cls}" role="status">${esc(txt)}${btn?`<button class="btn primary" id="b-docs">${t('go_docs')}</button>`:''}</div>`:'';const b=$('#b-docs');if(b)b.onclick=()=>go('docs')}
+function renderHome(){$('#hello').textContent=t('hello')+' '+(ME.user.name||'');banner();const sw=$('#online');sw.disabled=!ME.can_go_online;sw.style.opacity=ME.can_go_online?1:.45;
+  $('#dr-s').textContent=sw.getAttribute('aria-checked')==='true'?t('dr_on'):t('dr_off')}
+function renderAccount(){const p=ME.profile;$('#acc-card').innerHTML=[['k_phone',`<span class="num">${esc(ME.user.phone)}</span>`],['k_veh',esc(p.car)+' · '+t(p.vehicle_type==='moto'?'veh_moto':'veh_car')],['k_plate',`<span class="num">${esc(p.plate)}</span>`],['k_status',t(ME.docs.length<4?'st_missing':'st_'+p.docs_status)]].map(([k,v])=>`<div class="kv"><span>${t(k)}</span><span>${v}</span></div>`).join('')}
+function renderAll(){renderHome();renderDocs();renderAccount()}
+function go(tab){screen('s-'+tab)}
+$$('.tabbar button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+async function refresh(){ME=await api('GET','/api/driver/me');renderAll()}
+
+const NEXT={en_route:'arrived',arrived:'in_progress',in_progress:'completed'};
+async function tick(){try{const on=$('#online').getAttribute('aria-checked')==='true';
+  const [feed,act]=await Promise.all([on?api('GET','/api/driver/requests'):Promise.resolve({requests:[]}),api('GET','/api/rides/active')]);const requests=feed.requests,ride=act.ride;
+  const s=JSON.stringify([requests.map(r=>[r.id,r.already_offered,r.price]),ride&&[ride.id,ride.status]]);if(s===sig)return;sig=s;const box=$('#dr-req');box.innerHTML='';
+  if(ride){const nxt=NEXT[ride.status];const del=ride.kind==='delivery';
+    box.innerHTML=`<div class="req"><div style="display:flex;justify-content:space-between;align-items:center"><b>${del?`<span class="tag">${t('dr_del')}</span>`:''}${t('drv_ride')}</b><span class="num" style="font-weight:800;font-size:22px">${ride.locked_price}</span></div>
+     ${del?`<p class="sub" style="margin:6px 0 0">${t('it_'+ride.item_type)} · ${esc(ride.item_note)}</p>`:''}
+     <p class="sub" style="margin:6px 0 0">${esc(ride.p_label)} → ${esc(ride.d_label)}</p>
+     <div class="calls">${ride.contact?`<a class="btn ghost" href="tel:${esc(ride.contact.phone)}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>${t('call_rider')} · <span class="num">${esc(ride.contact.phone)}</span></a>`:''}
+     ${ride.recipient?`<a class="btn ghost" href="tel:${esc(ride.recipient.phone)}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>${t('call_recv')} · ${esc(ride.recipient.name)}</a>`:''}</div>
+     ${nxt?`<div class="row"><button class="btn primary" id="dr-next">${t('nx_'+nxt)}</button></div>`:''}</div>`;
+    const nb=$('#dr-next');if(nb)nb.onclick=async()=>{try{await api('POST',`/api/rides/${ride.id}/status`,{status:nxt});sig='';tick()}catch{toast(t('net'))}};return}
+  requests.forEach(r=>{const el=document.createElement('div');el.className='req';const del=r.kind==='delivery';
+    el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><b>${del?`<span class="tag">${t('dr_del')} · ${t('it_'+r.item_type)}</span>`:''}${t('dr_new')}</b><span class="num" style="font-weight:800;font-size:22px">${r.price}</span></div>
+     ${del?`<p class="sub" style="margin:6px 0 0">${esc(r.item_note)}</p>`:''}<p class="sub" style="margin:6px 0 12px">${esc(r.p_label)} → ${esc(r.d_label)} · <span class="num">${r.dist_km}</span> ${t('km')}</p>`+
+     (r.already_offered?`<p class="sub" style="margin:0">${t('drv_wait')}</p>`:`<div class="row" style="margin:0"><button class="btn ghost" data-c>${t('bid_counter')} <span class="num">${r.price+50}</span></button><button class="btn primary" data-a>${t('bid_same')}</button></div>`);
+    const bid=p=>async()=>{try{await api('POST',`/api/requests/${r.id}/offers`,{price:p,eta_min:4});toast('✓');sig='';tick()}catch{toast(t('offer_gone'))}};
+    const a=el.querySelector('[data-a]');if(a){a.onclick=bid(r.price);el.querySelector('[data-c]').onclick=bid(r.price+50)}box.appendChild(el)})}catch(e){if(e.status===401)location.reload()}}
+function position(){return new Promise((res,rej)=>{if(!navigator.geolocation)return rej(new Error('no geo'));navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude}),rej,{timeout:8000,maximumAge:15000})})}
+$('#online').onclick=async()=>{const sw=$('#online');if(sw.disabled)return;const on=sw.getAttribute('aria-checked')!=='true';
+  try{if(on){let pos;try{pos=await position()}catch{toast(t('loc_need'));return}await api('POST','/api/driver/online',{online:true,...pos});
+      clearInterval(locTimer);locTimer=setInterval(async()=>{try{await api('POST','/api/driver/online',{online:true,...await position()})}catch{}},20000)}
+    else{clearInterval(locTimer);await api('POST','/api/driver/online',{online:false})}}catch{toast(t('no_online'));return}
+  sw.setAttribute('aria-checked',on);sig='';renderHome();tick()};
+
+/* account */
+$('#logout').onclick=async()=>{stop();try{await api('POST','/api/auth/logout')}catch{}location.reload()};
+$('#delete').onclick=async()=>{if(!confirm(t('del_ask')))return;stop();try{await api('DELETE','/api/me')}catch{}location.reload()};
+
+/* start */
+async function boot(to){try{ME=await api('GET','/api/driver/me')}catch(e){if(e.status===403){try{await api('POST','/api/auth/logout')}catch{}screen('s-phone');$('#phone-err').textContent=t('not_driver')}else screen('s-phone');return}
+  if(!ME.profile){screen('s-profile');return}
+  renderAll();stop();sig='';poll=setInterval(tick,1500);tick();
+  const sw=$('#online');sw.setAttribute('aria-checked','false');go(to?to.replace('s-',''):(ME.docs.length<4?'docs':'home'))}
+applyI18n();boot();
+</script>
+</body>
+</html>

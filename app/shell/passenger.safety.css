@@ -1,0 +1,16 @@
+.ct-hero,.sos-hero{width:84px;height:84px;margin:6px auto 12px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);box-shadow:var(--shadow-sm)}
+.sos-hero{background:color-mix(in srgb,var(--danger) 12%,transparent);color:var(--danger)}
+.ct-hero .ic.xl,.sos-hero .ic.xl{width:42px;height:42px}
+.ct-intro{text-align:center;color:var(--muted);font-size:14px;margin:0 0 16px}
+.sos-title{text-align:center;color:var(--danger);font-size:19px;font-weight:700;margin:0 0 16px}
+.ct-row{display:flex;align-items:center;gap:12px;padding:12px 14px;flex-wrap:wrap}
+.ct-row .av{width:44px;height:44px;font-size:17px;display:grid;place-items:center;border-radius:50%;flex:none}
+.ct-id{display:grid;gap:2px;flex:1;min-width:0}.ct-id b{font-size:14px;font-weight:700}.ct-id small{color:var(--muted);font-size:13px}
+.ct-icons{display:flex;gap:8px}
+.ct-icons .round{width:44px;height:44px}.ct-icons .round.alt{background:var(--soft);color:var(--accent);box-shadow:none}
+.ct-acts{display:flex;gap:8px;width:100%}.ct-acts .btn{flex:1;min-height:44px;font-size:14px;gap:6px}
+.ct-form{padding:16px;margin:12px 0;display:grid;gap:10px}
+.ct-form .row{margin-top:4px}
+#ct-add,#sos-add{width:100%;margin-top:12px}
+.ct-note{margin:14px 4px 0;padding:10px 12px;border-radius:12px;background:var(--soft);color:var(--accent-text);font-size:13px;font-weight:600;text-align:center}
+.ct-acts .btn{padding:0 8px;font-size:13px;white-space:nowrap}

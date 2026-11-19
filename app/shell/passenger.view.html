@@ -1,0 +1,115 @@
+<!-- S04 profile -->
+  <section class="screen" id="s-profile">
+    <div class="spacer"></div>
+    <h1 data-i="prof_h"></h1><p class="sub" data-i="prof_s"></p>
+    <label class="field"><span data-i="name_l"></span><input class="input" id="name" autocomplete="name"></label>
+    <label class="field"><span data-i="city_l"></span>
+      <select class="input" id="city"><option>الجزائر العاصمة · Alger</option><option>وهران · Oran</option><option>قسنطينة · Constantine</option><option>عنابة · Annaba</option><option>سطيف · Sétif</option></select></label>
+    <div class="spacer"></div>
+    <button class="btn primary" id="finish" data-i="start"></button>
+  </section>
+
+  <!-- S05+ map and sheets -->
+  <section class="screen" id="s-map" style="padding:0">
+    <div class="map" id="map" aria-label="Map"></div>
+    <div class="topbar">
+      <button class="chip" id="sos" hidden><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg> <span data-i="sos"></span></button>
+      <button class="chip" id="my-location" type="button" aria-label="My location"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span data-i="my_location"></span></button>
+      <button class="chip" id="p-logout" type="button"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg> <span data-i="logout"></span></button>
+    </div>
+    <div class="map-search" id="map-search">
+      <input id="map-from" type="search" placeholder="من أين؟ / Départ" aria-label="Pickup address">
+      <input id="map-to" type="search" placeholder="إلى أين؟ / Destination" aria-label="Destination address">
+      <button class="btn primary sm" id="map-route" type="button">بحث عن المسار</button>
+      <small id="map-route-info" aria-live="polite"></small>
+    </div>
+
+    <div class="sheet" id="sh-home" aria-label="home">
+      <div class="grab"></div>
+      <div class="seg" role="group" data-aria="kind_g"><button data-kind="ride" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg><span data-i="k_ride"></span></button><button data-kind="delivery" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg><span data-i="k_del"></span></button></div>
+      <h2 id="hello"></h2>
+      <div class="vehicle-choice" id="vehicle-choice" role="group" data-aria="veh_group">
+        <button class="vehicle-option selected" type="button" data-ride-vehicle="car" aria-pressed="true">
+          <span class="vehicle-art car-art"><svg class="ic xl" aria-hidden="true"><use href="#i-car"/></svg></span>
+          <span class="vehicle-copy"><b data-i="choose_car"></b><small data-i="car_desc"></small></span>
+          <span class="vehicle-check" aria-hidden="true">✓</span>
+        </button>
+        <button class="vehicle-option" type="button" data-ride-vehicle="moto" aria-pressed="false">
+          <span class="vehicle-art moto-art"><svg class="ic xl" aria-hidden="true"><use href="#i-moto"/></svg></span>
+          <span class="vehicle-copy"><b data-i="choose_moto"></b><small data-i="moto_desc"></small></span>
+          <span class="vehicle-check" aria-hidden="true">✓</span>
+        </button>
+      </div>
+      <div class="place"><span class="pi a"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg></span><span data-i="from_val"></span></div>
+      <div class="place" style="border:0"><span class="pi b"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg></span><span data-i="to_val"></span></div>
+      <div class="recents" id="recents"></div>
+      <button class="btn primary" id="to-request" style="margin-top:8px" data-i="set_price"></button>
+      <nav class="ptabs" data-ptabs="home"></nav>
+    </div>
+
+    <div class="sheet" id="sh-request" aria-label="request">
+      <div class="grab"></div>
+      <h2 data-i="your_fare"></h2>
+      <div class="price">
+        <button class="step" id="minus" aria-label="-50"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg></button>
+        <div class="val"><b class="num" id="pval">450</b> <span data-i="dzd"></span><small><span data-i="recommended"></span> <span class="num" id="recommended-price">450</span></small><small id="fare-context" class="fare-context" data-i="fare_context"></small></div>
+        <button class="step" id="plus" aria-label="+50"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button>
+      </div>
+      <div id="dl" hidden>
+        <div class="chipsel" role="group" data-aria="item_g"><button data-item="food" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-food"/></svg><span data-i="it_food"></span></button><button data-item="parcel" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg><span data-i="it_parcel"></span></button></div>
+        <label class="field sm"><span data-i="dl_note_l"></span><input class="input" id="dl-note" maxlength="200" data-ph="dl_note_ph"></label>
+        <label class="field sm"><span data-i="dl_from_l"></span><input class="input" id="dl-from" maxlength="120" data-ph="dl_from_ph"></label>
+        <label class="field sm"><span data-i="dl_to_l"></span><input class="input" id="dl-to" maxlength="120" data-ph="dl_to_ph"></label>
+        <div class="two"><label class="field sm"><span data-i="dl_rn_l"></span><input class="input" id="dl-rn" maxlength="60" autocomplete="off"></label>
+        <label class="field sm"><span data-i="dl_rp_l"></span><input class="input num" id="dl-rp" inputmode="tel" maxlength="14" placeholder="05 55 …"></label></div>
+        <div class="err" id="dl-err" role="alert"></div>
+        <p class="hint" data-i="dl_rules"></p>
+      </div>
+      <div class="warn" id="lowwarn" hidden data-i="low_warn"></div>
+      <label class="field" style="margin:0"><span class="sr" data-i="note_l"></span><input class="input" id="note" data-ph="note_ph"></label>
+      <div class="pay"><svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg> <span data-i="cash"></span> · <label><input type="checkbox" id="women"> <span data-i="women_pref"></span></label></div>
+      <div class="row"><button class="btn ghost" id="back-home" data-i="back" style="flex:.4"></button><button class="btn primary" id="order" data-i="find_driver"></button></div>
+    </div>
+
+    <div class="sheet" id="sh-wait" aria-live="polite">
+      <div class="grab"></div>
+      <h2 data-i="searching"></h2>
+      <div class="radar"><i></i><i></i><i></i><b></b></div>
+      <p class="sub" style="text-align:center;margin:0 0 12px"><span data-i="your_fare"></span>: <b class="num" id="wprice"></b> <span data-i="dzd"></span></p>
+      <button class="btn ghost" id="cancel-wait" data-i="cancel"></button>
+    </div>
+
+    <div class="sheet" id="sh-offers" aria-live="polite">
+      <div class="grab"></div>
+      <h2><span data-i="offers_h"></span> · <span class="num" id="ocount">0</span></h2>
+      <div class="offers" id="offers"></div><p class="sub" id="oempty" data-i="no_offers" hidden></p>
+    </div>
+
+    <div class="sheet" id="sh-way">
+      <div class="grab"></div>
+      <div class="steps" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="status"><i></i><span id="way-status"></span></div>
+      <div class="driver"><div class="av" id="d-av"></div>
+        <div><div style="font-weight:700" id="d-name"></div><div style="font-size:14px;color:var(--muted)" id="d-car"></div><span class="plate num" id="d-plate"></span> <a class="tel num" id="d-phone" hidden></a></div>
+        <div class="star"><svg class="ic sm" aria-hidden="true"><use href="#i-star"/></svg> <span class="num" id="d-rate"></span></div></div>
+      <div class="dl-info" id="dl-info" hidden><span class="pi b"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg></span><span id="dl-info-t"></span></div>
+      <div class="locked"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> <span><span data-i="locked"></span> <b class="num" id="d-price"></b> <span data-i="dzd"></span></span></div>
+      <div class="row">
+        <button class="round" data-aria="call_l" id="call"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></button>
+        <button class="round" data-aria="share_l" id="share"><svg class="ic" aria-hidden="true"><use href="#i-share"/></svg></button>
+        <button class="btn danger" id="cancel-ride" data-i="cancel"></button>
+        <button class="btn primary" id="sim-next" data-i="sim_next"></button>
+      </div>
+    </div>
+
+    <div class="sheet" id="sh-done">
+      <div class="grab"></div>
+      <h2 style="text-align:center" data-i="done_h"></h2>
+      <div class="big"><span class="num" id="f-price"></span> <small style="font-size:18px" data-i="dzd"></small></div>
+      <p class="sub" style="text-align:center;margin:4px 0 0" data-i="pay_cash"></p>
+      <div class="stars" id="stars" role="radiogroup" data-aria="rate"></div>
+      <div class="tags" id="tags"></div>
+      <button class="btn primary" id="submit-rate" data-i="submit"></button>
+    </div>
+
+  </section>

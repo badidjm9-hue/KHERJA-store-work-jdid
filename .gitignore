@@ -1,0 +1,31 @@
+# secrets and local configuration
+.env
+.env.*
+!.env.example
+!backend/.env.example
+*.pem
+*.key
+# databases, sessions, private uploads, backups
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+data/
+uploads/
+backups/
+kherja-backup-*/
+# dependencies and build/test output
+node_modules/
+coverage/
+test-results/
+playwright-report/
+# temporary / editor / OS files
+tmp/
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

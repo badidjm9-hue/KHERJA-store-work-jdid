@@ -1,0 +1,39 @@
+<!-- Mon profil / Paramètres / Aide & Support. Data: GET /api/me, POST /api/me (lang), localStorage theme -->
+  <section class="screen page" id="s-prof" aria-labelledby="prof-h2">
+    <header class="ph"><span></span><h1 id="prof-h2" data-i="prof2_h"></h1><span></span></header>
+    <div class="pb">
+      <div class="pf-head"><span class="av pf-av" id="pf-av" aria-hidden="true"></span><b id="pf-name"></b><small id="pf-phone" dir="ltr"></small></div>
+      <ul class="menu card" id="pf-menu">
+        <li><button type="button" data-go="s-hist"><svg class="ic" aria-hidden="true"><use href="#i-hist"/></svg><span data-i="m_rides"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+        <li data-needs="s-notif"><button type="button" data-go="s-notif"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg><span data-i="m_notif"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+        <li data-needs="s-contacts"><button type="button" data-go="s-contacts"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><span data-i="m_contacts"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+        <li><button type="button" data-go="s-set"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg><span data-i="m_settings"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+        <li><button type="button" data-go="s-help"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg><span data-i="m_help"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+      </ul>
+      <button type="button" class="btn danger" id="pf-logout" data-i="logout"></button>
+    </div>
+    <nav class="ptabs" data-ptabs="prof"></nav>
+  </section>
+
+  <section class="screen page" id="s-set" aria-labelledby="set-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="set-h" data-i="m_settings"></h1><span></span></header>
+    <div class="pb">
+      <h2 class="sec" data-i="appearance"></h2>
+      <div class="chips opt" role="group" data-aria="appearance" id="set-theme"><button type="button" data-th="system" aria-pressed="false" data-i="th_sys"></button><button type="button" data-th="light" aria-pressed="false" data-i="th_light"></button><button type="button" data-th="dark" aria-pressed="false" data-i="th_dark"></button></div>
+      <h2 class="sec" data-i="language"></h2>
+      <div class="chips opt" role="group" data-aria="language" id="set-lang"><button type="button" data-lg="ar" aria-pressed="false" lang="ar">العربية</button><button type="button" data-lg="fr" aria-pressed="false" lang="fr">Français</button></div>
+      <p class="set-err" id="set-err" role="alert" hidden></p>
+      <div class="del-box"><h2 class="sec" data-i="del_h"></h2><p data-i="del_p"></p>
+        <button type="button" class="btn danger" id="del-start" data-i="del_btn"></button>
+        <div id="del-ask" hidden><div class="row"><button type="button" class="btn ghost" id="del-no" data-i="del_cancel"></button><button type="button" class="btn danger" id="del-yes" data-i="del_confirm"></button></div></div>
+        <p class="set-err" id="del-err" role="alert" hidden></p></div>
+    </div>
+  </section>
+
+  <section class="screen page" id="s-help" aria-labelledby="help-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="help-h" data-i="m_help"></h1><span></span></header>
+    <div class="pb">
+      <div class="faq card" id="faq"></div>
+      <button type="button" class="btn ghost" id="help-report" data-i="report_btn" hidden></button>
+    </div>
+  </section>

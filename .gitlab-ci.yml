@@ -1,0 +1,43 @@
+# KHERJA CI. No secrets here: configure any needed values as masked CI/CD variables in GitLab.
+# Node is pinned: backend/runtime.js refuses to start on any other version.
+stages: [validate, test]
+default:
+  image: node:22.23.4-bookworm
+  interruptible: true
+
+node-version:
+  stage: validate
+  script:
+    - test "$(node -v)" = "v$(cat .nvmrc)" || { echo "Node mismatch: $(node -v) vs $(cat .nvmrc)"; exit 1; }
+    - node -e "const p=require('./package.json'); if(p.engines.node!==require('fs').readFileSync('.nvmrc','utf8').trim()) process.exit(1)"
+
+syntax-and-config:
+  stage: validate
+  script:
+    - git ls-files '*.js' | xargs -n1 node --check
+    - node -e "for (const f of ['package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'))"
+    - node app/build-shell.js && node app/build-apps.js
+    - git diff --exit-code -- app/kherja.html app/admin.html app/driver.html || { echo "built pages are out of date: run node app/build-shell.js && node app/build-apps.js and commit"; exit 1; }
+    - test -z "$(git ls-files | grep -E '(^|/)\.env$|\.db$|\.sqlite3?$|\.pem$|\.key$')" || { echo "secret-like file is tracked"; exit 1; }
+
+backend-tests:
+  stage: test
+  script: [npm run test:backend]
+
+ops-tests:
+  stage: test
+  script: [npm run test:ops]
+
+e2e-tests:
+  stage: test
+  script:
+    - npm install --no-save --no-audit --no-fund playwright@1.63.0
+    - npx playwright install --with-deps chromium
+    - npm run test:e2e
+
+mobile-web-preflight:
+  stage: validate
+  script:
+    - node app/build-shell.js && node app/build-apps.js
+    - npm run mobile:preflight
+    - git diff --exit-code -- app/kherja.html app/admin.html app/driver.html

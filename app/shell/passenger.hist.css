@@ -1,0 +1,14 @@
+.hlist{display:grid;gap:10px}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;text-align:start;width:100%;min-height:64px;transition:transform .18s var(--spring)}
+.hrow:active{transform:scale(.98)}
+.hr-main{display:grid;gap:4px;min-width:0}.hr-main b{font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hr-main small{color:var(--muted);font-size:12px}
+.hr-end{display:grid;justify-items:end;gap:6px;flex:none}.hr-end b{font-size:15px;font-weight:700}
+.hd-card{padding:16px;margin-bottom:12px;display:grid;gap:12px}
+.hd-card h2{margin:0;font-size:14px;color:var(--muted);font-weight:600}
+.hd-driver{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center}.hd-driver small{display:block;color:var(--muted);font-size:12px}
+.hd-driver .av{width:48px;height:48px;font-size:18px;display:grid;place-items:center;border-radius:50%}
+.hd-route{display:flex;gap:12px;align-items:center}.hd-route small{display:block;color:var(--muted);font-size:12px}.hd-route b{font-size:14px;font-weight:600}
+.hd-amt{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted)}.hd-amt b{font-size:22px;color:var(--text);font-weight:700}
+.hd-date{text-align:center;color:var(--muted);font-size:12px;margin:0 0 12px}
+#hd-report{width:100%}
+.hd-card .badge{justify-self:start}

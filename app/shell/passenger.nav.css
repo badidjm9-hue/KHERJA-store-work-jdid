@@ -1,0 +1,30 @@
+/* ===== passenger extra screens (Stage 3 passenger): shared page chrome. Scoped by id/class; driver & admin untouched ===== */
+.screen.page{padding:0;background:var(--bg);overflow:clip}
+.screen.page:not(.on){visibility:hidden;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility 0s .25s}
+.page .ph{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding:max(14px,env(safe-area-inset-top)) 12px 8px;min-height:60px;flex:none}
+.page .ph h1{margin:0;text-align:center;font-size:17px;font-weight:700;color:var(--text)}
+.page .ph-back{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--text);background:transparent}
+.page .ph-back:active{background:var(--soft)}
+[dir=rtl] .page .ph-back .ic,[dir=rtl] .row-chev{transform:scaleX(-1)}
+.page .pb{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:4px 16px 16px;-webkit-overflow-scrolling:touch}
+.ptabs{display:flex;flex:none;gap:4px;padding:8px 12px max(10px,env(safe-area-inset-bottom));background:var(--glass-strong);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border-top:1px solid var(--glass-border);box-shadow:0 -8px 24px -16px rgba(91,75,219,.25)}
+.ptabs .ptab{flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:12px;color:var(--muted);font-size:11px;font-weight:600;transition:color .2s var(--ease),background .2s var(--ease)}
+.ptabs .ptab .ic{width:22px;height:22px}
+.ptabs .ptab[aria-current=true]{color:var(--accent-text);background:var(--soft)}
+.ptabs .ptab:active{transform:scale(.95)}
+#sh-home .ptabs{margin:10px -16px -16px;border-radius:0 0 24px 24px;border-top:1px solid var(--border);box-shadow:none;background:transparent;backdrop-filter:none}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm)}
+.st-box{display:grid;justify-items:center;gap:10px;text-align:center;padding:44px 16px;color:var(--muted)}
+.st-box b{color:var(--text);font-size:15px}.st-box p{margin:0;font-size:13px}
+.st-box .ic.xl{width:44px;height:44px;color:var(--accent)}
+.st-box .btn{min-width:160px}
+.spin{width:30px;height:30px;border-radius:50%;border:3px solid var(--soft);border-top-color:var(--accent);animation:spin .9s linear infinite}
+.chips{display:flex;gap:8px;margin:0 0 12px;flex-wrap:wrap}
+.chips button{min-height:36px;padding:0 14px;border-radius:18px;background:var(--surface);border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--muted)}
+.chips button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;font-size:12px;font-weight:700;background:var(--soft);color:var(--accent-text)}
+.badge.ok{background:color-mix(in srgb,var(--success) 18%,transparent);color:var(--success)}
+.badge.no{background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}
+@media(prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
+.page .av{background:var(--soft)!important;color:var(--accent-text)!important;box-shadow:none!important;font-weight:700}
+.pf-head b,.ct-id b,.hd-driver b,.hr-main b{unicode-bidi:plaintext}

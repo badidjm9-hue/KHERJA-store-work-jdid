@@ -1,0 +1,23 @@
+{
+  "name": "kherja",
+  "version": "2.3.0-reconstructed-ab",
+  "private": true,
+  "description": "Kherja ride-hailing application",
+  "engines": {
+    "node": "22.23.4"
+  },
+  "scripts": {
+    "test:backend": "node --test backend/test.js backend/otp-mode.test.js backend/roles.test.js backend/security.test.js backend/session-purpose.test.js backend/runtime.test.js backend/runtime-startup.test.js backend/admin-rides.test.js backend/manifest.test.js backend/ops.test.js backend/m0-expiry.test.js backend/m0-verify.test.js backend/admin-step4.test.js backend/notifications.test.js backend/authz-matrix.test.js backend/legacy-redirect.test.js backend/twilio.test.js backend/cash-payments.test.js backend/maps-config.test.js backend/fare.test.js",
+    "test:e2e": "node --test e2e/*.test.js",
+    "backup": "node scripts/backup.js",
+    "restore": "node scripts/restore.js",
+    "test:ops": "node --test backend/ops.test.js",
+    "start": "node backend/server.js",
+    "test:pricing": "node --test pricing.test.js backend/fare.test.js",
+    "mobile:sync": "npx cap sync",
+    "mobile:android": "npx cap open android",
+    "mobile:ios": "npx cap open ios",
+    "mobile:preflight": "node scripts/mobile-release-check.js",
+    "mobile:build": "node app/build-shell.js && node app/build-apps.js && npm run mobile:preflight && npx cap sync"
+  }
+}

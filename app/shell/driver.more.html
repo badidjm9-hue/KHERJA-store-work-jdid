@@ -1,0 +1,26 @@
+<!-- Driver: activity & earnings, notifications, trusted contacts, settings, report. Real APIs only. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="dmi-hist" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+<symbol id="dmi-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+<symbol id="dmi-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></symbol>
+<symbol id="dmi-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h.01"/></symbol>
+<symbol id="dmi-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3.5-5 7-5s7 1.5 7 5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 15c2.5.5 4 2 4 5"/></symbol>
+<symbol id="dmi-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+<symbol id="dmi-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol></defs></svg>
+<section class="screen scroll dm" id="dm-act" aria-labelledby="dm-act-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-act-h" data-i="m_act"></h1></header>
+  <p class="sub" data-i="earn_note"></p><div class="dm-earn" id="dm-earn"></div><div id="dm-hist"></div></section>
+<section class="screen scroll dm" id="dm-notif" aria-labelledby="dm-n-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-n-h" data-i="m_notif"></h1><button type="button" class="dm-act" id="dm-n-all" data-i="nt_readall" hidden></button></header><div id="dm-n-list"></div></section>
+<section class="screen scroll dm" id="dm-cont" aria-labelledby="dm-c-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-c-h" data-i="m_contacts"></h1></header>
+  <p class="sub" data-i="c_note"></p><div id="dm-c-list"></div>
+  <form id="dm-c-form" class="dm-form" novalidate><label class="field"><span data-i="c_name"></span><input class="input" id="dm-c-name" maxlength="60" autocomplete="off"></label>
+  <label class="field"><span data-i="c_phone"></span><input class="input num" id="dm-c-phone" inputmode="tel" maxlength="14" dir="ltr" style="text-align:start"></label>
+  <div class="err" id="dm-c-err" role="alert"></div><button class="btn primary" type="submit" data-i="c_add"></button></form></section>
+<section class="screen scroll dm" id="dm-set" aria-labelledby="dm-s-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-s-h" data-i="m_settings"></h1></header>
+  <h2 class="dm-sec" data-i="appearance"></h2><div class="dm-chips" role="group" id="dm-theme"><button type="button" data-th="system" data-i="th_sys"></button><button type="button" data-th="light" data-i="th_light"></button><button type="button" data-th="dark" data-i="th_dark"></button></div>
+  <h2 class="dm-sec" data-i="language"></h2><div class="dm-chips" role="group" id="dm-lang"><button type="button" data-lg="ar" lang="ar">العربية</button><button type="button" data-lg="fr" lang="fr">Français</button></div>
+  <p class="err" id="dm-s-err" role="alert"></p></section>
+<section class="screen scroll dm" id="dm-rep" aria-labelledby="dm-r-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-r-h" data-i="report_btn"></h1></header>
+  <form id="dm-r-form" class="dm-form" novalidate><div class="dm-chips" role="radiogroup" id="dm-r-kinds"><button type="button" role="radio" aria-checked="false" data-k="price_dispute" data-i="k_price"></button><button type="button" role="radio" aria-checked="false" data-k="safety" data-i="k_safety"></button><button type="button" role="radio" aria-checked="false" data-k="other" data-i="k_other"></button></div>
+  <label class="field"><span data-i="rp_desc"></span><textarea class="input" id="dm-r-body" maxlength="1000" rows="4"></textarea></label>
+  <div class="err" id="dm-r-err" role="alert"></div><button class="btn primary" type="submit" data-i="rp_send"></button></form>
+  <p class="dm-ok" id="dm-r-done" role="status" hidden data-i="rp_ok"></p></section>

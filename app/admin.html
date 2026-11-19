@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075BFF">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<script>(function(){try{var v=localStorage.getItem("kherja-theme");if(v==="light"||v==="dark")document.documentElement.dataset.theme=v}catch(e){}})()</script>
+<title>خرجة · الإدارة</title>
+<style>
+:root{--bg:#FAF7F2;--surface:#fff;--ink:#171717;--border:#E8E1D6;--border-input:#8A8174;--text:#171717;--muted:#5C554D;--accent:#075BFF;--accent-text:#0647D8;--on-accent:#fff;--pop:#56A0FF;--mint:#C9DDFF;--price:#075BFF;--warn:#8A4B00;--danger:#C4001A;--success:#0E7C4A;--soft:#FDEBDD;--r:16px}
+:root[data-theme="dark"]{--bg:#14110F;--surface:#1F1B18;--border:#38312C;--border-input:#9B9084;--text:#F6F1EA;--muted:#B9AEA2;--accent:#075BFF;--accent-text:#9CC4FF;--on-accent:#1C0F05;--price:#5EEAD4;--warn:#FBBF24;--danger:#FF9A9A;--success:#6CE9A6;--soft:#3A2417}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14110F;--surface:#1F1B18;--border:#38312C;--border-input:#9B9084;--text:#F6F1EA;--muted:#B9AEA2;--accent:#075BFF;--accent-text:#9CC4FF;--on-accent:#1C0F05;--price:#5EEAD4;--warn:#FBBF24;--danger:#FF9A9A;--success:#6CE9A6;--soft:#3A2417}}
+[hidden]{display:none!important}*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--f-lat);font-size:15px;line-height:1.7;font-weight:500}
+:lang(ar) *{letter-spacing:0!important}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+a{color:var(--accent-text)}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.btn{min-height:44px;padding:0 18px;border-radius:12px;border:1.5px solid var(--border-input);background:var(--surface);font-weight:600}
+.btn.primary{background:var(--accent);color:var(--on-accent);border-color:transparent}
+.btn.ok{background:var(--success);color:#fff;border-color:transparent}
+.btn.danger{border-color:var(--danger);color:var(--danger)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.input,select,textarea{min-height:44px;border-radius:12px;border:1.5px solid var(--border-input);background:var(--surface);padding:8px 12px;width:100%}
+label.f{display:grid;gap:6px;font-weight:600;margin-bottom:12px}
+/* login */
+#login{max-width:380px;margin:12vh auto;padding:28px;background:var(--surface);border:1px solid var(--border);border-radius:20px}
+#login h1{margin:0 0 4px;font-size:24px}#login p{margin:0 0 20px;color:var(--muted)}
+.err{color:var(--danger);font-weight:600;min-height:24px;margin:4px 0}
+/* shell */
+#shell{display:grid;grid-template-columns:230px 1fr;min-height:100dvh}
+aside{background:var(--surface);border-inline-end:1px solid var(--border);padding:20px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100dvh}
+aside h2{margin:0 8px 14px;font-size:20px}
+aside a.nav{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border-radius:12px;text-decoration:none;color:var(--text);font-weight:600}
+aside a.nav[aria-current=page]{background:var(--soft);color:var(--accent-text)}
+aside .sp{flex:1}
+.ic{width:20px;height:20px;flex:none}
+main{padding:28px 32px;min-width:0}
+main h1{margin:0 0 20px;font-size:26px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.stat b{display:block;font-size:30px;line-height:1.2}.stat span{color:var(--muted);font-size:14px}
+.stat.hot b{color:var(--accent-text)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.bar .input{width:auto;min-width:220px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{min-height:40px;padding:0 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-weight:600}
+.tabs button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:transparent}
+.tablewrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:640px}
+th,td{padding:12px 14px;text-align:start;border-bottom:1px solid var(--border);vertical-align:middle}
+th{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}tr:last-child td{border:0}
+tbody tr[data-open]{cursor:pointer}tbody tr[data-open]:hover{background:var(--soft)}
+.badge{display:inline-block;font-size:12.5px;font-weight:700;padding:1px 10px;border-radius:12px;background:var(--soft);color:var(--text);white-space:nowrap}
+.badge.approved,.badge.completed,.badge.closed{background:color-mix(in srgb,var(--success) 14%,transparent);color:var(--success)}
+.badge.rejected,.badge.cancelled,.badge.suspended,.badge.open{background:color-mix(in srgb,var(--danger) 12%,transparent);color:var(--danger)}
+.badge.pending,.badge.reviewing,.badge.in_progress,.badge.en_route,.badge.arrived{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--text)}
+.badge.incomplete{background:var(--border);color:var(--muted)}
+.empty{padding:36px;text-align:center;color:var(--muted)}
+.back{display:inline-flex;gap:6px;align-items:center;margin-bottom:14px;background:none;border:0;color:var(--accent-text);font-weight:700;min-height:40px;padding:0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px}
+.card h3{margin:0 0 12px;font-size:17px}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:6px 12px}.kv dt{color:var(--muted)}.kv dd{margin:0}
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.docc{border:1px solid var(--border);border-radius:var(--r);padding:12px;background:var(--surface)}
+.docc img{width:100%;height:190px;object-fit:cover;border-radius:10px;background:var(--soft);display:block;cursor:zoom-in;border:1px solid var(--border)}
+.docc .miss{height:190px;border-radius:10px;border:1.5px dashed var(--border-input);display:grid;place-items:center;color:var(--muted)}
+.docc h4{margin:10px 0 4px;font-size:15px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.docc .meta{font-size:13px;color:var(--muted);margin:0 0 8px}.docc .why{color:var(--danger);font-size:13px;font-weight:600;margin:0 0 8px}
+.docc .acts{display:flex;gap:8px;flex-wrap:wrap}.docc .acts .btn{min-height:40px;padding:0 14px;font-size:14px}
+dialog{border:0;border-radius:18px;padding:22px;max-width:min(560px,92vw);background:var(--surface);color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog.img{max-width:94vw;padding:12px;background:#000}dialog.img img{max-width:90vw;max-height:84vh;display:block;border-radius:10px}
+dialog .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.toast{position:fixed;bottom:24px;inset-inline-start:50%;transform:translate(-50%,40px);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:24px;font-weight:600;opacity:0;pointer-events:none;transition:.25s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.tl{list-style:none;margin:0;padding:0}.tl li{padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px}.tl li:last-child{border:0}
+@media(max-width:820px){#shell{grid-template-columns:1fr}aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap;padding:10px}aside h2{display:none}aside .sp{display:none}main{padding:18px 14px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+h1,main h1{font-weight:700}
+.btn{border:1.5px solid var(--border);font-weight:700;box-shadow:none}.btn:active{transform:scale(.98)}
+.btn.primary{border:0;box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 30%,transparent)}
+.btn.ok{background:var(--success);color:#fff;border:0}.btn.danger{background:var(--surface);color:var(--danger);border-color:var(--danger)}
+.input,select,textarea{border:1.5px solid var(--border)}
+#login{border:0;box-shadow:0 20px 60px rgba(15,27,61,.18);background:var(--surface)}
+body{background:var(--bg)}
+aside{background:var(--accent);border:0;color:#fff}aside h2{color:#fff;font-weight:700}
+aside a.nav{color:#fff;opacity:.9}aside a.nav[aria-current=page]{background:#fff;color:var(--accent);opacity:1}
+aside .btn{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}#who{color:#DCE5FF!important}
+.stat{border:0;box-shadow:0 4px 16px rgba(15,27,61,.08)}.stat b{font-weight:700;color:var(--accent-text)}.stat.hot b{color:var(--danger)}
+.tablewrap,.card,.docc{border:0;box-shadow:0 4px 16px rgba(15,27,61,.08)}
+th{background:var(--soft);color:var(--text)}
+.tabs button{border:1.5px solid var(--border);font-weight:600}.tabs button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.badge{color:var(--text)}.badge.approved,.badge.completed,.badge.closed{background:color-mix(in srgb,var(--mint) 35%,var(--surface));color:var(--price)}
+.badge.rejected,.badge.cancelled,.badge.suspended,.badge.open{background:#FDE2E2;color:#7A0010}
+.badge.pending,.badge.reviewing,.badge.in_progress,.badge.en_route,.badge.arrived{background:#FFF3CD;color:#5C3D00}
+tbody tr[data-open]:hover{background:var(--soft)}
+
+/* ===== Step 4: Kherja teal glass skin, compact controls, motion ===== */
+:root{--bg:#EEF1F3;--accent:#5B4BDB;--accent-text:#5B4BDB;--on-accent:#fff;--soft:#E3F1EF;--price:#5B4BDB;--glassb:rgba(255,255,255,.62)}
+:root[data-theme="dark"]{--bg:#0F1415;--surface:#182022;--border:#2A3639;--accent:#2DD4BF;--accent-text:#5EEAD4;--on-accent:#04302B;--soft:#12302C;--price:#5EEAD4;--glassb:rgba(24,32,34,.66);--text:#EAF1EF;--muted:#A9B8B5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1415;--surface:#182022;--border:#2A3639;--accent:#2DD4BF;--accent-text:#5EEAD4;--on-accent:#04302B;--soft:#12302C;--price:#5EEAD4;--glassb:rgba(24,32,34,.66);--text:#EAF1EF;--muted:#A9B8B5}}
+body{background:radial-gradient(60% 38% at 92% 0,rgba(45,212,191,.20),transparent 62%),radial-gradient(50% 30% at 0 100%,rgba(91,75,219,.12),transparent 60%),var(--bg)}
+aside{background:linear-gradient(180deg,#134E4A,#0F3B38);color:#fff}
+:root[data-theme="dark"] aside{background:linear-gradient(180deg,#12302C,#0E1F20)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) aside{background:linear-gradient(180deg,#12302C,#0E1F20)}}
+aside a.nav[aria-current=page]{background:rgba(255,255,255,.94);color:#0F5F59}
+aside a.nav{font-size:14px;min-height:40px;transition:background .18s,transform .18s}
+aside a.nav:hover{background:rgba(255,255,255,.12)}aside a.nav[aria-current=page]:hover{background:#fff}
+aside a.nav .ic{width:18px;height:18px;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+aside a.nav:hover .ic{transform:translateY(-1px) scale(1.12)}aside a.nav[aria-current=page] .ic{animation:icpop .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes icpop{0%{transform:scale(.7)}100%{transform:scale(1)}}
+.card,.stat,.tablewrap,.docc{background:var(--glassb);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border:1px solid color-mix(in srgb,var(--text) 9%,transparent);box-shadow:0 6px 22px -10px rgba(15,60,56,.25)}
+@media (prefers-reduced-transparency:reduce){.card,.stat,.tablewrap,.docc{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none}}
+.btn{min-height:38px;padding:0 14px;font-size:14px;border-radius:11px;transition:transform .12s,box-shadow .18s,background .18s}
+.btn:active:not([disabled]){transform:scale(.96)}.btn[disabled]{opacity:.5}.btn.sm{min-height:34px;padding:0 12px;font-size:13px}
+.btn.primary{background:var(--accent);color:var(--on-accent);box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 28%,transparent)}
+.btn.ok{background:var(--accent);color:var(--on-accent)}
+.btn.busy{position:relative;color:transparent!important}.btn.busy::after{content:"";position:absolute;inset:0;margin:auto;width:16px;height:16px;border-radius:50%;border:2px solid var(--on-accent);border-top-color:transparent;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stat b{font-size:26px;color:var(--accent-text)}.stat.hot b{color:var(--danger)}
+.badge.approved,.badge.completed,.badge.closed{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent-text)}
+main.enter{animation:pgin .2s ease-out}@keyframes pgin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+dialog{backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);background:var(--glassb);border:1px solid color-mix(in srgb,var(--text) 10%,transparent);color:var(--text)}
+dialog[open]{animation:dlgin .2s ease-out}dialog[open]::backdrop{animation:fadein .2s}@keyframes dlgin{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}@keyframes fadein{from{opacity:0}}
+@media(max-width:820px){dialog.sheet{margin:auto 0 0;width:100%;max-width:100%;border-radius:22px 22px 0 0;padding-bottom:max(22px,env(safe-area-inset-bottom))}dialog.sheet[open]{animation:sheetin .28s cubic-bezier(.2,.9,.3,1)}@keyframes sheetin{from{transform:translateY(100%)}}}
+.chg{display:grid;gap:12px;margin-bottom:14px}.chg .hd{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+.cmp>div{border-radius:14px;padding:12px;background:color-mix(in srgb,var(--text) 5%,transparent)}.cmp h4{margin:0 0 6px;font-size:12.5px;color:var(--muted);font-weight:700}.cmp .v{font-weight:700}.cmp .new{background:var(--soft)}
+.cmp .diff{color:var(--accent-text);text-decoration:underline;text-decoration-style:dotted}
+.chg .meta{font-size:13px;color:var(--muted)}.chg .acts{display:flex;gap:8px;flex-wrap:wrap}
+.spark{width:100%;height:90px}.spark path.l{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.spark path.a{fill:color-mix(in srgb,var(--accent) 16%,transparent);stroke:none}
+.note{background:color-mix(in srgb,var(--warn) 14%,transparent);border-radius:12px;padding:8px 12px;font-size:13px;margin:0 0 14px}
+.sw{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}.sw:last-child{border:0}.sw small{color:var(--muted);display:block}
+.sw input[type=checkbox]{appearance:none;width:42px;height:24px;border-radius:12px;background:var(--border-input);position:relative;transition:background .18s;flex:none}.sw input[type=checkbox]::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .18s}
+.sw input[type=checkbox]:checked{background:var(--accent)}.sw input[type=checkbox]:checked::after{transform:translateX(18px)}[dir=rtl] .sw input[type=checkbox]:checked::after{transform:translateX(-18px)}.sw input:disabled{opacity:.4}
+.lng{background:transparent;border:1.5px solid rgba(255,255,255,.5);color:#fff;min-height:34px}
+@media(max-width:820px){aside{position:sticky;top:0;z-index:5;flex-wrap:nowrap;overflow-x:auto;align-items:center;gap:6px;scrollbar-width:none}aside::-webkit-scrollbar{display:none}aside a.nav,aside .btn{flex:none;white-space:nowrap;min-height:44px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<section id="login" hidden>
+  <h1 data-i="login_title">خرجة · الإدارة</h1><p data-i="login_sub">دخول الفريق فقط.</p>
+  <label class="f"><span data-i="l_phone">رقم الهاتف</span><input class="input num" id="l-phone" inputmode="tel" autocomplete="username"></label>
+  <label class="f"><span data-i="l_pass">كلمة السر</span><input class="input" id="l-pass" type="password" autocomplete="current-password"></label>
+  <div class="err" id="l-err" role="alert"></div>
+  <button class="btn primary" id="l-go" style="width:100%" data-i="l_go">دخول</button><button class="btn sm" id="l-lang" style="width:100%;margin-top:10px;color:var(--text);border-color:var(--border)" type="button"></button>
+</section>
+
+<div id="shell" hidden>
+  <aside>
+    <h2 data-i="login_title">خرجة · الإدارة</h2>
+    <a class="nav" href="#/overview" data-nav="overview"></a>
+    <a class="nav" href="#/changes" data-nav="changes"></a>
+    <a class="nav" href="#/drivers" data-nav="drivers"></a>
+    <a class="nav" href="#/passengers" data-nav="passengers"></a>
+    <a class="nav" href="#/rides" data-nav="rides"></a>
+    <a class="nav" href="#/reports" data-nav="reports"></a>
+    <a class="nav" href="#/audit" data-nav="audit"></a>
+    <a class="nav" href="#/settings" data-nav="settings"></a>
+    <div class="sp"></div>
+    <div id="who" style="padding:0 12px;color:var(--muted);font-size:13px"></div>
+    <button class="btn lng" id="lang2" type="button"></button><button class="btn" id="logout" data-i="logout" style="color:#fff;border-color:rgba(255,255,255,.5);background:transparent">خروج</button>
+  </aside>
+  <main id="main" tabindex="-1"></main>
+</div>
+
+<dialog id="dlg-reject" class="sheet"><form method="dialog" id="rej-form">
+  <h3 style="margin-top:0" data-i="rj_h">سبب الرفض</h3>
+  <label class="f"><span data-i="rj_l">يظهر للسائق</span><textarea id="rej-reason" rows="3" maxlength="200" required></textarea></label>
+  <div class="row"><button class="btn" value="x" formnovalidate data-i="cancel_b">إلغاء</button><button class="btn danger" id="rej-ok" value="ok" data-i="rj_ok">رفض الوثيقة</button></div>
+</form></dialog>
+<dialog id="dlg-change" class="sheet" aria-labelledby="ch-title"><form method="dialog" id="ch-form">
+  <h3 id="ch-title" style="margin-top:0"></h3><div id="ch-body"></div>
+  <label class="f" id="ch-reason-wrap" hidden><span id="ch-reason-l"></span><textarea id="ch-reason" rows="3" maxlength="200"></textarea></label>
+  <div class="err" id="ch-err" role="alert"></div>
+  <div class="row"><button class="btn" value="x" formnovalidate id="ch-cancel"></button><button class="btn primary" id="ch-ok" value="ok"></button></div>
+</form></dialog>
+<dialog id="dlg-img" class="img"><form method="dialog"><img id="big" alt=""><div class="row"><button class="btn" data-i="close_b">إغلاق</button></div></form></dialog>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined,credentials:'same-origin'});let j={};try{j=await r.json()}catch{}
+  if(r.status===401&&!p.includes('/login')){show('login');throw Object.assign(new Error('auth'),{status:401})}
+  if(!r.ok)throw Object.assign(new Error(j.error||r.status),{status:r.status});return j};
+function toast(m){fx('tap');const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2400)}
+let L=(()=>{try{return localStorage.getItem('kherja-admin-lang')==='fr'?'fr':'ar'}catch{return 'ar'}})();
+const FRX={"اللوحة": "Plaque", "نعم": "Oui", "رحلات جارية": "Courses en cours", "رُفعت": "Envoyé le", "سائق": "Chauffeur", "بلاغات مفتوحة": "Signalements ouverts", "نظرة عامة": "Vue d'ensemble", "من": "De", "لم تُرفع": "Non envoyé", "سائقة": "Conductrice", "السعر المتفق عليه": "Prix convenu", "أكل": "Repas", "رفض": "Refuser", "وثائق تنتظر المراجعة": "Documents à examiner", "التقييم": "Note", "قيد المراجعة": "En cours d'examen", "المركبة": "Véhicule", "أُنشئت": "Créée le", "المُبلِّغ": "Auteur", "الرحلة": "Course", "رحلة": "Course", "المستلم": "Destinataire", "إيقاف السائق": "Suspendre le chauffeur", "التفاصيل": "Détails", "ابحث بالاسم أو الهاتف": "Rechercher par nom ou téléphone", "ناقصة": "Manquant", "السائقون": "Chauffeurs", "بحث": "Rechercher", "لا تقييمات": "Aucune note", "سائقون متصلون": "Chauffeurs en ligne", "طرد": "Colis", "قبول": "Valider", "السعر المعروض": "Prix proposé", "توصيل": "Livraison", "الكل": "Tous", "لا توجد بلاغات": "Aucun signalement", "تنتهي": "Expire le", "السعر": "Prix", "تصفية": "Filtrer", "إجمالي الركاب": "Total passagers", "التقييمات": "Notes", "كل الحالات": "Tous les statuts", "سيارة": "Voiture", "مقبول": "Validé", "دج": "DZD", "المسار": "Trajet", "غير مكتمل": "Incomplet", "النوع": "Type", "إلغاء الإيقاف": "Lever la suspension", "الرحلات": "Courses", "راجع الوثائق": "Examiner les documents", "الحالة": "Statut", "البلاغات": "Signalements", "قائمة الانتظار": "Liste d'attente", "الاسم": "Nom", "الوثائق": "Documents", "الراكب": "Passager", "لا بلاغات": "Aucun signalement", "التاريخ": "Date", "رحلات اليوم": "Courses aujourd'hui", "لا يوجد سائقون هنا": "Aucun chauffeur ici", "لا": "Non", "إلى": "À", "السائق": "Chauffeur", "مرفوض": "Refusé", "حالة البلاغ": "Statut du signalement", "رحلات": "Courses", "موقوف": "Suspendu", "إجمالي السائقين": "Total chauffeurs", "دراجة": "Moto", "انضم": "Inscrit le", "لا توجد رحلات": "Aucune course", "السائقون والوثائق": "Chauffeurs et documents", "الهاتف": "Téléphone", "صورة المركبة": "Photo du véhicule", "رخصة السياقة": "Permis de conduire", "البطاقة الرمادية": "Carte grise", "التأمين": "Assurance", "في الطريق": "En route", "وصل": "Arrivé", "جارية": "En cours", "مكتملة": "Terminée", "ملغاة": "Annulée", "مفتوح": "Ouvert", "قيد الدراسة": "En cours d'examen", "مغلق": "Clos", "تم القبول": "Validé", "تعذّر الحفظ": "Enregistrement impossible", "إيقاف هذا السائق؟": "Suspendre ce chauffeur ?", "تم الحفظ": "Enregistré", "تم الرفض": "Refusé"};
+const g=s=>L==='fr'?(FRX[s]??s):s;
+const lazy=f=>new Proxy({},{get:(_,k)=>f()[k],ownKeys:()=>Reflect.ownKeys(f()),getOwnPropertyDescriptor:(_,k)=>({enumerable:true,configurable:true,value:f()[k]})});
+const KIND=lazy(()=>({vehicle_photo:g('صورة المركبة'),license:g('رخصة السياقة'),registration:g('البطاقة الرمادية'),insurance:g('التأمين')}));
+const DS=lazy(()=>({pending:g('قيد المراجعة'),approved:g('مقبول'),rejected:g('مرفوض'),incomplete:g('غير مكتمل'),suspended:g('موقوف')}));
+const RS=lazy(()=>({en_route:g('في الطريق'),arrived:g('وصل'),in_progress:g('جارية'),completed:g('مكتملة'),cancelled:g('ملغاة')}));
+const PS=lazy(()=>({open:g('مفتوح'),reviewing:g('قيد الدراسة'),closed:g('مغلق')}));
+const VT=lazy(()=>({car:g('سيارة'),moto:g('دراجة')}));
+const badge=(c,t)=>`<span class="badge ${esc(c)}">${esc(t)}</span>`;
+const dt=s=>esc(String(s||'').slice(0,16).replace('T',' '));
+function show(w){$('#login').hidden=w!=='login';$('#shell').hidden=w!=='shell'}
+
+$('#l-go').onclick=login;$('#l-pass').onkeydown=e=>{if(e.key==='Enter')login()};
+async function login(){const e=$('#l-err');e.textContent='';
+  try{await api('POST','/api/admin/login',{phone:$('#l-phone').value.replace(/\s/g,''),password:$('#l-pass').value});$('#l-pass').value='';await start()}
+  catch(x){e.textContent=x.status===429?t('l_many'):t('l_bad')}}
+$('#logout').onclick=async()=>{try{await api('POST','/api/admin/logout')}catch{}show('login')};
+
+let pollT=null;
+const routes={
+ async overview(){const s=await api('GET','/api/admin/stats');
+  const tiles=[['drivers_pending',g('وثائق تنتظر المراجعة'),1],['reports_open',g('بلاغات مفتوحة'),1],['rides_active',g('رحلات جارية')],['rides_today',g('رحلات اليوم')],['drivers_online',g('سائقون متصلون')],['drivers',g('إجمالي السائقين')],['riders',g('إجمالي الركاب')],['waitlist',g('قائمة الانتظار')]];
+  return `<h1>${g('نظرة عامة')}</h1><div class="grid">${tiles.map(([k,l,h])=>`<div class="stat${h&&s[k]?' hot':''}"><b class="num">${s[k]}</b><span>${l}</span></div>`).join('')}</div>
+   <div class="bar"><a class="btn primary" style="display:inline-grid;place-items:center;text-decoration:none" href="#/drivers/pending">${g('راجع الوثائق')}</a></div>`},
+ async drivers(arg){const st=arg||'pending';const {drivers}=await api('GET','/api/admin/drivers?status='+encodeURIComponent(st));
+  const tabs=[['pending',g('قيد المراجعة')],['incomplete',g('غير مكتمل')],['approved',g('مقبول')],['rejected',g('مرفوض')],['all',g('الكل')]];
+  return `<h1>${g('السائقون والوثائق')}</h1><div class="bar tabs" role="group" aria-label="${g('تصفية')}">${tabs.map(([k,l])=>`<button data-st="${k}" aria-pressed="${k===st}">${l}</button>`).join('')}</div>
+   <div class="tablewrap">${drivers.length?`<table><thead><tr><th>${g('الاسم')}</th><th>${g('الهاتف')}</th><th>${g('المركبة')}</th><th>${g('اللوحة')}</th><th>${g('الوثائق')}</th><th>${g('الحالة')}</th><th>${g('رحلات')}</th></tr></thead><tbody>
+   ${drivers.map(d=>`<tr data-open="#/driver/${d.id}" tabindex="0"><td>${esc(d.name||'—')}</td><td class="num">${esc(d.phone)}</td><td>${VT[d.vehicle_type]||''} · ${esc(d.car)}</td><td class="num">${esc(d.plate)}</td><td class="num">${d.docs}/4</td>
+   <td>${d.suspended?badge('suspended',g('موقوف')):badge(d.docs_status,DS[d.docs_status]||d.docs_status)}</td><td class="num">${d.rides}</td></tr>`).join('')}</tbody></table>`:`<div class="empty">${g('لا يوجد سائقون هنا')}</div>`}</div>`},
+ async driver(id){const r=await api('GET','/api/admin/drivers/'+id),d=r.driver,by=Object.fromEntries(r.docs.map(x=>[x.kind,x]));
+  return `<button class="back" data-go="#/drivers">→ ${g('السائقون')}</button><h1>${esc(d.name||g('سائق'))} ${d.suspended?badge('suspended',g('موقوف')):badge(d.docs_status,DS[d.docs_status]||'')}</h1>
+  <div class="card"><dl class="kv"><dt>${g('الهاتف')}</dt><dd class="num">${esc(d.phone)}</dd><dt>${g('المركبة')}</dt><dd>${VT[d.vehicle_type]||''} · ${esc(d.car)}</dd><dt>${g('اللوحة')}</dt><dd class="num">${esc(d.plate)}</dd>
+   <dt>${g('سائقة')}</dt><dd>${d.is_woman?g('نعم'):g('لا')}</dd><dt>${g('التقييم')}</dt><dd class="num">${r.rating&&r.rating.n?esc(r.rating.a)+' ('+r.rating.n+')':'—'}</dd><dt>${g('انضم')}</dt><dd class="num">${dt(d.joined)}</dd></dl>
+   <div class="bar" style="margin:14px 0 0"><button class="btn ${d.suspended?'ok':'danger'}" id="susp" data-id="${d.user_id}" data-to="${d.suspended?0:1}">${d.suspended?g('إلغاء الإيقاف'):g('إيقاف السائق')}</button></div></div>
+  <div class="card"><h3>${g('الوثائق')}</h3><div class="docs">${r.required.map(k=>{const x=by[k];return x?`<div class="docc"><img src="/api/admin/docs/${x.id}/file?v=${esc(x.reviewed_at||x.created_at)}" alt="${KIND[k]}" data-big tabindex="0">
+   <h4>${KIND[k]} ${badge(x.status,DS[x.status])}</h4><p class="meta">${g('رُفعت')} <span class="num">${dt(x.created_at)}</span>${x.expires_on?` · ${g('تنتهي')} <span class="num">${esc(x.expires_on)}</span>`:''}</p>${x.reason?`<p class="why">${esc(x.reason)}</p>`:''}
+   <div class="acts"><button class="btn ok" data-rev="${x.id}" data-s="approved" ${x.status==='approved'?'disabled':''}>${g('قبول')}</button><button class="btn danger" data-rev="${x.id}" data-s="rejected">${g('رفض')}</button></div></div>`
+   :`<div class="docc"><div class="miss">${g('لم تُرفع')}</div><h4>${KIND[k]} ${badge('incomplete',g('ناقصة'))}</h4></div>`}).join('')}</div></div>`},
+ async rides(arg){const q=arg?decodeURIComponent(arg):'';const st=($('#r-st')||{}).value||'';
+  const {rides}=await api('GET','/api/admin/rides?q='+encodeURIComponent(q)+(st?'&status='+st:''));return ridesHtml(rides,q,st)},
+ async ride(id){const r=await api('GET','/api/admin/rides/'+id),x=r.ride;
+  return `<button class="back" data-go="#/rides">→ ${g('الرحلات')}</button><h1>${g('رحلة')} <span class="num">#${x.id}</span> ${badge(x.status,RS[x.status]||x.status)}</h1>
+  <div class="card"><dl class="kv"><dt>${g('النوع')}</dt><dd>${x.kind==='delivery'?''+g('توصيل')+' · '+(x.item_type==='food'?g('أكل'):g('طرد'))+(x.item_note?' · '+esc(x.item_note):''):g('رحلة')}</dd>
+   <dt>${g('من')}</dt><dd>${esc(x.p_label)}</dd><dt>${g('إلى')}</dt><dd>${esc(x.d_label)}</dd><dt>${g('السعر المعروض')}</dt><dd class="num">${x.offered_price} ${g('دج')}</dd><dt>${g('السعر المتفق عليه')}</dt><dd class="num">${x.locked_price} ${g('دج')}</dd>
+   <dt>${g('الراكب')}</dt><dd>${esc(x.rider_name||'—')} · <span class="num">${esc(x.rider_phone)}</span></dd><dt>${g('السائق')}</dt><dd>${esc(x.driver_name||'—')} · <span class="num">${esc(x.driver_phone)}</span></dd>
+   ${x.recipient_name?`<dt>${g('المستلم')}</dt><dd>${esc(x.recipient_name)} · <span class="num">${esc(x.recipient_phone)}</span></dd>`:''}<dt>${g('أُنشئت')}</dt><dd class="num">${dt(x.created_at)}</dd></dl></div>
+  <div class="card"><h3>${g('التقييمات')}</h3>${r.ratings.length?`<ul class="tl">${r.ratings.map(gr=>`<li><span>${gr.from_user===x.rider_id?g('الراكب'):g('السائق')}</span><span class="num">${'★'.repeat(gr.stars)}</span></li>`).join('')}</ul>`:`<div class="empty" style="padding:8px">${g('لا تقييمات')}</div>`}</div>
+  <div class="card"><h3>${g('البلاغات')}</h3>${r.reports.length?`<ul class="tl">${r.reports.map(p=>`<li><span>${esc(p.kind)} — ${esc(p.body||'')}</span>${badge(p.status,PS[p.status])}</li>`).join('')}</ul>`:`<div class="empty" style="padding:8px">${g('لا بلاغات')}</div>`}</div>`},
+ async reports(){const {reports}=await api('GET','/api/admin/reports');
+  return `<h1>${g('البلاغات')}</h1><div class="tablewrap">${reports.length?`<table><thead><tr><th>#</th><th>${g('الرحلة')}</th><th>${g('النوع')}</th><th>${g('التفاصيل')}</th><th>${g('المُبلِّغ')}</th><th>${g('التاريخ')}</th><th>${g('الحالة')}</th></tr></thead><tbody>
+   ${reports.map(p=>`<tr><td class="num">${p.id}</td><td>${p.ride_id?`<a class="num" href="#/ride/${p.ride_id}">#${p.ride_id}</a>`:'—'}</td><td>${esc(p.kind)}</td><td>${esc(p.body||'')}</td><td>${esc(p.reporter||'—')} · <span class="num">${esc(p.reporter_phone)}</span></td><td class="num">${dt(p.created_at)}</td>
+   <td><select data-rep="${p.id}" aria-label="${g('حالة البلاغ')}" class="input" style="min-height:40px">${Object.entries(PS).map(([k,l])=>`<option value="${k}"${k===p.status?' selected':''}>${l}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table>`:`<div class="empty">${g('لا توجد بلاغات')}</div>`}</div>`}
+};
+function ridesHtml(rides,q,st){return `<h1>${g('الرحلات')}</h1><div class="bar"><input class="input" id="r-q" placeholder="${g('ابحث بالاسم أو الهاتف')}" value="${esc(q)}" aria-label="${g('بحث')}">
+  <select id="r-st" class="input" style="width:auto" aria-label="${g('الحالة')}"><option value="">${g('كل الحالات')}</option>${Object.entries(RS).map(([k,l])=>`<option value="${k}"${k===st?' selected':''}>${l}</option>`).join('')}</select><button class="btn primary" id="r-go">${g('بحث')}</button></div>
+  <div class="tablewrap">${rides.length?`<table><thead><tr><th>#</th><th>${g('النوع')}</th><th>${g('المسار')}</th><th>${g('الراكب')}</th><th>${g('السائق')}</th><th>${g('السعر')}</th><th>${g('الحالة')}</th><th>${g('التاريخ')}</th></tr></thead><tbody>
+  ${rides.map(r=>`<tr data-open="#/ride/${r.id}" tabindex="0"><td class="num">${r.id}</td><td>${r.kind==='delivery'?g('توصيل'):g('رحلة')}</td><td>${esc(r.p_label)} → ${esc(r.d_label)}</td><td>${esc(r.rider_name||'—')}<br><span class="num" style="color:var(--muted)">${esc(r.rider_phone)}</span></td>
+  <td>${esc(r.driver_name||'—')}<br><span class="num" style="color:var(--muted)">${esc(r.driver_phone)}</span></td><td class="num">${r.price}</td><td>${badge(r.status,RS[r.status]||r.status)}</td><td class="num">${dt(r.created_at)}</td></tr>`).join('')}</tbody></table>`:`<div class="empty">${g('لا توجد رحلات')}</div>`}</div>`}
+
+
+/* ===== Step 4: i18n (AR/FR), icons, optional sound/haptics, new views ===== */
+const I={ar:{n_overview:'نظرة عامة',n_changes:'تغيير المركبة',n_drivers:'السائقون والوثائق',n_passengers:'الركاب',n_rides:'الرحلات',n_reports:'البلاغات',n_audit:'سجل التدقيق',n_settings:'الإعدادات',
+ login_title:'خرجة · الإدارة',login_sub:'دخول الفريق فقط.',l_phone:'رقم الهاتف',l_pass:'كلمة السر',l_go:'دخول',l_bad:'بيانات الدخول غير صحيحة',l_many:'محاولات كثيرة، انتظر قليلًا',logout:'خروج',lang_to:'Français',
+ ov_h:'نظرة عامة',t_changes:'طلبات تغيير مركبة',t_docs:'وثائق تنتظر المراجعة',t_reports:'بلاغات مفتوحة',t_active:'رحلات جارية',t_completed:'رحلات مكتملة',t_cancelled:'رحلات ملغاة',t_riders:'إجمالي الركاب',t_drivers:'إجمالي السائقين',t_approved:'سائقون معتمدون',t_suspended:'سائقون موقوفون',t_online:'سائقون متصلون',t_today:'رحلات اليوم',t_fares:'إجمالي أجور الرحلات المكتملة (دج، إجمالي)',
+ trend_h:'الرحلات خلال 14 يومًا',trend_empty:'لا رحلات خلال آخر 14 يومًا',act_h:'آخر النشاطات',act_empty:'لا نشاط بعد',act_audit:'إجراء إداري',act_ride:'رحلة',act_change:'طلب تغيير مركبة',go_changes:'راجع طلبات المركبات',
+ ch_h:'طلبات تغيير المركبة',cs_pending:'قيد المراجعة',cs_approved:'مقبول',cs_rejected:'مرفوض',cs_cancelled:'ملغى',cs_superseded:'استُبدل',cs_all:'الكل',current:'المركبة المعتمدة الحالية',requested:'المركبة المطلوبة',submitted:'قُدّم',decided:'قُرّر',reason:'السبب',approve:'قبول',reject:'رفض',history:'السجل',ch_empty:'لا توجد طلبات هنا',car:'سيارة',moto:'دراجة',
+ ev_requested:'قدّم السائق الطلب',ev_superseded:'استبدل السائق الطلب',ev_cancelled:'ألغى السائق الطلب',ev_approved:'قبلت الإدارة',ev_rejected:'رفضت الإدارة',by_driver:'السائق',by_admin:'الإدارة',
+ cf_approve:'قبول تغيير المركبة؟',cf_reject:'رفض تغيير المركبة',cf_approve_note:'ستصبح المركبة المطلوبة هي المعتمدة فورًا.',reason_l:'سبب الرفض (يظهر للسائق)',reason_req:'السبب مطلوب',ok_approved:'تم قبول الطلب',ok_rejected:'تم رفض الطلب',already:'سبق اتخاذ قرار في هذا الطلب',live_ride:'السائق في رحلة جارية، حاول لاحقًا',plate_taken:'رقم اللوحة مسجّل مسبقًا',save_fail:g('تعذّر الحفظ'),cancel:'إلغاء',back:'رجوع',not_found:'غير موجود',
+ pa_h:'الركاب',search:'بحث',pa_q:'ابحث بالاسم أو الهاتف',name:'الاسم',phone:'الهاتف',rides_n:'الرحلات',completed:'مكتملة',cancelled:'ملغاة',reports_n:'البلاغات',joined:'انضم',pa_empty:'لا يوجد ركاب',none_rides:'لا رحلات',none_reports:'لا بلاغات',driver:'السائق',price:'السعر',status:'الحالة',date:'التاريخ',
+ au_h:'سجل التدقيق',au_empty:'لا إجراءات مسجّلة',when:'الوقت',admin:'المشرف',action:'الإجراء',target:'الهدف',detail:'التفاصيل',
+ se_h:'الإعدادات',se_prefs:'تفضيلات هذا الجهاز',lang:'اللغة',theme:'المظهر',th_system:'حسب الجهاز',th_light:'فاتح',th_dark:'داكن',sound:'أصوات تفاعلية',sound_d:'نقرة خفيفة عند النجاح أو الخطأ',haptics:'اهتزاز لمسي',haptics_d:'عند الإجراءات المهمة',haptics_na:'غير مدعوم على هذا الجهاز',
+ se_server:'إعدادات الخادم (للقراءة فقط)',offer_ttl:'مدة صلاحية عرض السائق',seconds:'ثانية',cap:'أقصى عرض مضاد (نسبة من سعر الراكب)',approval:'اشتراط اعتماد السائق',yes:'نعم',no:'لا',otp:'رسائل رمز التحقق',otp_development:'تجريبي (لا تُرسل رسائل حقيقية)',otp_sms:'مفعّل',otp_unavailable:'غير مفعّل',env:'البيئة',env_development:'تطوير',env_production:'إنتاج',se_note:'تُضبط هذه القيم من إعدادات الخادم ولا يمكن تغييرها من هنا.',
+ legacy:'',rj_h:'سبب الرفض',rj_l:'يظهر للسائق',cancel_b:'إلغاء',rj_ok:'رفض الوثيقة',close_b:'إغلاق',load_fail:'تعذّر التحميل',doc_ok:'وثائق معتمدة',susp:'موقوف'},
+fr:{n_overview:"Vue d'ensemble",n_changes:'Changements de véhicule',n_drivers:'Chauffeurs et documents',n_passengers:'Passagers',n_rides:'Courses',n_reports:'Signalements',n_audit:"Journal d'audit",n_settings:'Paramètres',
+ login_title:'Kherja · Administration',login_sub:"Réservé à l'équipe.",l_phone:'Numéro de téléphone',l_pass:'Mot de passe',l_go:'Connexion',l_bad:'Identifiants incorrects',l_many:"Trop d'essais, patientez",logout:'Déconnexion',lang_to:'العربية',
+ ov_h:"Vue d'ensemble",t_changes:'Changements de véhicule',t_docs:'Documents à vérifier',t_reports:'Signalements ouverts',t_active:'Courses en cours',t_completed:'Courses terminées',t_cancelled:'Courses annulées',t_riders:'Passagers',t_drivers:'Chauffeurs',t_approved:'Chauffeurs approuvés',t_suspended:'Chauffeurs suspendus',t_online:'Chauffeurs en ligne',t_today:"Courses aujourd'hui",t_fares:'Tarifs des courses terminées (DZD, brut)',
+ trend_h:'Courses sur 14 jours',trend_empty:'Aucune course ces 14 derniers jours',act_h:'Activité récente',act_empty:"Pas encore d'activité",act_audit:'Action admin',act_ride:'Course',act_change:'Changement de véhicule',go_changes:'Examiner les changements de véhicule',
+ ch_h:'Demandes de changement de véhicule',cs_pending:'En attente',cs_approved:'Approuvée',cs_rejected:'Refusée',cs_cancelled:'Annulée',cs_superseded:'Remplacée',cs_all:'Toutes',current:'Véhicule approuvé actuel',requested:'Véhicule demandé',submitted:'Soumise le',decided:'Décidée le',reason:'Motif',approve:'Approuver',reject:'Refuser',history:'Historique',ch_empty:'Aucune demande ici',car:'Voiture',moto:'Moto',
+ ev_requested:'Demande soumise par le chauffeur',ev_superseded:'Demande remplacée par le chauffeur',ev_cancelled:'Demande annulée par le chauffeur',ev_approved:'Approuvée par un admin',ev_rejected:'Refusée par un admin',by_driver:'Chauffeur',by_admin:'Admin',
+ cf_approve:'Approuver ce changement de véhicule ?',cf_reject:'Refuser ce changement de véhicule',cf_approve_note:'Le véhicule demandé deviendra immédiatement le véhicule approuvé.',reason_l:'Motif du refus (visible par le chauffeur)',reason_req:'Le motif est obligatoire',ok_approved:'Demande approuvée',ok_rejected:'Demande refusée',already:'Cette demande a déjà été traitée',live_ride:'Le chauffeur est en course, réessayez plus tard',plate_taken:'Immatriculation déjà enregistrée',save_fail:"Échec de l'enregistrement",cancel:'Annuler',back:'Retour',not_found:'Introuvable',
+ pa_h:'Passagers',search:'Rechercher',pa_q:'Nom ou téléphone',name:'Nom',phone:'Téléphone',rides_n:'Courses',completed:'Terminées',cancelled:'Annulées',reports_n:'Signalements',joined:'Inscrit le',pa_empty:'Aucun passager',none_rides:'Aucune course',none_reports:'Aucun signalement',driver:'Chauffeur',price:'Prix',status:'Statut',date:'Date',
+ au_h:"Journal d'audit",au_empty:'Aucune action enregistrée',when:'Date',admin:'Admin',action:'Action',target:'Cible',detail:'Détail',
+ se_h:'Paramètres',se_prefs:'Préférences de cet appareil',lang:'Langue',theme:'Thème',th_system:"Selon l'appareil",th_light:'Clair',th_dark:'Sombre',sound:'Sons interactifs',sound_d:'Léger clic en cas de succès ou erreur',haptics:'Retour haptique',haptics_d:'Pour les actions importantes',haptics_na:'Non pris en charge sur cet appareil',
+ se_server:'Configuration du serveur (lecture seule)',offer_ttl:"Durée de validité d'une offre chauffeur",seconds:'secondes',cap:'Contre-offre maximale (ratio du prix passager)',approval:"Approbation du chauffeur requise",yes:'Oui',no:'Non',otp:'SMS du code de vérification',otp_development:'Développement (aucun SMS réel envoyé)',otp_sms:'Activé',otp_unavailable:'Non configuré',env:'Environnement',env_development:'Développement',env_production:'Production',se_note:'Ces valeurs viennent de la configuration du serveur et ne sont pas modifiables ici.',
+ legacy:'',rj_h:'Motif du refus',rj_l:'Visible par le chauffeur',cancel_b:'Annuler',rj_ok:'Refuser le document',close_b:'Fermer',load_fail:'Chargement impossible',doc_ok:'Documents validés',susp:'Suspendu'}};
+const t=k=>I[L][k]??I.ar[k]??k;
+const PREF=k=>{try{return localStorage.getItem('kherja-'+k)==='1'}catch{return false}},setPref=(k,v)=>{try{localStorage.setItem('kherja-'+k,v?'1':'0')}catch{}};
+let AC=null;
+function fx(kind){ // optional feedback, both OFF by default; failures are silent
+  try{if(PREF('haptics')&&navigator.vibrate)navigator.vibrate(kind==='err'?[18,40,18]:10)}catch{}
+  if(PREF('sound')&&kind!=='tap'){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=kind==='err'?220:660;g.gain.value=.04;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.12);o.stop(AC.currentTime+.13)}catch{}}}
+const note=(m,kind='ok')=>{toast(m);fx(kind)};
+const IC={overview:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',changes:'<path d="M7 7h11l-3-3M17 17H6l3 3"/>',drivers:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 14.5V21M9.6 11l-6.4-1.5M14.4 11l6.4-1.5"/>',passengers:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',rides:'<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5.5"/>',reports:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',audit:'<path d="M9 3h6l1 2h3v16H5V5h3z"/><path d="M9 12h6M9 16h4"/>',settings:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>'};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+function applyLang(){document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';
+  $$('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$$('[data-nav]').forEach(a=>a.innerHTML=ic(a.dataset.nav)+`<span>${esc(t('n_'+a.dataset.nav))}</span>`);
+  $('#l-lang').textContent=$('#lang2').textContent=t('lang_to');$('#ch-cancel').textContent=t('cancel');document.title=t('login_title')}
+function setLang(l){L=l;try{localStorage.setItem('kherja-admin-lang',l)}catch{}applyLang();if(!$('#shell').hidden)render()}
+$('#l-lang').onclick=$('#lang2').onclick=()=>setLang(L==='ar'?'fr':'ar');
+const dtt=s=>dt(s),VTX=v=>esc(t(v==='moto'?'moto':'car')),vehLine=(o,ref)=>`${VTX(o.vehicle_type)} · <span${ref&&o.car!==ref.car?' class="diff"':''}>${esc(o.car)}</span> · <span class="num${ref&&o.plate!==ref.plate?' diff':''}">${esc(o.plate)}</span>`;
+const chBadge=s=>badge(s==='superseded'||s==='cancelled'?'incomplete':s,t('cs_'+s));
+function chCard(c,{actions=true}={}){const cur=c.current,rq=c.requested,typeChanged=cur.vehicle_type!==rq.vehicle_type;
+  return `<article class="card chg" data-ch-card="${c.id}"><div class="hd"><div><b>${esc(c.driver.name||'—')}</b> · <span class="num">${esc(c.driver.phone)}</span> ${c.driver.suspended?badge('suspended',t('susp')):''}</div>${chBadge(c.status)}</div>
+  <div class="cmp"><div><h4>${t('current')}</h4><div class="v">${vehLine(cur)}</div></div><div class="new"><h4>${t('requested')}</h4><div class="v">${typeChanged?`<span class="diff">${VTX(rq.vehicle_type)}</span>`:VTX(rq.vehicle_type)} · <span${rq.car!==cur.car?' class="diff"':''}>${esc(rq.car)}</span> · <span class="num${rq.plate!==cur.plate?' diff':''}">${esc(rq.plate)}</span></div></div></div>
+  <div class="meta">${t('submitted')}: <span class="num">${dtt(c.created_at)}</span>${c.decided_at?` · ${t('decided')}: <span class="num">${dtt(c.decided_at)}</span>`:''}${c.reason?` · ${t('reason')}: ${esc(c.reason)}`:''}</div>
+  <div class="acts">${actions&&c.status==='pending'?`<button class="btn primary sm" data-ch="${c.id}" data-act="approved">${t('approve')}</button><button class="btn danger sm" data-ch="${c.id}" data-act="rejected">${t('reject')}</button>`:''}<a class="btn sm" style="display:inline-grid;place-items:center;text-decoration:none" href="#/change/${c.id}">${t('history')}</a></div></article>`}
+function spark(days){const m={};days.forEach(d=>m[d.d]=d.n);const pts=[];for(let i=13;i>=0;i--){const d=new Date(Date.now()-i*864e5).toISOString().slice(0,10);pts.push(m[d]||0)}const mx=Math.max(1,...pts);if(!pts.some(x=>x))return `<div class="empty" style="padding:16px">${t('trend_empty')}</div>`;
+  const xy=pts.map((v,i)=>[i*(300/13),80-(v/mx)*70]),l='M'+xy.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L');return `<svg class="spark" viewBox="0 0 300 90" preserveAspectRatio="none" role="img" aria-label="${t('trend_h')}"><path class="a" d="${l}L300 90L0 90Z"/><path class="l" d="${l}"/></svg>`}
+function actText(i){if(i.type==='ride')return `${t('act_ride')} #${i.ref} · ${esc(RS[i.status]||i.status)}`;if(i.type==='vehicle_change')return `${t('act_change')} #${i.ref} · ${esc(t('ev_'+i.status))}`;return `${t('act_audit')} · ${esc(i.ref)}`}
+Object.assign(routes,{
+ async overview(){const [s,a]=await Promise.all([api('GET','/api/admin/stats'),api('GET','/api/admin/activity')]);
+  const tiles=[['pending_changes','t_changes',1],['drivers_pending','t_docs',1],['reports_open','t_reports',1],['rides_active','t_active'],['rides_completed','t_completed'],['rides_cancelled','t_cancelled'],['riders','t_riders'],['drivers','t_drivers'],['drivers_approved','t_approved'],['drivers_suspended','t_suspended'],['drivers_online','t_online'],['rides_today','t_today'],['fares_completed_dzd','t_fares']];
+  return `<h1>${t('ov_h')}</h1><div class="grid">${tiles.map(([k,l,h])=>`<div class="stat${h&&s[k]?' hot':''}"><b class="num">${s[k]}</b><span>${t(l)}</span></div>`).join('')}</div>
+   <div class="bar"><a class="btn primary" style="display:inline-grid;place-items:center;text-decoration:none" href="#/changes">${t('go_changes')}</a></div>
+   <div class="card"><h3>${t('trend_h')}</h3>${spark(s.rides_by_day)}</div>
+   <div class="card"><h3>${t('act_h')}</h3>${a.items.length?`<ul class="tl">${a.items.map(i=>`<li><span>${actText(i)}</span><span class="num" style="color:var(--muted)">${dtt(i.at)}</span></li>`).join('')}</ul>`:`<div class="empty" style="padding:12px">${t('act_empty')}</div>`}</div>`},
+ async changes(arg){const st=arg||'pending',{changes}=await api('GET','/api/admin/driver-changes?status='+encodeURIComponent(st));
+  const tabs=['pending','approved','rejected','cancelled','all'];
+  return `<h1>${t('ch_h')}</h1><div class="bar tabs" role="group">${tabs.map(k=>`<button data-chst="${k}" aria-pressed="${k===st}">${t('cs_'+k)}</button>`).join('')}</div>${changes.length?changes.map(c=>chCard(c)).join(''):`<div class="card empty">${t('ch_empty')}</div>`}`},
+ async change(id){const r=await api('GET','/api/admin/driver-changes/'+id);
+  return `<button class="back" data-go="#/changes">${L==='ar'?'→':'←'} ${t('ch_h')}</button><h1>#${r.change.id}</h1>${chCard(r.change,{actions:true})}<div class="card"><h3>${t('history')}</h3>${r.history.length?`<ul class="tl">${r.history.map(h=>`<li><span>${esc(t('ev_'+h.action))}${h.actor_name?` · ${esc(h.actor_name)}`:''}${h.fields?` · <span class="num">${esc(h.fields)}</span>`:''}</span><span class="num" style="color:var(--muted)">${dtt(h.created_at)}</span></li>`).join('')}</ul>`:`<div class="empty" style="padding:8px">${t('act_empty')}</div>`}</div>`},
+ async passengers(arg){const q=arg?decodeURIComponent(arg):'',{passengers}=await api('GET','/api/admin/passengers?q='+encodeURIComponent(q));
+  return `<h1>${t('pa_h')}</h1><div class="bar"><input class="input" id="pa-q" placeholder="${esc(t('pa_q'))}" value="${esc(q)}" aria-label="${esc(t('search'))}"><button class="btn primary" id="pa-go">${t('search')}</button></div>
+   <div class="tablewrap">${passengers.length?`<table><thead><tr><th>${t('name')}</th><th>${t('phone')}</th><th>${t('rides_n')}</th><th>${t('completed')}</th><th>${t('cancelled')}</th><th>${t('reports_n')}</th><th>${t('joined')}</th></tr></thead><tbody>${passengers.map(p=>`<tr data-open="#/passenger/${p.id}" tabindex="0"><td>${esc(p.name||'—')}</td><td class="num">${esc(p.phone)}</td><td class="num">${p.rides}</td><td class="num">${p.completed}</td><td class="num">${p.cancelled}</td><td class="num">${p.reports}</td><td class="num">${dtt(p.created_at)}</td></tr>`).join('')}</tbody></table>`:`<div class="empty">${t('pa_empty')}</div>`}</div>`},
+ async passenger(id){const r=await api('GET','/api/admin/passengers/'+id),p=r.passenger;
+  return `<button class="back" data-go="#/passengers">${L==='ar'?'→':'←'} ${t('pa_h')}</button><h1>${esc(p.name||'—')}</h1><div class="card"><dl class="kv"><dt>${t('phone')}</dt><dd class="num">${esc(p.phone)}</dd><dt>${t('joined')}</dt><dd class="num">${dtt(p.created_at)}</dd></dl></div>
+   <div class="card"><h3>${t('rides_n')}</h3>${r.rides.length?`<ul class="tl">${r.rides.map(x=>`<li><a class="num" href="#/ride/${x.id}">#${x.id}</a><span>${esc(x.driver_name||'—')}</span><span class="num">${x.locked_price}</span>${badge(x.status,RS[x.status]||x.status)}</li>`).join('')}</ul>`:`<div class="empty" style="padding:8px">${t('none_rides')}</div>`}</div>
+   <div class="card"><h3>${t('reports_n')}</h3>${r.reports.length?`<ul class="tl">${r.reports.map(x=>`<li><span>${esc(x.kind)}</span>${badge(x.status,PS[x.status]||x.status)}</li>`).join('')}</ul>`:`<div class="empty" style="padding:8px">${t('none_reports')}</div>`}</div>`},
+ async audit(){const {entries}=await api('GET','/api/admin/audit?limit=200');
+  return `<h1>${t('au_h')}</h1><div class="tablewrap">${entries.length?`<table><thead><tr><th>${t('when')}</th><th>${t('admin')}</th><th>${t('action')}</th><th>${t('target')}</th><th>${t('detail')}</th></tr></thead><tbody>${entries.map(e=>`<tr><td class="num">${dtt(e.created_at)}</td><td>${esc(e.admin_name||'—')}</td><td class="num">${esc(e.action)}</td><td class="num">${esc(e.target)}</td><td>${esc(e.detail||'')}</td></tr>`).join('')}</tbody></table>`:`<div class="empty">${t('au_empty')}</div>`}</div>`},
+ async settings(){const c=await api('GET','/api/admin/settings'),th=document.documentElement.dataset.theme||'system',hap=!!navigator.vibrate;
+  return `<h1>${t('se_h')}</h1><div class="card"><h3>${t('se_prefs')}</h3>
+   <div class="sw"><span>${t('lang')}</span><select class="input" id="se-lang" style="width:auto"><option value="ar"${L==='ar'?' selected':''}>العربية</option><option value="fr"${L==='fr'?' selected':''}>Français</option></select></div>
+   <div class="sw"><span>${t('theme')}</span><select class="input" id="se-theme" style="width:auto">${['system','light','dark'].map(k=>`<option value="${k}"${k===th?' selected':''}>${t('th_'+k)}</option>`).join('')}</select></div>
+   <div class="sw"><span>${t('sound')}<small>${t('sound_d')}</small></span><input type="checkbox" id="se-sound" ${PREF('sound')?'checked':''} aria-label="${esc(t('sound'))}"></div>
+   <div class="sw"><span>${t('haptics')}<small>${hap?t('haptics_d'):t('haptics_na')}</small></span><input type="checkbox" id="se-hap" ${PREF('haptics')&&hap?'checked':''} ${hap?'':'disabled'} aria-label="${esc(t('haptics'))}"></div></div>
+  <div class="card"><h3>${t('se_server')}</h3><dl class="kv"><dt>${t('offer_ttl')}</dt><dd class="num">${c.offer_ttl_ms/1000} ${t('seconds')}</dd><dt>${t('cap')}</dt><dd class="num">×${c.counteroffer_max_ratio}</dd><dt>${t('approval')}</dt><dd>${c.require_driver_approval?t('yes'):t('no')}</dd><dt>${t('otp')}</dt><dd>${t('otp_'+c.otp_mode)}</dd><dt>${t('env')}</dt><dd>${t('env_'+c.environment)}</dd></dl><p class="sub" style="color:var(--muted);font-size:13px;margin:10px 0 0">${t('se_note')}</p></div>`}});
+/* review dialog: approve needs confirmation, reject needs a reason; one in-flight request at a time; 409 = someone decided first */
+let chTarget=null,chBusy=false;
+function openChange(id,act){chTarget={id,act};const wrap=$('#ch-reason-wrap');$('#ch-err').textContent='';$('#ch-reason').value='';wrap.hidden=act!=='rejected';$('#ch-reason-l').textContent=t('reason_l');$('#ch-cancel').textContent=t('cancel');
+  const card=$(`[data-ch-card="${id}"]`);$('#ch-title').textContent=t(act==='approved'?'cf_approve':'cf_reject');$('#ch-body').innerHTML=(card?card.querySelector('.cmp').outerHTML:'')+(act==='approved'?`<p class="sub" style="color:var(--muted)">${t('cf_approve_note')}</p>`:'');
+  const ok=$('#ch-ok');ok.textContent=t(act==='approved'?'approve':'reject');ok.className='btn '+(act==='approved'?'primary':'danger');ok.disabled=false;$('#dlg-change').showModal();if(act==='rejected')$('#ch-reason').focus()}
+$('#ch-form').onsubmit=async e=>{const v=e.submitter&&e.submitter.value;if(v!=='ok')return;e.preventDefault();if(chBusy||!chTarget)return;const reason=$('#ch-reason').value.trim();
+  if(chTarget.act==='rejected'&&!reason){$('#ch-err').textContent=t('reason_req');fx('err');return}
+  chBusy=true;const ok=$('#ch-ok');ok.disabled=true;ok.classList.add('busy');
+  try{await api('POST',`/api/admin/driver-changes/${chTarget.id}/decision`,{decision:chTarget.act,...(reason?{reason}:{})});$('#dlg-change').close();note(t(chTarget.act==='approved'?'ok_approved':'ok_rejected'));render()}
+  catch(x){const m=x.status===409?(/live ride/.test(x.message)?t('live_ride'):/plate/.test(x.message)?t('plate_taken'):t('already')):t('save_fail');if(x.status===409&&!/live ride|plate/.test(x.message)){$('#dlg-change').close();render()}$('#ch-err').textContent=m;note(m,'err')}
+  finally{chBusy=false;ok.disabled=false;ok.classList.remove('busy')}};
+const bind0=bind;bind=function(){bind0();
+  $$('[data-chst]').forEach(b=>b.onclick=()=>location.hash='#/changes/'+b.dataset.chst);$$('[data-ch]').forEach(b=>b.onclick=()=>openChange(b.dataset.ch,b.dataset.act));
+  const g=$('#pa-go');if(g){const f=()=>{location.hash='#/passengers/'+encodeURIComponent($('#pa-q').value.trim())};g.onclick=f;$('#pa-q').onkeydown=e=>{if(e.key==='Enter')f()}}
+  const sl=$('#se-lang');if(sl){sl.onchange=()=>setLang(sl.value);$('#se-theme').onchange=e=>{const v=e.target.value;try{if(v==='system'){delete document.documentElement.dataset.theme;localStorage.removeItem('kherja-theme')}else{document.documentElement.dataset.theme=v;localStorage.setItem('kherja-theme',v)}}catch{}};
+   $('#se-sound').onchange=e=>{setPref('sound',e.target.checked);fx('ok')};$('#se-hap').onchange=e=>{setPref('haptics',e.target.checked);fx('ok')}}};
+
+async function render(){clearInterval(pollT);const [name,arg]=(location.hash.replace(/^#\//,'')||'overview').split('/');const key=name==='driver'?'drivers':name==='ride'?'rides':name==='change'?'changes':name==='passenger'?'passengers':name;
+  $$('[data-nav]').forEach(a=>a.setAttribute('aria-current',a.dataset.nav===key?'page':'false'));
+  const fn=routes[name]||routes.overview;
+  try{const h=await fn(arg);$('#main').innerHTML=h;bind();const m=$('#main');m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');m.focus({preventScroll:true})}catch(e){if(e.status===404)location.hash='#/overview';else if(e.status!==401)$('#main').innerHTML=`<div class="empty">${t('load_fail')}</div>`}
+  if(name==='overview')pollT=setInterval(async()=>{if(document.hidden)return;try{$('#main').innerHTML=await routes.overview();bind()}catch{}},8000)}
+let revTarget=null;
+function bind(){
+  $$('[data-open]').forEach(r=>{const go=()=>location.hash=r.dataset.open;r.onclick=go;r.onkeydown=e=>{if(e.key==='Enter')go()}});
+  $$('[data-go]').forEach(b=>b.onclick=()=>location.hash=b.dataset.go);
+  $$('[data-st]').forEach(b=>b.onclick=()=>location.hash='#/drivers/'+b.dataset.st);
+  $$('[data-big]').forEach(i=>{const o=()=>{$('#big').src=i.src;$('#big').alt=i.alt;$('#dlg-img').showModal()};i.onclick=o;i.onkeydown=e=>{if(e.key==='Enter')o()}});
+  $$('[data-rev]').forEach(b=>b.onclick=async()=>{if(b.dataset.s==='rejected'){revTarget=b.dataset.rev;$('#rej-reason').value='';$('#dlg-reject').showModal();return}
+    try{await api('POST',`/api/admin/docs/${b.dataset.rev}/review`,{status:'approved'});toast(g('تم القبول'));render()}catch{toast(g('تعذّر الحفظ'))}});
+  const s=$('#susp');if(s)s.onclick=async()=>{const to=+s.dataset.to;if(to&&!confirm(g('إيقاف هذا السائق؟')))return;try{await api('POST',`/api/admin/drivers/${s.dataset.id}/suspend`,{suspended:!!to});toast(to?'تم الإيقاف':'أُلغي الإيقاف');render()}catch{toast(g('تعذّر الحفظ'))}};
+  const go=$('#r-go');if(go){const f=()=>{location.hash='#/rides/'+encodeURIComponent($('#r-q').value.trim());render()};go.onclick=f;$('#r-q').onkeydown=e=>{if(e.key==='Enter')f()};$('#r-st').onchange=f}
+  $$('[data-rep]').forEach(sel=>sel.onchange=async()=>{try{await api('POST','/api/admin/reports/'+sel.dataset.rep,{status:sel.value});toast(g('تم الحفظ'))}catch{toast(g('تعذّر الحفظ'))}})}
+$('#rej-form').onsubmit=async e=>{const v=e.submitter&&e.submitter.value;if(v!=='ok'){return}e.preventDefault();const reason=$('#rej-reason').value.trim();if(!reason)return;
+  try{await api('POST',`/api/admin/docs/${revTarget}/review`,{status:'rejected',reason});$('#dlg-reject').close();toast(g('تم الرفض'));render()}catch{toast(g('تعذّر الحفظ'))}};
+window.addEventListener('hashchange',render);applyLang();
+async function start(){try{const me=await api('GET','/api/admin/me');$('#who').textContent=me.name||me.phone}catch{return}show('shell');render()}
+start();
+</script>
+</body>
+</html>

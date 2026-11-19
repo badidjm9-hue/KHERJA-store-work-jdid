@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#C2410C">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<title>خرجة Kherja</title>
+<style>
+:root{
+  --bg:#FAF6F1;--surface:#fff;--border:#E8DFD5;--border-input:#8C8378;--text:#1A1410;--muted:#5E554C;
+  --accent:#C2410C;--on-accent:#fff;--price:#0F766E;--warn:#9A5B00;--danger:#B42318;--success:#067647;
+  --map1:#F1EBE4;--map2:#E7DFD6;--road:#fff;--water:#CBE2EC;--park:#D6E7D2;
+  --r-sm:10px;--r-md:16px;--r-lg:24px;--shadow:0 10px 30px rgba(14,20,36,.12);
+  --ease:cubic-bezier(.2,.8,.2,1);--soft:color-mix(in srgb,var(--accent) 11%,var(--surface));
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0F1114;--surface:#1A1D22;--border:#2B2F36;--border-input:#8A8F99;--text:#F5F1EC;--muted:#B0A89F;
+  --accent:#FB923C;--on-accent:#1C0A00;--price:#5EEAD4;--warn:#FBBF24;--danger:#FDA29B;--success:#6CE9A6;
+  --map1:#15171C;--map2:#1B1E24;--road:#262A33;--water:#14262F;--park:#17291F;--shadow:0 10px 30px rgba(0,0,0,.5)}}
+[hidden]{display:none!important}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
+  font-family:"IBM Plex Sans Arabic",-apple-system,BlinkMacSystemFont,system-ui,"Segoe UI","Noto Sans Arabic",Tahoma,sans-serif;font-size:16px;line-height:1.5;font-weight:500;-webkit-font-smoothing:antialiased}
+:lang(ar) body{line-height:1.75}:lang(ar) h1,:lang(ar) h2{line-height:1.4}:lang(ar) *{letter-spacing:0!important}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.app{position:relative;max-width:430px;height:100dvh;margin:0 auto;overflow:hidden;background:var(--bg)}
+@media(min-width:500px){.app{height:min(880px,100dvh);margin-top:max(0px,calc((100dvh - 880px)/2));border-radius:36px;box-shadow:var(--shadow);border:1px solid var(--border)}}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.num{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+
+/* screens */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;padding:max(24px,env(safe-area-inset-top)) 24px max(24px,env(safe-area-inset-bottom));
+  background:var(--bg);opacity:0;pointer-events:none;transform:translateX(-24px);transition:opacity .28s var(--ease),transform .38s var(--ease)}
+[dir=ltr] .screen{transform:translateX(24px)}
+.screen.on{opacity:1;pointer-events:auto;transform:none}
+h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+p.sub{color:var(--muted);margin:0 0 24px}
+.logo{width:72px;height:72px;border-radius:24px;background:linear-gradient(145deg,#E4601F,#9A2F08);box-shadow:0 10px 24px rgba(194,65,12,.35),inset 0 1px 0 rgba(255,255,255,.35);display:grid;place-items:center;margin-bottom:24px}
+.wm{font-size:20px;font-weight:800;letter-spacing:.01em;margin:0 0 8px;color:var(--accent)}.logo svg{width:44px;height:44px}
+.btn{min-height:52px;padding:0 24px;border-radius:var(--r-md);font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .15s var(--ease),filter .15s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:var(--surface);border:1px solid var(--border)}
+.btn.danger{background:var(--surface);border:1px solid var(--danger);color:var(--danger)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.field{display:block;margin-bottom:16px}
+.field span{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
+.input{width:100%;min-height:52px;border-radius:var(--r-md);border:1.5px solid var(--border-input);background:var(--surface);padding:0 16px;font:inherit;color:var(--text)}
+.input:focus{outline:3px solid color-mix(in srgb,var(--accent) 40%,transparent);border-color:var(--accent)}
+.lang{display:grid;gap:12px;margin-top:8px}
+.lang button{padding:16px;border-radius:var(--r-md);background:var(--surface);border:1.5px solid var(--border);text-align:start;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.lang button[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.otp{display:flex;gap:8px;direction:ltr;margin-bottom:16px}
+.otp input{flex:1;min-width:0;height:60px;text-align:center;font-size:24px;font-weight:700;border-radius:var(--r-md);border:1.5px solid var(--border-input);background:var(--surface);color:var(--text)}
+.spacer{flex:1}
+.err{color:var(--danger);font-size:14px;min-height:21px;margin:-4px 0 8px}
+
+/* map */
+.map{position:absolute;inset:0;background:var(--map1)}
+.map svg{width:100%;height:100%;display:block}
+.topbar{position:absolute;top:max(16px,env(safe-area-inset-top));inset-inline:16px;display:flex;justify-content:space-between;gap:8px;z-index:5}
+.chip svg{flex:none}.pay svg{flex:none;width:28px;height:28px}.locked svg{flex:none}.chip{height:56px;min-width:56px;padding:0 20px;border-radius:28px;font-size:15px;background:color-mix(in srgb,var(--surface) 55%,transparent);backdrop-filter:blur(22px) saturate(1.8);-webkit-backdrop-filter:blur(22px) saturate(1.8);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 6px 20px rgba(14,20,36,.12);
+  border:1px solid var(--border);display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;box-shadow:0 4px 14px rgba(14,20,36,.08)}
+@media(prefers-reduced-transparency:reduce){.chip,.sheet,.offer{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--surface)}}
+
+/* sheet */
+.sheet{position:absolute;inset-inline:0;bottom:0;z-index:6;background:linear-gradient(180deg,color-mix(in srgb,var(--surface) 74%,transparent),color-mix(in srgb,var(--surface) 62%,transparent));backdrop-filter:blur(32px) saturate(1.9);-webkit-backdrop-filter:blur(32px) saturate(1.9);border:1px solid color-mix(in srgb,#fff 45%,transparent);border-bottom:0;
+  border-radius:var(--r-lg) var(--r-lg) 0 0;box-shadow:0 -10px 40px rgba(14,20,36,.16);padding:8px 20px max(20px,env(safe-area-inset-bottom));
+  transform:translateY(110%);will-change:transform;touch-action:none;max-height:86%;display:flex;flex-direction:column}
+.sheet.on{transform:translateY(0);transition:transform .45s var(--ease)}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--border-input);opacity:.5;margin:4px auto 14px}
+.sheet h2{font-size:20px;margin:0 0 12px}
+.place{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);min-height:52px}
+.ic{width:24px;height:24px;flex:none}.ic.sm{width:16px;height:16px;vertical-align:-2px}.ic.xl{width:34px;height:34px}
+.pi{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--soft);color:var(--accent)}
+.pi.b{background:color-mix(in srgb,var(--price) 12%,var(--surface));color:var(--price)}
+.recents{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+.recents button{flex:none;padding:10px 14px;border-radius:20px;background:var(--bg);border:1px solid var(--border);font-size:14px;min-height:44px}
+
+.price{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0}
+.price .step{width:64px;height:64px;border-radius:50%;background:var(--soft);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);display:grid;place-items:center;transition:transform .15s var(--ease)}
+.price .step:active{transform:scale(.9)}
+.price .val{text-align:center;flex:1}
+.price .val b{font-size:40px;line-height:1;color:var(--price);letter-spacing:-.02em}
+.price .val small{display:block;color:var(--muted);font-size:14px;margin-top:4px}
+.warn{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--text);border-radius:var(--r-sm);padding:10px 12px;font-size:14px;margin-bottom:8px}
+.row{display:flex;gap:10px;margin-top:8px}
+.row .btn{flex:1}
+.pay label{display:inline-flex;align-items:center;gap:8px;min-height:44px}.pay input{width:24px;height:24px;accent-color:var(--accent)}.pay{display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:var(--muted);font-size:14px;margin:4px 0 8px}
+
+/* radar */
+.radar{position:relative;height:140px;display:grid;place-items:center;margin:4px 0}
+.radar i{position:absolute;width:64px;height:64px;border-radius:50%;border:2px solid var(--accent);animation:ping 2.2s var(--ease) infinite;opacity:0}
+.radar i:nth-child(2){animation-delay:.7s}.radar i:nth-child(3){animation-delay:1.4s}
+.radar b{width:20px;height:20px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 25%,transparent)}
+@keyframes ping{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+
+/* offers */
+.offers{overflow-y:auto;display:grid;gap:10px;padding:2px 2px 8px;margin:0 -2px}
+.offer{background:color-mix(in srgb,var(--surface) 70%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid color-mix(in srgb,#fff 40%,var(--border));box-shadow:inset 0 1px 0 rgba(255,255,255,.5);border-radius:var(--r-md);padding:14px;display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;
+  animation:rise .45s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:18px}
+.offer .nm{font-weight:700}
+.offer .meta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 10px}
+.star{color:var(--text);font-weight:700}.star .ic{color:#E8A317}
+.offer .pr{text-align:end}
+.offer .pr b{display:block;font-size:20px;color:var(--price)}
+.offer .pr .ok{font-size:12px;color:var(--success);font-weight:600}
+.offer .acts{grid-column:1/-1;display:flex;gap:8px;margin-top:2px}
+.offer .acts .btn{min-height:44px;flex:1;font-size:15px;padding:0 12px}
+.badge{display:inline-flex;font-size:12px;font-weight:600;padding:1px 8px;border-radius:10px;background:color-mix(in srgb,var(--success) 14%,transparent);color:var(--success)}
+.timer{height:3px;background:var(--border);border-radius:2px;overflow:hidden;grid-column:1/-1}
+.timer i{display:block;height:100%;background:var(--accent);transform-origin:left;animation:shrink 45s linear forwards}
+[dir=rtl] .timer i{transform-origin:right}
+@keyframes shrink{to{transform:scaleX(0)}}
+
+.driver{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;margin-bottom:12px}
+.driver .av{width:56px;height:56px;font-size:22px}
+.plate{display:inline-block;border:1.5px solid var(--text);border-radius:6px;padding:0 8px;font-weight:700;font-size:14px;letter-spacing:.06em}
+.status{display:flex;align-items:center;gap:8px;font-weight:600;margin:4px 0 12px}
+.status i{width:10px;height:10px;border-radius:50%;background:var(--success);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.locked svg{width:28px;height:28px}.locked{display:flex;gap:8px;align-items:center;font-size:14px;background:color-mix(in srgb,var(--success) 12%,transparent);padding:10px 12px;border-radius:var(--r-sm);margin-bottom:12px}
+.round{width:64px;height:64px;border-radius:50%;background:var(--soft);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);display:grid;place-items:center}.round .ic{width:28px;height:28px}
+.stars{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.stars button{width:52px;height:52px;display:grid;place-items:center;color:var(--border);transition:transform .15s var(--ease)}
+.stars button.on{color:#E8A317;transform:scale(1.08)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.tags button{padding:8px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);font-size:14px;min-height:44px}
+.tags button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.big{font-size:40px;font-weight:800;color:var(--price);text-align:center;letter-spacing:-.02em}
+.toast{position:absolute;inset-inline:24px;top:max(72px,env(safe-area-inset-top));z-index:20;background:var(--text);color:var(--bg);padding:12px 16px;border-radius:var(--r-md);
+  font-size:14px;transform:translateY(-400%);opacity:0;transition:transform .4s var(--ease),opacity .3s}
+.toast.on{transform:none;opacity:1}
+/* driver mode */
+.dr{padding:0}
+.req{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;margin-top:12px;animation:rise .45s var(--ease) both}
+.sw{width:64px;height:36px;border-radius:18px;background:var(--border-input);position:relative;transition:background .25s}
+.sw::after{content:"";position:absolute;top:4px;inset-inline-start:4px;width:28px;height:28px;border-radius:50%;background:#fff;transition:transform .3s var(--ease)}
+.sw[aria-checked=true]{background:var(--success)}
+[dir=rtl] .sw[aria-checked=true]::after{transform:translateX(-28px)}
+[dir=ltr] .sw[aria-checked=true]::after{transform:translateX(28px)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.seg{display:flex;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:4px;margin:0 0 12px}
+.seg button{flex:1;min-height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;color:var(--muted);transition:background .2s var(--ease),color .2s}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--accent);box-shadow:0 2px 8px rgba(26,20,16,.1)}
+.chipsel{display:flex;gap:8px;margin:4px 0 8px}.chipsel button{flex:1;min-height:52px;border-radius:var(--r-md);border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600}
+.chipsel button[aria-pressed=true]{border-color:var(--accent);background:var(--soft);color:var(--accent)}
+#dl .field.sm{margin-bottom:10px}#dl .field.sm span{font-size:13px;margin-bottom:4px}#dl .input{min-height:48px}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hint{font-size:12px;color:var(--muted);margin:0 0 8px;line-height:1.6}
+#sh-request{overflow-y:auto;touch-action:pan-y}
+.dl-info{display:flex;gap:10px;align-items:center;font-size:14px;margin-bottom:10px}.tel{color:var(--accent);font-weight:700;text-decoration:none;margin-inline-start:8px}
+.kind-badge{display:inline-flex;gap:6px;align-items:center;font-size:13px;font-weight:600;color:var(--price);background:color-mix(in srgb,var(--price) 12%,var(--surface));border-radius:20px;padding:2px 10px;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app" id="app"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol><symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol><symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol><symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></symbol><symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.7 8.9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol><symbol id="i-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-swap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol><symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></symbol><symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></symbol><symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol><symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol><symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol></svg>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- S01 language -->
+  <section class="screen on" id="s-lang" aria-labelledby="t-lang">
+    <div class="spacer"></div>
+    <div class="logo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3c-5.5 0-9 4-9 8.6 0 6 9 15.4 9 15.4s9-9.4 9-15.4C25 7 21.5 3 16 3z" fill="#fff"/><circle cx="16" cy="11.5" r="3.8" fill="#B6360A"/><path d="M5 29c6-2.6 16-2.6 22 0" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".75"/></svg></div>
+    <p class="wm" aria-hidden="true">خرجة · Kherja</p><h1 data-i="brand_h"></h1><p class="sub" data-i="brand_s"></p>
+    <div class="lang" role="group" aria-label="Language / اللغة">
+      <button data-lang="ar" aria-pressed="true">العربية <span>✓</span></button>
+      <button data-lang="fr" aria-pressed="false">Français <span></span></button>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn primary" id="go-phone" data-i="continue"></button>
+  </section>
+
+  <!-- S02 phone -->
+  <section class="screen" id="s-phone">
+    <div class="spacer"></div>
+    <h1 data-i="phone_h"></h1><p class="sub" data-i="phone_s"></p>
+    <label class="field"><span data-i="phone_l"></span>
+      <input class="input num" id="phone" inputmode="tel" autocomplete="tel" placeholder="05 55 12 34 56" maxlength="14"></label>
+    <div class="err" id="phone-err" role="alert"></div>
+    <div class="spacer"></div>
+    <button class="btn primary" id="send-otp" data-i="send_code"></button>
+  </section>
+
+  <!-- S03 otp -->
+  <section class="screen" id="s-otp">
+    <div class="spacer"></div>
+    <h1 data-i="otp_h"></h1><p class="sub"><span data-i="otp_s"></span> <span class="num" id="otp-to"></span></p>
+    <div class="otp" id="otp" role="group" data-aria="otp_g">
+      <input inputmode="numeric" maxlength="1" aria-label="1"><input inputmode="numeric" maxlength="1" aria-label="2"><input inputmode="numeric" maxlength="1" aria-label="3">
+      <input inputmode="numeric" maxlength="1" aria-label="4"><input inputmode="numeric" maxlength="1" aria-label="5"><input inputmode="numeric" maxlength="1" aria-label="6">
+    </div>
+    <div class="err" id="otp-err" role="alert"></div>
+    <p class="sub"><span data-i="demo_code"></span> <b class="num">123456</b></p>
+    <div class="spacer"></div>
+    <button class="btn primary" id="verify" data-i="verify"></button>
+  </section>
+
+  <!-- S04 profile -->
+  <section class="screen" id="s-profile">
+    <div class="spacer"></div>
+    <h1 data-i="prof_h"></h1><p class="sub" data-i="prof_s"></p>
+    <label class="field"><span data-i="name_l"></span><input class="input" id="name" autocomplete="name"></label>
+    <label class="field"><span data-i="city_l"></span>
+      <select class="input" id="city"><option>الجزائر العاصمة · Alger</option><option>وهران · Oran</option><option>قسنطينة · Constantine</option><option>عنابة · Annaba</option><option>سطيف · Sétif</option></select></label>
+    <div class="spacer"></div>
+    <button class="btn primary" id="finish" data-i="start"></button>
+  </section>
+
+  <!-- S05+ map and sheets -->
+  <section class="screen" id="s-map" style="padding:0">
+    <div class="map" id="map" aria-hidden="true"></div>
+    <div class="topbar">
+      <button class="chip" id="mode"><svg class="ic" aria-hidden="true"><use href="#i-swap"/></svg><span id="mode-t"></span></button>
+      <button class="chip" id="sos" hidden><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg> <span data-i="sos"></span></button>
+    </div>
+
+    <div class="sheet" id="sh-home" aria-label="home">
+      <div class="grab"></div>
+      <div class="seg" role="group" data-aria="kind_g"><button data-kind="ride" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg><span data-i="k_ride"></span></button><button data-kind="delivery" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg><span data-i="k_del"></span></button></div>
+      <h2 id="hello"></h2>
+      <div class="place"><span class="pi a"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg></span><span data-i="from_val"></span></div>
+      <div class="place" style="border:0"><span class="pi b"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg></span><span data-i="to_val"></span></div>
+      <div class="recents" id="recents"></div>
+      <button class="btn primary" id="to-request" style="margin-top:8px" data-i="set_price"></button>
+    </div>
+
+    <div class="sheet" id="sh-request" aria-label="request">
+      <div class="grab"></div>
+      <h2 data-i="your_fare"></h2>
+      <div class="price">
+        <button class="step" id="minus" aria-label="-50"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg></button>
+        <div class="val"><b class="num" id="pval">450</b> <span data-i="dzd"></span><small><span data-i="recommended"></span> <span class="num">450</span></small></div>
+        <button class="step" id="plus" aria-label="+50"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button>
+      </div>
+      <div id="dl" hidden>
+        <div class="chipsel" role="group" data-aria="item_g"><button data-item="food" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-food"/></svg><span data-i="it_food"></span></button><button data-item="parcel" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg><span data-i="it_parcel"></span></button></div>
+        <label class="field sm"><span data-i="dl_note_l"></span><input class="input" id="dl-note" maxlength="200" data-ph="dl_note_ph"></label>
+        <label class="field sm"><span data-i="dl_from_l"></span><input class="input" id="dl-from" maxlength="120" data-ph="dl_from_ph"></label>
+        <label class="field sm"><span data-i="dl_to_l"></span><input class="input" id="dl-to" maxlength="120" data-ph="dl_to_ph"></label>
+        <div class="two"><label class="field sm"><span data-i="dl_rn_l"></span><input class="input" id="dl-rn" maxlength="60" autocomplete="off"></label>
+        <label class="field sm"><span data-i="dl_rp_l"></span><input class="input num" id="dl-rp" inputmode="tel" maxlength="14" placeholder="05 55 …"></label></div>
+        <div class="err" id="dl-err" role="alert"></div>
+        <p class="hint" data-i="dl_rules"></p>
+      </div>
+      <div class="warn" id="lowwarn" hidden data-i="low_warn"></div>
+      <label class="field" style="margin:0"><span class="sr" data-i="note_l"></span><input class="input" id="note" data-ph="note_ph"></label>
+      <div class="pay"><svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg> <span data-i="cash"></span> · <label><input type="checkbox" id="women"> <span data-i="women_pref"></span></label></div>
+      <div class="row"><button class="btn ghost" id="back-home" data-i="back" style="flex:.4"></button><button class="btn primary" id="order" data-i="find_driver"></button></div>
+    </div>
+
+    <div class="sheet" id="sh-wait" aria-live="polite">
+      <div class="grab"></div>
+      <h2 data-i="searching"></h2>
+      <div class="radar"><i></i><i></i><i></i><b></b></div>
+      <p class="sub" style="text-align:center;margin:0 0 12px"><span data-i="your_fare"></span>: <b class="num" id="wprice"></b> <span data-i="dzd"></span></p>
+      <button class="btn ghost" id="cancel-wait" data-i="cancel"></button>
+    </div>
+
+    <div class="sheet" id="sh-offers" aria-live="polite">
+      <div class="grab"></div>
+      <h2><span data-i="offers_h"></span> · <span class="num" id="ocount">0</span></h2>
+      <div class="offers" id="offers"></div>
+    </div>
+
+    <div class="sheet" id="sh-way">
+      <div class="grab"></div>
+      <div class="status"><i></i><span id="way-status"></span></div>
+      <div class="driver"><div class="av" id="d-av"></div>
+        <div><div style="font-weight:700" id="d-name"></div><div style="font-size:14px;color:var(--muted)" id="d-car"></div><span class="plate num" id="d-plate"></span> <a class="tel num" id="d-phone" hidden></a></div>
+        <div class="star"><svg class="ic sm" aria-hidden="true"><use href="#i-star"/></svg> <span class="num" id="d-rate"></span></div></div>
+      <div class="dl-info" id="dl-info" hidden><span class="pi b"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg></span><span id="dl-info-t"></span></div>
+      <div class="locked"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> <span><span data-i="locked"></span> <b class="num" id="d-price"></b> <span data-i="dzd"></span></span></div>
+      <div class="row">
+        <button class="round" data-aria="call_l" id="call"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></button>
+        <button class="round" data-aria="share_l" id="share"><svg class="ic" aria-hidden="true"><use href="#i-share"/></svg></button>
+        <button class="btn danger" id="cancel-ride" data-i="cancel"></button>
+        <button class="btn primary" id="sim-next" data-i="sim_next"></button>
+      </div>
+    </div>
+
+    <div class="sheet" id="sh-done">
+      <div class="grab"></div>
+      <h2 style="text-align:center" data-i="done_h"></h2>
+      <div class="big"><span class="num" id="f-price"></span> <small style="font-size:18px" data-i="dzd"></small></div>
+      <p class="sub" style="text-align:center;margin:4px 0 0" data-i="pay_cash"></p>
+      <div class="stars" id="stars" role="radiogroup" data-aria="rate"></div>
+      <div class="tags" id="tags"></div>
+      <button class="btn primary" id="submit-rate" data-i="submit"></button>
+    </div>
+
+    <!-- driver mode -->
+    <div class="sheet" id="sh-driver">
+      <div class="grab"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0" data-i="dr_h"></h2>
+        <button class="sw" id="online" role="switch" aria-checked="false" data-aria="online_l"></button>
+      </div>
+      <p class="sub" id="dr-s" style="margin:6px 0 0"></p>
+      <div id="dr-req"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const T={
+ ar:{brand_h:"طريقك، بسعرك",brand_s:"اقترح سعر رحلتك واختر السائق الذي يناسبك.",continue:"متابعة",
+  phone_h:"رقم هاتفك",phone_s:"سنرسل لك رمز التحقق.",phone_l:"رقم الهاتف",send_code:"إرسال الرمز",
+  otp_h:"أدخل الرمز",otp_s:"أرسلناه إلى",demo_code:"رمز التجربة:",verify:"تأكيد",
+  prof_h:"عرّفنا بنفسك",prof_s:"الاسم يظهر للسائق.",name_l:"الاسم",city_l:"المدينة",start:"ابدأ",
+  online_l:"متصل بالطلبات",call_l:"اتصال بالسائق",share_l:"مشاركة الرحلة",otp_g:"رمز التحقق",hello:"إلى أين نذهب؟",from_val:"موقعك الحالي · باب الزوار",to_val:"المطار الدولي هواري بومدين",set_price:"حدّد سعرك",
+  your_fare:"سعرك",dzd:"د.ج",recommended:"السعر المقترح",low_warn:"سعرك أقل بكثير من المقترح، قد لا يقبله السائقون.",
+  note_l:"ملاحظة",note_ph:"ملاحظة للسائق (مثال: عند المدخل الرئيسي)",cash:"نقدًا",women_pref:"سائقة فقط",back:"رجوع",find_driver:"ابحث عن سائق",
+  searching:"نبحث عن سائقين قريبين…",cancel:"إلغاء",offers_h:"العروض",accept:"قبول",decline:"رفض",accepts_price:"يقبل سعرك",
+  eta:"دقائق",cancels:"إلغاء",rides:"رحلة",locked:"السعر مثبّت:",st_en:"السائق في الطريق إليك",st_ar:"السائق وصل",st_in:"أنت في الرحلة",
+  sim_next:"التالي",done_h:"وصلت بسلامة",pay_cash:"ادفع نقدًا للسائق",submit:"إرسال التقييم",rate:"قيّم رحلتك",
+  tags:["سائق محترم","سيارة نظيفة","قيادة آمنة","التزم بالسعر"],sos:"طوارئ",share_ok:"تم نسخ رابط الرحلة",sos_ok:"تم إخطار جهات الاتصال الموثوقة",
+  mode_d:"وضع السائق",mode_r:"وضع الراكب",dr_h:"أنت متصل",dr_off:"غير متصل",dr_on:"بانتظار الطلبات…",dr_new:"طلب جديد",
+  bid_same:"اقبل بسعره",bid_counter:"اقترح",km:"كم",thanks:"شكرًا لتقييمك",cancelled:"أُلغي الطلب",invalid:"رقم غير صحيح",bad_code:"الرمز غير صحيح",
+  recents:["البيت","العمل","محطة القطار","الجامعة"],good:"أضفناها للتقييم",
+  names:["كريم","ياسين","سامي"],cars:["رونو سامبول","داسيا لوغان","هيونداي أكسنت"]},
+ fr:{brand_h:"Votre route, votre prix",brand_s:"Proposez votre tarif et choisissez le chauffeur qui vous convient.",continue:"Continuer",
+  phone_h:"Votre numéro",phone_s:"Nous vous envoyons un code de vérification.",phone_l:"Numéro de téléphone",send_code:"Envoyer le code",
+  otp_h:"Saisissez le code",otp_s:"Envoyé au",demo_code:"Code de démo :",verify:"Valider",
+  prof_h:"Faisons connaissance",prof_s:"Le prénom est visible du chauffeur.",name_l:"Prénom",city_l:"Ville",start:"Commencer",
+  online_l:"En ligne",call_l:"Appeler le chauffeur",share_l:"Partager le trajet",otp_g:"Code de vérification",hello:"Où allons-nous ?",from_val:"Votre position · Bab Ezzouar",to_val:"Aéroport Houari Boumediene",set_price:"Fixer mon prix",
+  your_fare:"Votre prix",dzd:"DA",recommended:"Prix conseillé",low_warn:"Votre prix est bien en dessous du conseillé, les chauffeurs risquent de refuser.",
+  note_l:"Note",note_ph:"Note au chauffeur (ex. entrée principale)",cash:"Espèces",women_pref:"Chauffeuse uniquement",back:"Retour",find_driver:"Trouver un chauffeur",
+  searching:"Recherche de chauffeurs proches…",cancel:"Annuler",offers_h:"Offres",accept:"Accepter",decline:"Refuser",accepts_price:"Accepte votre prix",
+  eta:"min",cancels:"annul.",rides:"courses",locked:"Prix verrouillé :",st_en:"Le chauffeur arrive",st_ar:"Le chauffeur est arrivé",st_in:"Course en cours",
+  sim_next:"Suivant",done_h:"Vous êtes arrivé",pay_cash:"Payez le chauffeur en espèces",submit:"Envoyer la note",rate:"Notez votre course",
+  tags:["Chauffeur respectueux","Voiture propre","Conduite sûre","Prix respecté"],sos:"SOS",share_ok:"Lien de trajet copié",sos_ok:"Vos contacts de confiance sont prévenus",
+  mode_d:"Mode chauffeur",mode_r:"Mode passager",dr_h:"Vous êtes en ligne",dr_off:"Hors ligne",dr_on:"En attente de demandes…",dr_new:"Nouvelle demande",
+  bid_same:"Accepter son prix",bid_counter:"Proposer",km:"km",thanks:"Merci pour votre avis",cancelled:"Demande annulée",invalid:"Numéro invalide",bad_code:"Code incorrect",
+  recents:["Maison","Travail","Gare","Université"],good:"",
+  names:["Karim","Yacine","Sami"],cars:["Renault Symbol","Dacia Logan","Hyundai Accent"]}
+};
+let L="ar",S={price:450,stars:0,tags:new Set(),offer:null,timers:[]};
+const t=k=>T[L][k];
+function applyI18n(){
+  document.documentElement.lang=L;document.documentElement.dir=L==="ar"?"rtl":"ltr";
+  $$("[data-i]").forEach(e=>{const v=t(e.dataset.i);if(typeof v==="string")e.textContent=v});
+  $$("[data-ph]").forEach(e=>e.placeholder=t(e.dataset.ph));
+  $$("[data-aria]").forEach(e=>e.setAttribute("aria-label",t(e.dataset.aria)));
+  $("#hello").textContent=t("hello");
+  $("#recents").innerHTML=t("recents").map(r=>`<button>${r}</button>`).join("");
+  $("#mode-t").textContent=state==="driver"?t("mode_r"):t("mode_d");
+  $("#tags").innerHTML=t("tags").map((x,i)=>`<button aria-pressed="false" data-t="${i}">${x}</button>`).join("");
+  $$("#tags button").forEach(b=>b.onclick=()=>{const on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",on)});
+  drawStars();
+}
+let state="lang";
+function screen(id){$$(".screen").forEach(s=>s.classList.toggle("on",s.id===id))}
+function sheet(id){
+  $$(".sheet").forEach(s=>s.classList.toggle("on",s.id===id));
+  $("#sos").hidden=!["sh-way","sh-done"].includes(id);
+}
+function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),2400)}
+function later(fn,ms){const id=setTimeout(fn,ms);S.timers.push(id);return id}
+function clear(){S.timers.forEach(clearTimeout);S.timers=[]}
+
+/* map: original stylised SVG, no third-party tiles */
+function drawMap(){
+  const roads=[];
+  for(let i=0;i<9;i++){roads.push(`<path d="M${-20+i*55} -20 L${40+i*50} 900" stroke="var(--road)" stroke-width="${i%3?7:14}" fill="none"/>`)}
+  for(let i=0;i<10;i++){roads.push(`<path d="M-20 ${i*95} Q200 ${i*95+30} 450 ${i*95-20}" stroke="var(--road)" stroke-width="${i%4?7:14}" fill="none"/>`)}
+  $("#map").innerHTML=`<svg viewBox="0 0 430 880" preserveAspectRatio="xMidYMid slice">
+   <defs><radialGradient id="g1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".35"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></radialGradient><radialGradient id="g2"><stop offset="0" stop-color="var(--price)" stop-opacity=".30"/><stop offset="1" stop-color="var(--price)" stop-opacity="0"/></radialGradient></defs><rect width="430" height="880" fill="var(--map1)"/><circle cx="120" cy="720" r="200" fill="url(#g1)"/><circle cx="360" cy="780" r="170" fill="url(#g2)"/>
+   <path d="M0 640 C120 600 200 700 430 650 L430 880 L0 880Z" fill="var(--water)"/>
+   <rect x="250" y="120" width="130" height="90" rx="26" fill="var(--park)"/><rect x="30" y="300" width="100" height="80" rx="24" fill="var(--park)"/>
+   ${roads.join("")}
+   <path id="route" d="M110 520 C140 430 230 440 250 360 S330 240 330 170" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" fill="none" stroke-dasharray="1 0"/>
+   <g transform="translate(110 520)"><circle r="18" fill="var(--accent)" opacity=".2"/><circle r="9" fill="var(--accent)" stroke="#fff" stroke-width="3"/></g>
+   <g transform="translate(330 170)"><rect x="-10" y="-10" width="20" height="20" rx="5" fill="var(--price)" stroke="#fff" stroke-width="3"/></g>
+   <g id="car" style="transition:none" transform="translate(40 700)"><circle r="16" fill="var(--text)"/><path d="M-7 3l7-12 7 12-7-3z" fill="var(--bg)"/></g></svg>`;
+}
+let carRaf;
+function moveCar(from,to,ms,done){ // car follows route from t=from..to (0..1); along route, approach from outside
+  const route=$("#route"),len=route.getTotalLength(),car=$("#car");cancelAnimationFrame(carRaf);
+  const start=performance.now(),p0=from;
+  const approach=(from<0);
+  (function tick(now){
+    let k=Math.min(1,(now-start)/ms);k=1-Math.pow(1-k,2.2);
+    let x,y;
+    if(approach){const a=route.getPointAtLength(0);x=40+(a.x-40)*k;y=700+(a.y-700)*k}
+    else{const p=route.getPointAtLength(len*(from+(to-from)*k));x=p.x;y=p.y}
+    car.setAttribute("transform",`translate(${x} ${y})`);
+    if(k<1)carRaf=requestAnimationFrame(tick);else done&&done();
+  })(start);
+}
+
+/* sheet drag: direct manipulation, spring-ish settle, never trapped */
+function dragify(el){
+  let y0=0,dy=0,drag=false,v=0,last=0,lt=0;
+  el.addEventListener("pointerdown",e=>{if(e.target.closest("button,input,select,label,.offers"))return;drag=true;y0=e.clientY;last=y0;lt=e.timeStamp;el.setPointerCapture(e.pointerId);el.style.transition="none"});
+  el.addEventListener("pointermove",e=>{if(!drag)return;dy=e.clientY-y0;const r=dy<0?-Math.sqrt(-dy)*3:dy; v=(e.clientY-last)/(e.timeStamp-lt||1);last=e.clientY;lt=e.timeStamp;el.style.transform=`translateY(${r}px)`});
+  const end=()=>{if(!drag)return;drag=false;const proj=dy+v*180;el.style.transition="";el.style.transform=proj>120?"translateY(calc(100% - 96px))":"";if(proj<=120)el.style.transform=""; dy=0};
+  el.addEventListener("pointerup",end);el.addEventListener("pointercancel",end);
+}
+$$(".sheet").forEach(dragify);
+
+/* flow */
+$$("[data-lang]").forEach(b=>b.onclick=()=>{L=b.dataset.lang;$$("[data-lang]").forEach(x=>{const on=x===b;x.setAttribute("aria-pressed",on);x.lastElementChild.textContent=on?"✓":""});applyI18n()});
+$("#go-phone").onclick=()=>screen("s-phone");
+$("#send-otp").onclick=()=>{const v=$("#phone").value.replace(/\D/g,"");if(!/^0[567]\d{8}$/.test(v)){$("#phone-err").textContent=t("invalid");$("#phone").focus();return}
+  $("#phone-err").textContent="";$("#otp-to").textContent="+213 "+v.slice(1);screen("s-otp");$("#otp input").focus()};
+$$("#otp input").forEach((i,n,all)=>{i.oninput=()=>{i.value=i.value.replace(/\D/g,"");if(i.value&&all[n+1])all[n+1].focus()};i.onkeydown=e=>{if(e.key==="Backspace"&&!i.value&&all[n-1])all[n-1].focus()}});
+$("#verify").onclick=()=>{const c=$$("#otp input").map(i=>i.value).join("");if(c!=="123456"){$("#otp-err").textContent=t("bad_code");return}$("#otp-err").textContent="";screen("s-profile");$("#name").focus()};
+$("#finish").onclick=()=>{S.name=$("#name").value.trim()||"—";$("#hello").textContent=t("hello");state="rider";screen("s-map");drawMap();sheet("sh-home");$("#mode-t").textContent=t("mode_d")};
+$("#to-request").onclick=()=>{sheet("sh-request");upd()};
+$("#back-home").onclick=()=>sheet("sh-home");
+function upd(){$("#pval").textContent=S.price;$("#lowwarn").hidden=S.price>=315}
+$("#minus").onclick=()=>{S.price=Math.max(100,S.price-50);upd()};$("#plus").onclick=()=>{S.price+=50;upd()};
+$("#order").onclick=()=>{clear();$("#wprice").textContent=S.price;sheet("sh-wait");later(showOffers,2200)};
+$("#cancel-wait").onclick=()=>{clear();sheet("sh-home");toast(t("cancelled"))};
+
+const ICS='<svg class="ic sm" aria-hidden="true"><use href="#i-star"/></svg>';
+const COLORS=["#C2410C","#0F766E","#7A3E12"];
+function showOffers(){
+  sheet("sh-offers");$("#offers").innerHTML="";$("#ocount").textContent=0;let n=0;
+  const data=[{p:S.price,eta:3,r:4.9,c:2,rides:1240},{p:S.price+50,eta:5,r:4.8,c:5,rides:870},{p:Math.max(100,S.price-0),eta:7,r:4.7,c:8,rides:410}];
+  data.forEach((d,i)=>later(()=>{
+    const same=d.p<=S.price;
+    const el=document.createElement("div");el.className="offer";
+    el.innerHTML=`<div class="av" style="background:${COLORS[i]}">${t("names")[i][0]}</div>
+     <div><div class="nm">${t("names")[i]}</div><div class="meta"><span class="star">${ICS} <span class="num">${d.r}</span></span><span>${t("cars")[i]}</span><span><span class="num">${d.eta}</span> ${t("eta")}</span><span><span class="num">${d.c}%</span> ${t("cancels")}</span></div></div>
+     <div class="pr"><b class="num">${d.p}</b>${same?`<span class="ok">${t("accepts_price")}</span>`:""}</div>
+     <div class="timer"><i></i></div>
+     <div class="acts"><button class="btn ghost" data-x>${t("decline")}</button><button class="btn primary" data-ok>${t("accept")}</button></div>`;
+    el.querySelector("[data-x]").onclick=()=>{el.remove();$("#ocount").textContent=--n};
+    el.querySelector("[data-ok]").onclick=()=>pick(i,d);
+    $("#offers").appendChild(el);$("#ocount").textContent=++n;
+  },i*1400));
+}
+function pick(i,d){
+  clear();S.offer={i,d};
+  $("#d-av").textContent=t("names")[i][0];$("#d-av").style.background=COLORS[i];$("#d-name").textContent=t("names")[i];
+  $("#d-car").textContent=t("cars")[i];$("#d-plate").textContent=`0${i+4}${i+7}21-${116+i} 16`;$("#d-rate").textContent=d.r;$("#d-price").textContent=d.p;
+  S.step=0;way();sheet("sh-way");moveCar(-1,0,7000,()=>{});
+  later(()=>{if(S.step===0)adv()},8000);
+}
+function way(){$("#way-status").textContent=[t("st_en"),t("st_ar"),t("st_in")][S.step];$("#cancel-ride").hidden=S.step>0}
+function adv(){
+  S.step++;
+  if(S.step>2){finish();return}
+  way();if(S.step===2)moveCar(0,1,8000,finish);
+}
+function finish(){cancelAnimationFrame(carRaf);$("#f-price").textContent=S.offer.d.p;S.stars=0;drawStars();sheet("sh-done")}
+$("#sim-next").onclick=()=>{if(S.step===2){moveCar(1,1,1,()=>{});finish()}else adv()};
+$("#cancel-ride").onclick=()=>{clear();cancelAnimationFrame(carRaf);sheet("sh-home");toast(t("cancelled"))};
+$("#call").onclick=()=>toast("+213 …");
+$("#share").onclick=()=>toast(t("share_ok"));
+$("#sos").onclick=()=>toast(t("sos_ok"));
+function drawStars(){
+  $("#stars").innerHTML=[1,2,3,4,5].map(n=>`<button role="radio" aria-checked="${S.stars===n}" aria-label="${n}" class="${n<=S.stars?"on":""}" data-n="${n}"><svg class="ic xl" aria-hidden="true"><use href="#i-star"/></svg></button>`).join("");
+  $$("#stars button").forEach(b=>b.onclick=()=>{S.stars=+b.dataset.n;drawStars()});
+}
+$("#submit-rate").onclick=()=>{toast(t("thanks"));S.price=450;upd();sheet("sh-home")};
+
+/* driver mode */
+$("#mode").onclick=()=>{
+  if(state==="driver"){state="rider";sheet("sh-home")}else{state="driver";clear();sheet("sh-driver");drText()}
+  $("#mode-t").textContent=state==="driver"?t("mode_r"):t("mode_d");
+};
+function drText(){const on=$("#online").getAttribute("aria-checked")==="true";$("#dr-s").textContent=on?t("dr_on"):t("dr_off")}
+$("#online").onclick=()=>{const on=$("#online").getAttribute("aria-checked")!=="true";$("#online").setAttribute("aria-checked",on);drText();$("#dr-req").innerHTML="";clear();
+  if(on)later(()=>{$("#dr-req").innerHTML=`<div class="req"><div style="display:flex;justify-content:space-between"><b>${t("dr_new")}</b><span class="price num" style="margin:0;color:var(--price);font-weight:800;font-size:20px">450</span></div>
+   <p class="sub" style="margin:6px 0 12px">${t("from_val")} → ${t("to_val")} · <span class="num">17</span> ${t("km")}</p>
+   <div class="row" style="margin:0"><button class="btn ghost" id="dr-c">${t("bid_counter")} <span class="num">500</span></button><button class="btn primary" id="dr-a">${t("bid_same")}</button></div></div>`;
+   $("#dr-a").onclick=$("#dr-c").onclick=()=>{toast("✓");$("#dr-req").innerHTML=""}},1800)};
+applyI18n();
+</script>
+
+<script>
+/* Delivery: same negotiation as rides, plus item, addresses and recipient. */
+Object.assign(T.ar,{k_ride:"رحلة",k_del:"توصيل",kind_g:"نوع الطلب",item_g:"نوع الطلب المراد توصيله",it_food:"أكل",it_parcel:"طرد",
+ hello_d:"ماذا نوصّل؟",set_price_d:"حدّد سعر التوصيل",fare_d:"سعر التوصيل",find_d:"ابحث عن موصّل",dl_note_l:"وصف الطلب",dl_note_ph:"مثال: بيتزا وعصير، أو كيس ملابس",
+ dl_from_l:"عنوان الاستلام",dl_from_ph:"المطعم أو المحل أو الشخص",dl_to_l:"عنوان التسليم",dl_to_ph:"عنوانك أو عنوان المستلم",dl_rn_l:"اسم المستلم",dl_rp_l:"هاتف المستلم",
+ dl_rules:"ممنوع توصيل المواد الممنوعة قانونًا، والأسلحة، والأموال النقدية. الموصّل يتصل بالمستلم عند وصوله.",dl_need:"اكتب وصف الطلب",
+ st_en_d:"الموصّل في طريقه لاستلام الطلب",st_ar_d:"الموصّل وصل لاستلام الطلب",st_in_d:"طلبك في الطريق إليك",done_d:"تم التسليم",
+ dl_after:"سيصل الموصّل إلى عنوانك ويتصل بك.",dl_badge:"توصيل",dl_food:"أكل",dl_parcel:"طرد",call_rider:"اتصل بالطالب",call_recv:"اتصل بالمستلم",
+ nxd:{arrived:"وصلت للاستلام",in_progress:"استلمت الطلب",completed:"تم التسليم"},dl_ride_d:"توصيل جارٍ",no_phone:"الرقم يظهر بعد قبول العرض"});
+Object.assign(T.fr,{k_ride:"Course",k_del:"Livraison",kind_g:"Type de demande",item_g:"Type de colis",it_food:"Repas",it_parcel:"Colis",
+ hello_d:"Que livrer ?",set_price_d:"Fixer le prix de livraison",fare_d:"Prix de livraison",find_d:"Trouver un livreur",dl_note_l:"Description",dl_note_ph:"Ex. pizza et jus, ou sac de vêtements",
+ dl_from_l:"Adresse de retrait",dl_from_ph:"Restaurant, magasin ou personne",dl_to_l:"Adresse de livraison",dl_to_ph:"Votre adresse ou celle du destinataire",dl_rn_l:"Nom du destinataire",dl_rp_l:"Téléphone du destinataire",
+ dl_rules:"Interdit : produits illégaux, armes, argent liquide. Le livreur appelle le destinataire à son arrivée.",dl_need:"Décrivez la commande",
+ st_en_d:"Le livreur va récupérer la commande",st_ar_d:"Le livreur est arrivé au retrait",st_in_d:"Votre commande est en route",done_d:"Livré",
+ dl_after:"Le livreur viendra à votre adresse et vous appellera.",dl_badge:"Livraison",dl_food:"Repas",dl_parcel:"Colis",call_rider:"Appeler le client",call_recv:"Appeler le destinataire",
+ nxd:{arrived:"Arrivé au retrait",in_progress:"Commande récupérée",completed:"Livré"},dl_ride_d:"Livraison en cours",no_phone:"Le numéro s'affiche après acceptation"});
+S.kind='ride';S.item='food';S.contactPhone=null;
+function applyKind(){const d=S.kind==='delivery';
+  $$('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.kind===S.kind));
+  $('#hello').textContent=t(d?'hello_d':'hello');$('#to-request').textContent=t(d?'set_price_d':'set_price');
+  $('#sh-request h2').textContent=t(d?'fare_d':'your_fare');$('#order').textContent=t(d?'find_d':'find_driver');
+  $('#dl').hidden=!d;$('#women').closest('label').hidden=d;
+  $$('[data-item]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.item===S.item));}
+$$('[data-kind]').forEach(b=>b.onclick=()=>{S.kind=b.dataset.kind;applyKind()});
+$$('[data-item]').forEach(b=>b.onclick=()=>{S.item=b.dataset.item;applyKind()});
+{const _ai=applyI18n;applyI18n=function(){_ai();applyKind()}}
+$('#order').addEventListener('click',e=>{ if(S.kind!=='delivery')return;
+  if(!$('#dl-note').value.trim()){e.stopImmediatePropagation();$('#dl-err').textContent=t('dl_need');$('#dl-note').focus();return}
+  $('#dl-err').textContent='';const it=t(S.item==='food'?'it_food':'it_parcel');
+  S.summary=it+': '+$('#dl-note').value.trim()+' · '+($('#dl-to').value.trim()||'');},true);
+{const _w=way;way=function(){const d=S.kind==='delivery';$('#way-status').textContent=[t(d?'st_en_d':'st_en'),t(d?'st_ar_d':'st_ar'),t(d?'st_in_d':'st_in')][S.step];$('#cancel-ride').hidden=S.step>0;
+  $('#dl-info').hidden=!d;if(d)$('#dl-info-t').textContent=(S.summary||'')+' — '+t('dl_after');
+  const ph=$('#d-phone');ph.hidden=!S.contactPhone;if(S.contactPhone){ph.textContent=S.contactPhone;ph.href='tel:'+S.contactPhone}}}
+{const _f=finish;finish=function(){_f();$('#sh-done h2').textContent=t(S.kind==='delivery'?'done_d':'done_h')}}
+$('#call').onclick=()=>{S.contactPhone?(location.href='tel:'+S.contactPhone):toast(t('no_phone'))};
+applyI18n();
+</script>
+<script>
+/* API mode: when served over http by backend/server.js. Opened as a file it stays a demo with fake data. */
+const API=location.protocol.startsWith('http');
+if(API){
+Object.assign(T.ar,{too_many:"محاولات كثيرة، انتظر قليلًا",open_exists:"عندك طلب مفتوح",req_fail:"تعذّر إرسال الطلب",offer_gone:"العرض لم يعد متاحًا",dev_only:"وضع السائق للتجربة فقط",
+  drv_wait:"بانتظار ردّ الراكب…",nx:{arrived:"وصلت",in_progress:"ابدأ الرحلة",completed:"أنهِ الرحلة"},drv_ride:"رحلة جارية",cancelled_r:"أُلغيت الرحلة",net:"تعذّر الاتصال"});
+Object.assign(T.fr,{too_many:"Trop d'essais, patientez",open_exists:"Une demande est déjà ouverte",req_fail:"Envoi impossible",offer_gone:"Offre indisponible",dev_only:"Mode chauffeur : démo uniquement",
+  drv_wait:"En attente du passager…",nx:{arrived:"Arrivé",in_progress:"Démarrer",completed:"Terminer"},drv_ride:"Course en cours",cancelled_r:"Course annulée",net:"Connexion impossible"});
+const api=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined,credentials:'same-origin'});
+  let j={};try{j=await r.json()}catch{} if(!r.ok)throw Object.assign(new Error(j.error||r.status),{status:r.status}); return j};
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let phoneN='',poll=null,reqId=null,rideId=null,declined=new Set(),drSig='';
+const stop=()=>{clearInterval(poll);poll=null};
+const PK=()=>({lat:36.7538,lng:3.0588,label:t('from_val')}),DS=()=>({lat:36.6910,lng:3.2154,label:t('to_val')});
+function reqPayload(){const base={pickup:PK(),dropoff:DS(),price:S.price,note:$('#note').value.trim()||undefined,women_only:$('#women').checked};
+  if(S.kind!=='delivery')return base; // demo coordinates: no geocoder yet, addresses are typed labels
+  return {...base,women_only:false,kind:'delivery',pickup:{lat:36.7538,lng:3.0588,label:$('#dl-from').value.trim()||t('dl_from_ph')},dropoff:{lat:36.7332,lng:3.0870,label:$('#dl-to').value.trim()||t('dl_to_ph')},
+    item_type:S.item,item_note:$('#dl-note').value.trim(),recipient_name:$('#dl-rn').value.trim()||undefined,recipient_phone:$('#dl-rp').value.trim()||undefined}}
+$('#sim-next').hidden=true;
+
+$('#send-otp').onclick=async()=>{const v=$('#phone').value.replace(/\D/g,'');
+  if(!/^0[567]\d{8}$/.test(v)){$('#phone-err').textContent=t('invalid');$('#phone').focus();return}
+  try{await api('POST','/api/auth/otp',{phone:v})}catch(e){$('#phone-err').textContent=e.status===429?t('too_many'):t('net');return}
+  $('#phone-err').textContent='';phoneN=v;$('#otp-to').textContent='+213 '+v.slice(1);screen('s-otp');$('#otp input').focus()};
+$('#verify').onclick=async()=>{const code=$$('#otp input').map(i=>i.value).join('');
+  try{await api('POST','/api/auth/verify',{phone:phoneN,code,lang:L})}catch(e){$('#otp-err').textContent=t('bad_code');return}
+  $('#otp-err').textContent='';screen('s-profile');$('#name').focus()};
+$('#finish').onclick=async()=>{try{await api('POST','/api/me',{name:$('#name').value.trim()||undefined,city:$('#city').value,lang:L})}catch{}
+  state='rider';screen('s-map');drawMap();sheet('sh-home');$('#mode-t').textContent=t('mode_d')};
+
+$('#order').onclick=async()=>{
+  try{const r=await api('POST','/api/requests',reqPayload());reqId=r.id}
+  catch(e){toast(e.status===409?t('open_exists'):t('req_fail'));return}
+  declined=new Set();$('#offers').innerHTML='';$('#wprice').textContent=S.price;sheet('sh-wait');stop();let shown=false;
+  poll=setInterval(async()=>{try{const {offers}=await api('GET',`/api/requests/${reqId}/offers`);const o2=offers.filter(o=>!declined.has(o.id));
+    if(o2.length&&!shown){shown=true;sheet('sh-offers')} renderOffers(o2)}catch{}},1200)};
+$('#cancel-wait').onclick=async()=>{stop();try{await api('POST',`/api/requests/${reqId}/cancel`)}catch{} sheet('sh-home');toast(t('cancelled'))};
+
+function renderOffers(list){const box=$('#offers'),ids=new Set(list.map(o=>String(o.id)));
+  [...box.children].forEach(c=>{if(!ids.has(c.dataset.id))c.remove()});
+  list.forEach((o,i)=>{if(box.querySelector(`[data-id="${o.id}"]`))return;const d=o.driver,nm=d.name||'—';
+    const el=document.createElement('div');el.className='offer';el.dataset.id=o.id;
+    el.innerHTML=`<div class="av" style="background:${COLORS[o.id%3]}">${esc(nm[0]||'?')}</div>
+     <div><div class="nm">${esc(nm)}</div><div class="meta"><span class="star">${ICS} <span class="num">${esc(d.rating)}</span></span><span>${esc(d.car)}</span><span><span class="num">${o.eta_min}</span> ${t('eta')}</span><span><span class="num">${d.cancel_pct}%</span> ${t('cancels')}</span></div></div>
+     <div class="pr"><b class="num">${o.price}</b>${o.price<=S.price?`<span class="ok">${t('accepts_price')}</span>`:''}</div>
+     <div class="timer"><i></i></div>
+     <div class="acts"><button class="btn ghost" data-x>${t('decline')}</button><button class="btn primary" data-ok>${t('accept')}</button></div>`;
+    el.querySelector('[data-x]').onclick=()=>{declined.add(o.id);el.remove();$('#ocount').textContent=box.children.length};
+    el.querySelector('[data-ok]').onclick=()=>acceptApi(o);box.appendChild(el)});
+  $('#ocount').textContent=box.children.length}
+async function acceptApi(o){
+  try{const r=await api('POST',`/api/offers/${o.id}/accept`);rideId=r.ride_id;stop();const d=o.driver,nm=d.name||'—';S.contactPhone=null;api('GET',`/api/rides/${rideId}`).then(v=>{S.contactPhone=v.contact.phone;way()}).catch(()=>{});
+    S.offer={d:{p:r.locked_price,r:d.rating}};$('#d-av').textContent=nm[0]||'?';$('#d-av').style.background=COLORS[o.id%3];$('#d-name').textContent=nm;$('#d-car').textContent=d.car;
+    $('#d-plate').textContent=d.plate;$('#d-rate').textContent=d.rating;$('#d-price').textContent=r.locked_price;S.step=0;way();sheet('sh-way');moveCar(-1,0,7000,()=>{});
+    let last='en_route';poll=setInterval(async()=>{try{const x=await api('GET',`/api/rides/${rideId}`);if(x.status===last)return;last=x.status;
+      if(x.status==='arrived'){S.step=1;way()}
+      else if(x.status==='in_progress'){S.step=2;way();moveCar(0,1,8000,()=>{})}
+      else if(x.status==='completed'){stop();finish()}
+      else if(x.status==='cancelled'){stop();cancelAnimationFrame(carRaf);sheet('sh-home');toast(t('cancelled_r'))}}catch{}},1200)}
+  catch(e){toast(t('offer_gone'))}}
+$('#cancel-ride').onclick=async()=>{stop();try{await api('POST',`/api/rides/${rideId}/status`,{status:'cancelled'})}catch{} cancelAnimationFrame(carRaf);sheet('sh-home');toast(t('cancelled'))};
+$('#submit-rate').onclick=async()=>{if(S.stars){try{await api('POST',`/api/rides/${rideId}/rating`,{stars:S.stars,tags:$$('#tags button[aria-pressed=true]').map(b=>b.textContent)})}catch{}}
+  toast(t('thanks'));S.price=450;upd();sheet('sh-home')};
+$('#share').onclick=()=>toast(t('share_ok'));
+
+/* driver mode (dev role switch; real use needs a second phone logged in as driver) */
+$('#mode').onclick=async()=>{
+  if(state==='driver'){stop();$('#online').setAttribute('aria-checked','false');await api('POST','/api/driver/online',{online:false}).catch(()=>{});await api('POST','/api/dev/role',{role:'rider'}).catch(()=>{});state='rider';sheet('sh-home')}
+  else{try{await api('POST','/api/dev/role',{role:'driver'})}catch{toast(t('dev_only'));return} state='driver';drSig='';$('#dr-req').innerHTML='';sheet('sh-driver');drText()}
+  $('#mode-t').textContent=state==='driver'?t('mode_r'):t('mode_d')};
+$('#online').onclick=async()=>{const on=$('#online').getAttribute('aria-checked')!=='true';
+  try{await api('POST','/api/driver/online',on?{online:true,lat:36.7600,lng:3.0600}:{online:false})}catch{toast(t('net'));return}
+  $('#online').setAttribute('aria-checked',on);drText();stop();$('#dr-req').innerHTML='';drSig='';
+  if(on)poll=setInterval(drFeed,1200)};
+async function drFeed(){try{
+  const [{requests},{ride}]=await Promise.all([api('GET','/api/driver/requests'),api('GET','/api/rides/active')]);
+  const sig=JSON.stringify([requests.map(r=>[r.id,r.already_offered,r.price]),ride&&[ride.id,ride.status]]);if(sig===drSig)return;drSig=sig;const box=$('#dr-req');box.innerHTML='';
+  if(ride){const del=ride.kind==='delivery',nxt={en_route:'arrived',arrived:'in_progress',in_progress:'completed'}[ride.status],lab=del?t('nxd')[nxt]:t('nx')[nxt];
+    const tel=(ph,l)=>ph?`<a class="btn ghost" href="tel:${esc(ph)}">${l}</a>`:'';
+    box.innerHTML=`<div class="req"><div style="display:flex;justify-content:space-between"><b>${del?t('dl_ride_d'):t('drv_ride')}</b><span class="num" style="color:var(--price);font-weight:800;font-size:20px">${ride.locked_price}</span></div>
+     ${del?`<span class="kind-badge">${t(ride.item_type==='food'?'dl_food':'dl_parcel')}: ${esc(ride.item_note)}</span>`:''}
+     <p class="sub" style="margin:6px 0 12px">${esc(ride.p_label)} → ${esc(ride.d_label)}</p>
+     <div class="row" style="margin:0 0 8px">${tel(ride.contact&&ride.contact.phone,t('call_rider'))}${del?tel(ride.recipient&&ride.recipient.phone,t('call_recv')):''}</div>
+     <div class="row"><button class="btn primary" id="dr-next">${lab}</button></div></div>`;
+    $('#dr-next').onclick=async()=>{try{await api('POST',`/api/rides/${ride.id}/status`,{status:nxt});drSig='';drFeed()}catch{toast(t('net'))}};return}
+  requests.forEach(r=>{const el=document.createElement('div');el.className='req';
+    el.innerHTML=`<div style="display:flex;justify-content:space-between"><b>${t('dr_new')}</b><span class="num" style="color:var(--price);font-weight:800;font-size:20px">${r.price}</span></div>
+     ${r.kind==='delivery'?`<span class="kind-badge">${t('dl_badge')} · ${t(r.item_type==='food'?'dl_food':'dl_parcel')}: ${esc(r.item_note)}</span>`:''}
+     <p class="sub" style="margin:6px 0 12px">${esc(r.p_label)} → ${esc(r.d_label)} · <span class="num">${r.dist_km}</span> ${t('km')}</p>`+
+     (r.already_offered?`<p class="sub" style="margin:0">${t('drv_wait')}</p>`:`<div class="row" style="margin:0"><button class="btn ghost" data-c>${t('bid_counter')} <span class="num">${r.price+50}</span></button><button class="btn primary" data-a>${t('bid_same')}</button></div>`);
+    const bid=p=>async()=>{try{await api('POST',`/api/requests/${r.id}/offers`,{price:p,eta_min:4});toast('✓');drSig='';drFeed()}catch{toast(t('offer_gone'))}};
+    const a=el.querySelector('[data-a]');if(a){a.onclick=bid(r.price);el.querySelector('[data-c]').onclick=bid(r.price+50)} box.appendChild(el)})
+ }catch{}}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+[Unit]
+Description=Kherja API
+After=network.target
+
+[Service]
+Type=simple
+User=kherja
+Group=kherja
+WorkingDirectory=/opt/kherja
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=8787
+Environment=DB_PATH=/var/lib/kherja/kherja.db
+Environment=UPLOAD_DIR=/var/lib/kherja/uploads
+Environment=SQLITE_BUSY_TIMEOUT_MS=5000
+# Set ADMIN_PHONE and ADMIN_PASSWORD through a root-owned EnvironmentFile (mode 0600).
+EnvironmentFile=/etc/kherja/kherja.env
+ExecStart=/usr/bin/node /opt/kherja/backend/server.js
+Restart=on-failure
+RestartSec=3
+KillSignal=SIGTERM
+TimeoutStopSec=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/kherja
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

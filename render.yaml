@@ -1,0 +1,26 @@
+# Render Blueprint: STAGING ONLY. Independent from any other Render service (e.g. n8n).
+# A persistent disk is required for SQLite and uploads, which needs a paid instance type (starter or above).
+services:
+  - type: web
+    name: KHERJA-STAGING
+    runtime: node
+    plan: starter
+    region: frankfurt
+    branch: main
+    autoDeploy: false
+    buildCommand: node app/build-shell.js && node app/build-apps.js
+    startCommand: node backend/server.js
+    healthCheckPath: /api/health
+    disk:
+      name: kherja-staging-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - { key: NODE_VERSION, value: 22.23.4 }
+      - { key: NODE_ENV, value: production }
+      - { key: HOST, value: 0.0.0.0 }
+      - { key: DB_PATH, value: /var/data/kherja.db }
+      - { key: UPLOAD_DIR, value: /var/data/uploads }
+      - { key: TRUSTED_PROXY_IPS, sync: false }
+      - { key: ADMIN_PHONE, sync: false }
+      - { key: ADMIN_PASSWORD, sync: false }

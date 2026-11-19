@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075BFF">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="color-scheme" content="light dark">
+<script>(function(){try{var v=localStorage.getItem("kherja-theme");if(v==="light"||v==="dark")document.documentElement.dataset.theme=v}catch(e){}})()</script>
+<title>خرجة · Kherja</title>
+<style>
+/*__CSS__*/
+/*__DRIVER_CSS__*/
+/*__SHELL_CSS__*/
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<!--__SPRITE__-->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- GATE: shared language + phone + OTP. Removed from the DOM once the server has said which role this account has. -->
+<section class="screen" id="s-lang" aria-labelledby="t-lang" data-gate>
+  <div class="spacer"></div>
+  <!--__LOGO__-->
+  <p class="wm" aria-hidden="true">خرجة · Kherja</p><h1 data-i="brand_h"></h1><p class="sub" data-i="brand_s"></p>
+  <div class="lang" role="group" aria-label="Language / اللغة">
+    <button data-lang="ar" aria-pressed="true">العربية <span>✓</span></button>
+    <button data-lang="fr" aria-pressed="false">Français <span></span></button>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn primary" id="go-phone" data-i="continue"></button>
+</section>
+
+<section class="screen" id="s-phone" data-gate>
+  <div class="spacer"></div>
+  <!--__LOGO__-->
+  <p class="wm">خرجة · Kherja</p>
+  <h1 id="phone-h"></h1><p class="sub" id="phone-s"></p>
+  <div class="lang" id="inline-lang" role="group" aria-label="Language / اللغة" style="margin-bottom:16px;grid-template-columns:1fr 1fr" hidden>
+    <button data-lang="ar" aria-pressed="true">العربية</button><button data-lang="fr" aria-pressed="false">Français</button></div>
+  <span class="rl" id="role-l" data-i="role_l"></span>
+  <div class="lang roles" id="roles" role="radiogroup" aria-labelledby="role-l">
+    <button type="button" role="radio" data-role="rider" aria-checked="true" data-i="role_rider"></button>
+    <button type="button" role="radio" data-role="driver" aria-checked="false" data-i="role_driver"></button>
+  </div>
+  <label class="field"><span data-i="phone_l"></span><input class="input num" id="phone" inputmode="tel" autocomplete="tel" placeholder="05 55 12 34 56" maxlength="14"></label>
+  <div class="err" id="phone-err" role="alert"></div>
+  <div class="spacer"></div>
+  <button class="btn primary" id="send-otp" data-i="send_code"></button>
+</section>
+
+<section class="screen" id="s-otp" data-gate>
+  <div class="spacer"></div>
+  <h1 data-i="otp_h"></h1><p class="sub"><span data-i="otp_s"></span> <span class="num" id="otp-to"></span></p>
+  <div class="otp" id="otp" role="group" data-aria="otp_g"><input inputmode="numeric" maxlength="1" aria-label="1"><input inputmode="numeric" maxlength="1" aria-label="2"><input inputmode="numeric" maxlength="1" aria-label="3"><input inputmode="numeric" maxlength="1" aria-label="4"><input inputmode="numeric" maxlength="1" aria-label="5"><input inputmode="numeric" maxlength="1" aria-label="6"></div>
+  <div class="err" id="otp-err" role="alert"></div>
+  <p class="sub" id="demo-hint" hidden><span data-i="demo_code"></span> <b class="num">123456</b></p>
+  <div class="spacer"></div>
+  <button class="btn primary" id="verify" data-i="verify"></button>
+</section>
+
+<!-- NOTICE: admin-role account, wrong/blocked role, or no connection. Never logs the user out by itself. -->
+<template id="tpl-notice"><section class="screen" id="s-notice" role="alert">
+  <div class="spacer"></div>
+  <h1 id="notice-h"></h1><p class="sub" id="notice-s"></p>
+  <div class="spacer"></div>
+  <button class="btn primary" id="notice-retry" data-i="retry"></button>
+  <button class="btn ghost" id="notice-logout" style="margin-top:10px" data-i="logout"></button>
+</section></template>
+</div>
+
+<!-- Role views: inert until the shell mounts the one the server authorised. -->
+<template id="view-passenger"><!--__VIEW_PASSENGER__--></template>
+<template id="view-driver"><!--__VIEW_DRIVER__--></template>
+<script type="text/plain" id="code-passenger">/*__JS_PASSENGER__*/</script>
+<script type="text/plain" id="code-driver">/*__JS_DRIVER__*/</script>
+
+<script>
+/* Kherja shell. Scope: IIFE, so it cannot collide with the globals of the mounted role view.
+   Authority: the role ALWAYS comes from the server (GET /api/me, POST /api/auth/verify). The URL path is only a
+   starting-screen hint; the picker is only sent when an account is created; nothing is read from localStorage. */
+(function(){
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const T={
+ ar:{brand_h:"طريقك، بسعرك",brand_s:"اقترح سعر رحلتك واختر السائق الذي يناسبك.",continue:"متابعة",
+  phone_h:"رقم هاتفك",phone_s:"سنرسل لك رمز التحقق.",d_h:"اربح بسعر عادل",d_s:"سجّل كسائق أو موصّل، وارفع وثائقك مرة واحدة.",phone_l:"رقم الهاتف",send_code:"إرسال الرمز",
+  otp_h:"أدخل الرمز",otp_s:"أرسلناه إلى",demo_code:"رمز التجربة:",verify:"تأكيد",otp_g:"رمز التحقق",
+  invalid:"رقم غير صحيح",bad_code:"الرمز غير صحيح",too_many:"محاولات كثيرة، انتظر قليلًا",net:"تعذّر الاتصال",sms_unavail:"خدمة رسائل التحقق غير مفعّلة على هذا الخادم بعد، لذلك لا يمكن تسجيل الدخول الآن. تواصل مع الدعم.",sms_failed:"تعذّر إرسال رمز التحقق. حاول مرة أخرى لاحقًا.",
+  role_l:"للحسابات الجديدة: أنا",role_rider:"راكب",role_driver:"سائق",
+  n_admin_h:"هذا حساب إدارة",n_admin_s:"حسابات الإدارة لا تستعمل تطبيق خرجة. استعمل لوحة الإدارة.",
+  n_wrong_h:"تعذّر فتح الواجهة",n_wrong_s:"حسابك لا يملك صلاحية هذه الواجهة. أعد المحاولة أو سجّل الخروج.",
+  n_net_h:"تعذّر الاتصال",n_net_s:"تحقّق من الاتصال ثم أعد المحاولة.",retry:"إعادة المحاولة",logout:"تسجيل الخروج",
+  as_rider:"هذا الرقم مسجّل كراكب، فتحنا واجهة الراكب.",as_driver:"هذا الرقم مسجّل كسائق، فتحنا واجهة السائق."},
+ fr:{brand_h:"Votre route, votre prix",brand_s:"Proposez votre prix et choisissez votre chauffeur.",continue:"Continuer",
+  phone_h:"Votre numéro",phone_s:"Nous vous enverrons un code de vérification.",d_h:"Gagnez au juste prix",d_s:"Inscrivez-vous comme chauffeur ou livreur, envoyez vos documents une fois.",phone_l:"Numéro de téléphone",send_code:"Envoyer le code",
+  otp_h:"Saisissez le code",otp_s:"Envoyé au",demo_code:"Code de test :",verify:"Valider",otp_g:"Code de vérification",
+  invalid:"Numéro invalide",bad_code:"Code incorrect",too_many:"Trop d'essais, patientez",net:"Connexion impossible",sms_unavail:"L'envoi des codes de vérification n'est pas encore configuré sur ce serveur : connexion impossible pour le moment. Contactez le support.",sms_failed:"Envoi du code impossible. Réessayez plus tard.",
+  role_l:"Nouveau compte : je suis",role_rider:"Passager",role_driver:"Chauffeur",
+  n_admin_h:"Compte administrateur",n_admin_s:"Les comptes administrateur n'utilisent pas l'application Kherja. Utilisez la console d'administration.",
+  n_wrong_h:"Interface indisponible",n_wrong_s:"Votre compte n'a pas accès à cette interface. Réessayez ou déconnectez-vous.",
+  n_net_h:"Connexion impossible",n_net_s:"Vérifiez votre connexion puis réessayez.",retry:"Réessayer",logout:"Se déconnecter",
+  as_rider:"Ce numéro est inscrit comme passager : interface passager ouverte.",as_driver:"Ce numéro est inscrit comme chauffeur : interface chauffeur ouverte."}
+};
+let L='ar',phoneN='';
+// Entry hint ONLY (which gate screen to show first and which picker option is preselected). Never an authorisation.
+const hint=/\/driver\/?$/.test(location.pathname)?'driver':'rider';
+let picked=hint;
+const t=k=>(T[L]&&T[L][k])||k;
+const api=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined,credentials:'same-origin'});
+  let j={};try{j=await r.json()}catch{}if(!r.ok)throw Object.assign(new Error(j.error||r.status),{status:r.status});return j};
+function screen(id){$$('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+function toast(m){const e=$('#toast');if(!e)return;e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3400)}
+function applyI18n(){document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';
+  $$('[data-i]').forEach(e=>{const v=t(e.dataset.i);if(typeof v==='string')e.textContent=v});$$('[data-aria]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.aria)));
+  const ph=$('#phone-h');if(ph){ph.textContent=t(picked==='driver'?'d_h':'phone_h');$('#phone-s').textContent=t(picked==='driver'?'d_s':'phone_s')}
+  $$('[data-lang]').forEach(b=>{const on=b.dataset.lang===L;b.setAttribute('aria-pressed',on);const sp=b.querySelector('span');if(sp)sp.textContent=on?'✓':''});
+  $$('[data-role]').forEach(b=>b.setAttribute('aria-checked',b.dataset.role===picked))}
+
+/* ---- notice (never logs out by itself) ---- */
+function notice(kind){const k=kind==='admin'?'n_admin':kind==='wrong_role'?'n_wrong':'n_net';
+  const old=$('#s-notice');if(old)old.remove();$('#app').appendChild($('#tpl-notice').content.cloneNode(true));
+  $('#notice-h').textContent=t(k+'_h');$('#notice-s').textContent=t(k+'_s');$('#notice-retry').textContent=t('retry');$('#notice-logout').textContent=t('logout');$('#notice-retry').hidden=kind==='admin';
+  $('#notice-retry').onclick=()=>location.reload();
+  $('#notice-logout').onclick=async()=>{try{await api('POST','/api/auth/logout')}catch{}location.reload()};
+  screen('s-notice')}
+
+/* ---- gate ---- */
+$$('[data-lang]').forEach(b=>b.onclick=()=>{L=b.dataset.lang;applyI18n()});
+$$('[data-role]').forEach(b=>b.onclick=()=>{picked=b.dataset.role;applyI18n()});
+$('#go-phone').onclick=()=>screen('s-phone');
+$('#send-otp').onclick=async()=>{const v=$('#phone').value.replace(/\D/g,'');
+  if(!/^0[567]\d{8}$/.test(v)){$('#phone-err').textContent=t('invalid');$('#phone').focus();return}
+  let o;try{o=await api('POST','/api/auth/otp',{phone:v})}catch(e){$('#phone-err').textContent=e.status===429?t('too_many'):e.status===503?t('sms_unavail'):e.status===502?t('sms_failed'):t('net');return}
+  $('#demo-hint').hidden=!(o&&o.dev===true);$('#phone-err').textContent='';phoneN=v;$('#otp-to').textContent='+213 '+v.slice(1);screen('s-otp');$('#otp input').focus()};
+$$('#otp input').forEach((i,n,all)=>{i.oninput=()=>{i.value=i.value.replace(/\D/g,'');if(i.value&&all[n+1])all[n+1].focus()};i.onkeydown=e=>{if(e.key==='Backspace'&&!i.value&&all[n-1])all[n-1].focus()}});
+$('#verify').onclick=async()=>{const code=$$('#otp input').map(i=>i.value).join('');let r;
+  try{r=await api('POST','/api/auth/verify',{phone:phoneN,code,role:picked,lang:L})}catch(e){$('#otp-err').textContent=e.status===429?t('too_many'):t('bad_code');return}
+  $('#otp-err').textContent='';mount(r.user,picked)};
+
+/* ---- role resolution: the ONLY place a view is chosen, and it reads the server's answer ---- */
+function mount(user,pickedRole){
+  const role=user&&user.role,view=role==='rider'?'passenger':role==='driver'?'driver':null;
+  if(!view){$$('[data-gate]').forEach(s=>s.remove());return notice(role==='admin'?'admin':'wrong_role')}
+  if(user.lang==='ar'||user.lang==='fr')L=user.lang;
+  $$('[data-gate]').forEach(s=>s.remove());
+  window.Kherja=Object.freeze({lang:L,user:Object.freeze({id:user.id,name:user.name||'',role,lang:L}),role,notice,relaunch:()=>location.reload()});
+  $('#app').appendChild($('#view-'+view).content.cloneNode(true));
+  const s=document.createElement('script');s.textContent=$('#code-'+view).textContent;document.body.appendChild(s);
+  if(pickedRole&&pickedRole!==role)toast(t(role==='driver'?'as_driver':'as_rider'));
+}
+async function launch(){applyI18n();
+  let me;try{me=await api('GET','/api/me')}catch(e){if(e.status===401){$('#inline-lang').hidden=hint!=='driver';screen(hint==='driver'?'s-phone':'s-lang');return}notice('net');return}
+  mount(me)}
+launch();
+})();
+</script>
+</body>
+</html>

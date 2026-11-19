@@ -1,0 +1,28 @@
+<!-- Contacts de confiance + SOS. Data: GET/POST /api/safety/contacts. Calls/SMS use the device (tel:/sms: links); no automatic alerting exists. -->
+  <section class="screen page" id="s-contacts" aria-labelledby="ct-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="ct-h" data-i="contacts_h"></h1><span></span></header>
+    <div class="pb">
+      <div class="ct-hero" aria-hidden="true"><svg class="ic xl" aria-hidden="true"><use href="#i-shield"/></svg></div>
+      <p class="ct-intro" data-i="contacts_s"></p>
+      <div id="ct-list"></div>
+      <form class="card ct-form" id="ct-form" hidden novalidate>
+        <label class="field"><span data-i="c_name"></span><input class="input" id="ct-name" maxlength="60" autocomplete="off"></label>
+        <label class="field"><span data-i="c_phone"></span><input class="input" id="ct-phone" type="tel" inputmode="tel" dir="ltr" autocomplete="off" placeholder="05 55 12 34 56"></label>
+        <p class="set-err" id="ct-err" role="alert" hidden></p>
+        <div class="row"><button type="button" class="btn ghost" id="ct-cancel" data-i="cancel"></button><button type="submit" class="btn primary" id="ct-save" data-i="save"></button></div>
+      </form>
+      <button type="button" class="btn primary" id="ct-add" data-i="add_contact"></button>
+      <p class="ct-note" data-i="auto_note"></p>
+    </div>
+  </section>
+
+  <section class="screen page" id="s-sos" aria-labelledby="sos-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="sos-h">SOS</h1><span></span></header>
+    <div class="pb">
+      <div class="sos-hero" aria-hidden="true"><svg class="ic xl" aria-hidden="true"><use href="#i-alert"/></svg></div>
+      <h2 class="sos-title" data-i="sos_h"></h2>
+      <div id="sos-list"></div>
+      <button type="button" class="btn ghost" id="sos-add" data-i="add_contact" hidden></button>
+      <p class="ct-note" data-i="auto_note"></p>
+    </div>
+  </section>

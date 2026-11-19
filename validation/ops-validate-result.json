@@ -1,0 +1,466 @@
+{
+ "node": "v22.23.4",
+ "sqlite": "3.53.4",
+ "results": [
+  {
+   "id": "server.start",
+   "ok": true,
+   "detail": "port 36803"
+  },
+  {
+   "id": "seed.driver_doc_upload",
+   "ok": true,
+   "detail": "[200,200]"
+  },
+  {
+   "id": "wal.active_before_backup",
+   "ok": true,
+   "detail": "wal bytes=366712"
+  },
+  {
+   "id": "perm.live_db_0600",
+   "ok": true,
+   "detail": "600"
+  },
+  {
+   "id": "perm.live_wal_0600",
+   "ok": true,
+   "detail": "600"
+  },
+  {
+   "id": "perm.live_shm_0600",
+   "ok": true,
+   "detail": "600"
+  },
+  {
+   "id": "perm.uploads_dir_0700",
+   "ok": true,
+   "detail": "700"
+  },
+  {
+   "id": "perm.upload_file_0600",
+   "ok": true,
+   "detail": "600"
+  },
+  {
+   "id": "backup.while_wal_active_exit0",
+   "ok": true,
+   "detail": "(node:2483) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created) concurrent_writes=1"
+  },
+  {
+   "id": "backup.manifest_format",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "backup.db_checksum_matches_manifest",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "backup.snapshot_integrity_ok",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "backup.snapshot_contains_wal_only_rows",
+   "ok": true,
+   "detail": "{\"users\":2,\"drivers\":1,\"docs\":1} mainfile_users_at_check=2"
+  },
+  {
+   "id": "perm.backup_dir_0700",
+   "ok": true,
+   "detail": "700"
+  },
+  {
+   "id": "perm.backup_snapshot_0600",
+   "ok": true,
+   "detail": "600"
+  },
+  {
+   "id": "backup.no_staging_leftover",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "restore.separate_destination_exit0",
+   "ok": true,
+   "detail": "(node:2490) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "restore.integrity_ok",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "restore.records_match_source",
+   "ok": true,
+   "detail": "{\"users\":2,\"drivers\":1,\"docs\":1,\"wl\":0}"
+  },
+  {
+   "id": "restore.upload_preserved_bytes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "restore.upload_checksum_matches_manifest",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "restore.source_db_untouched_by_scripts",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "overwrite.restore_existing_dir_refused",
+   "ok": true,
+   "detail": "restore failed: restore target already exists; refusing to overwrite\n(node:2497) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "overwrite.backup_existing_dir_refused",
+   "ok": true,
+   "detail": "backup failed: backup destination already exists\n(node:2504) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "overwrite.restore_onto_file_refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "overwrite.restore_onto_symlink_to_dir_refused",
+   "ok": true,
+   "detail": "restore failed: restore target already exists; refusing to overwrite\n(node:2518) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "overwrite.restore_onto_dangling_symlink_refused",
+   "ok": true,
+   "detail": "status=1 restore failed: restore target already exists; refusing to overwrite\n(node:2525) ExperimentalWarning: SQLite is an experimental feature and might chan"
+  },
+  {
+   "id": "overwrite.backup_onto_dangling_symlink_refused",
+   "ok": true,
+   "detail": "status=1 backup failed: backup destination already exists\n(node:2532) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use "
+  },
+  {
+   "id": "cleanup.backup_fail_symlink_in_uploads",
+   "ok": true,
+   "detail": "backup failed: symlink not allowed in uploads: evil\n(node:2539) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created) left="
+  },
+  {
+   "id": "cleanup.backup_fail_special_file",
+   "ok": true,
+   "detail": "backup failed: unsupported upload entry: pipe\n(node:2547) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created) left="
+  },
+  {
+   "id": "cleanup.backup_fail_corrupt_db",
+   "ok": true,
+   "detail": "backup failed: source database integrity_check failed\n(node:2554) ExperimentalWarning: SQLite is an experimental feature left="
+  },
+  {
+   "id": "cleanup.backup_fail_missing_db_creates_nothing",
+   "ok": true,
+   "detail": "backup failed: database file not found: /tmp/kherja-opsval-v5DdSH/absent.db\n(node:2561) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "cleanup.restore_fail_tampered_db",
+   "ok": true,
+   "detail": "restore failed: database checksum mismatch\n(node:2568) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created) left="
+  },
+  {
+   "id": "cleanup.restore_fail_tampered_upload",
+   "ok": true,
+   "detail": "restore failed: upload checksum mismatch: 2d25f4e66b62b2d9be82f1ef611640ce.png\n(node:2575) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created) left="
+  },
+  {
+   "id": "cleanup.restore_fail_midcopy_removes_staging",
+   "ok": true,
+   "detail": "restore failed: EEXIST: file already exists, copyfile '/tmp/kherja-opsval-v5DdSH/bkcopy-dup/uploads/2d25f4e66b62b2d9be82 left="
+  },
+  {
+   "id": "cleanup.restore_fail_integrity_with_matching_checksum",
+   "ok": true,
+   "detail": "restore failed: database integrity_check failed\n(node:2589) ExperimentalWarning: SQLite is an experimental feature and m left="
+  },
+  {
+   "id": "traversal.upload_dotdot_rejected",
+   "ok": true,
+   "detail": "restore failed: unsafe manifest path\n(node:2596) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "traversal.upload_absolute_rejected",
+   "ok": true,
+   "detail": "restore failed: unsafe manifest path\n(node:2603) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "traversal.upload_backslash_dotdot_rejected",
+   "ok": true,
+   "detail": "restore failed: unsafe manifest path\n(node:2610) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "traversal.database_path_rejected",
+   "ok": true,
+   "detail": "restore failed: unsafe manifest path\n(node:2617) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "traversal.db_basename_rejected",
+   "ok": true,
+   "detail": "restore failed: unsupported or invalid backup manifest\n(node:2624) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "traversal.db_basename_dotdot_rejected",
+   "ok": true,
+   "detail": "restore failed: unsupported or invalid backup manifest\n(node:2631) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "traversal.symlinked_upload_file_rejected",
+   "ok": true,
+   "detail": "restore failed: symlink not allowed in backup: 2d25f4e66b62b2d9be82f1ef611640ce.png\n(node:2638) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+  },
+  {
+   "id": "traversal.symlinked_uploads_dir_rejected",
+   "ok": true,
+   "detail": "status=1 restore failed: uploads must be a real directory, not a symlink\n(node:2645) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n"
+  },
+  {
+   "id": "traversal.nothing_left_after_rejections",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "pathval.backup_dest_inside_upload_dir_rejected",
+   "ok": true,
+   "detail": "status=1 dest_created_inside_uploads=false backup failed: backup destination must not be inside the upload directory\n(node:2652) ExperimentalWarning: SQLite is an experimental feature and might"
+  },
+  {
+   "id": "pathval.backup_rejects_upload_dir_containing_db",
+   "ok": true,
+   "detail": "status=1 backup failed: UPLOAD_DIR must not equal or contain the database file\n(node:2659) ExperimentalWarning: SQLite is an experimental feature and might cha"
+  },
+  {
+   "id": "shutdown.SIGTERM_clean_exit0_within_10s_with_idle_keepalive",
+   "ok": true,
+   "detail": "{\"code\":0,\"sig\":null} ms=5"
+  },
+  {
+   "id": "shutdown.SIGTERM_logged",
+   "ok": true,
+   "detail": "kherja api on 127.0.0.1:39039 (DEV MODE)\nkherja: received SIGTERM; shutting down"
+  },
+  {
+   "id": "shutdown.SIGTERM_port_closed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "shutdown.SIGTERM_db_intact_and_committed",
+   "ok": true,
+   "detail": "rows=1 integrity=ok"
+  },
+  {
+   "id": "shutdown.SIGTERM_wal_checkpointed",
+   "ok": true,
+   "detail": "k.db,k.db-shm,k.db-wal,up"
+  },
+  {
+   "id": "shutdown.SIGINT_clean_exit0_within_10s_with_idle_keepalive",
+   "ok": true,
+   "detail": "{\"code\":0,\"sig\":null} ms=4"
+  },
+  {
+   "id": "shutdown.SIGINT_logged",
+   "ok": true,
+   "detail": "kherja api on 127.0.0.1:41041 (DEV MODE)\nkherja: received SIGINT; shutting down"
+  },
+  {
+   "id": "shutdown.SIGINT_port_closed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "shutdown.SIGINT_db_intact_and_committed",
+   "ok": true,
+   "detail": "rows=1 integrity=ok"
+  },
+  {
+   "id": "shutdown.SIGINT_wal_checkpointed",
+   "ok": true,
+   "detail": "k.db,k.db-shm,k.db-wal,up"
+  },
+  {
+   "id": "shutdown.inflight_request_completes_before_exit",
+   "ok": true,
+   "detail": "{\"code\":0,\"sig\":null} resp=HTTP/1.1 200 OK Content-Type: applicati"
+  },
+  {
+   "id": "shutdown.stuck_connection_bounded_by_force_timeout",
+   "ok": true,
+   "detail": "{\"code\":1,\"sig\":null} ms=10006"
+  },
+  {
+   "id": "health.ok_body_minimal",
+   "ok": true,
+   "detail": "{\"ok\":true,\"db\":\"ok\"}"
+  },
+  {
+   "id": "health.detects_db_failure_non2xx",
+   "ok": true,
+   "detail": "status=500 body={\"error\":\"server error\"}"
+  },
+  {
+   "id": "health.failure_body_no_disclosure",
+   "ok": true,
+   "detail": "{\"error\":\"server error\"}"
+  },
+  {
+   "id": "health.failure_body_not_ok_true",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "health.no_extra_headers_leak",
+   "ok": true,
+   "detail": "[\"content-type\",\"x-content-type-options\",\"cache-control\",\"date\",\"connection\",\"keep-alive\",\"transfer-encoding\"]"
+  },
+  {
+   "id": "proxy.untrusted_peer_spoofed_xff_ignored",
+   "ok": true,
+   "detail": "200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,429,429"
+  },
+  {
+   "id": "proxy.trusted_peer_uses_xff_buckets",
+   "ok": true,
+   "detail": "200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200"
+  },
+  {
+   "id": "proxy.trusted_peer_same_client_still_limited",
+   "ok": true,
+   "detail": "200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,429,429"
+  },
+  {
+   "id": "proxy.client_prepended_xff_entries_ignored_uses_last_hop",
+   "ok": true,
+   "detail": "200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,429,429"
+  },
+  {
+   "id": "proxy.malformed_or_empty_xff_falls_back_to_peer",
+   "ok": true,
+   "detail": "200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,429,429"
+  },
+  {
+   "id": "proxy.allowlist_other_ip_does_not_trust_ipv4_loopback_peer",
+   "ok": true,
+   "detail": "200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,429,429"
+  },
+  {
+   "id": "proxy.cidr_rejected_at_startup",
+   "ok": true,
+   "detail": "ERR"
+  },
+  {
+   "id": "config.reject.PORT=abc",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid PORT: expected an integer from 0 to 65535"
+  },
+  {
+   "id": "config.reject.PORT=65536",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid PORT: expected an integer from 0 to 65535"
+  },
+  {
+   "id": "config.reject.PORT=-1",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid PORT: expected an integer from 0 to 65535"
+  },
+  {
+   "id": "config.reject.PORT=1.5",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid PORT: expected an integer from 0 to 65535"
+  },
+  {
+   "id": "config.reject.PORT=08080",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid PORT: expected an integer from 0 to 65535"
+  },
+  {
+   "id": "config.reject.PORT=0x50",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid PORT: expected an integer from 0 to 65535"
+  },
+  {
+   "id": "config.reject.PORT=1e3",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid PORT: expected an integer from 0 to 65535"
+  },
+  {
+   "id": "config.reject.HOST=bad host",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid HOST"
+  },
+  {
+   "id": "config.reject.HOST=url",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid HOST"
+  },
+  {
+   "id": "config.reject.HOST=underscore",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid HOST"
+  },
+  {
+   "id": "config.reject.HOST=shell",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid HOST"
+  },
+  {
+   "id": "config.reject.HOST=999.999.999.999",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid HOST"
+  },
+  {
+   "id": "config.reject.ADMIN_PHONE only",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: ADMIN_PHONE and ADMIN_PASSWORD must be provided together"
+  },
+  {
+   "id": "config.reject.ADMIN_PASSWORD only",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: ADMIN_PHONE and ADMIN_PASSWORD must be provided together"
+  },
+  {
+   "id": "config.reject.ADMIN_PHONE bad",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid ADMIN_PHONE"
+  },
+  {
+   "id": "config.reject.ADMIN_PASSWORD short",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: ADMIN_PASSWORD must be at least 16 characters in secure mode"
+  },
+  {
+   "id": "config.reject.TRUSTED_PROXY_IPS cidr",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid TRUSTED_PROXY_IPS: use comma-separated IP addresses"
+  },
+  {
+   "id": "config.reject.SQLITE_BUSY_TIMEOUT_MS=-1",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid SQLITE_BUSY_TIMEOUT_MS (0..60000)"
+  },
+  {
+   "id": "config.reject.SQLITE_BUSY_TIMEOUT_MS=60001",
+   "ok": true,
+   "detail": "status=1 db_dir_created=false err=kherja: invalid SQLITE_BUSY_TIMEOUT_MS (0..60000)"
+  },
+  {
+   "id": "config.reject.dev_mode_non_loopback_host",
+   "ok": true,
+   "detail": "kherja: refusing to start: dev mode may only listen on a loopback address (got HOST=0.0.0.0)"
+  },
+  {
+   "id": "config.reject.upload_dir_containing_db",
+   "ok": true,
+   "detail": "status=1 out= err=kherja: invalid UPLOAD_DIR: it must not equal or contain DB_PATH"
+  }
+ ]
+}

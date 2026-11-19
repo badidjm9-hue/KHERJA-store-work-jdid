@@ -1,0 +1,1716 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075BFF">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="color-scheme" content="light dark">
+<script>(function(){try{var v=localStorage.getItem("kherja-theme");if(v==="light"||v==="dark")document.documentElement.dataset.theme=v}catch(e){}})()</script>
+<title>خرجة · Kherja</title>
+<style>
+
+/* ==========================================================================
+   Kherja design system v3 — cool gray, teal accent, frosted glass surfaces
+   Single source: driver.html / admin.html reuse this block via build-apps.js
+   ========================================================================== */
+@font-face{font-family:'Plus Jakarta Sans';font-weight:400;font-style:normal;font-display:swap;src:url('/fonts/pjs-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Plus Jakarta Sans';font-weight:500;font-style:normal;font-display:swap;src:url('/fonts/pjs-500.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Plus Jakarta Sans';font-weight:600;font-style:normal;font-display:swap;src:url('/fonts/pjs-600.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Plus Jakarta Sans';font-weight:700;font-style:normal;font-display:swap;src:url('/fonts/pjs-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Plus Jakarta Sans';font-weight:800;font-style:normal;font-display:swap;src:url('/fonts/pjs-800.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Tajawal';font-weight:400;font-style:normal;font-display:swap;src:url('/fonts/tajawal-ar-400.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:'Tajawal';font-weight:400;font-style:normal;font-display:swap;src:url('/fonts/tajawal-lat-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122}
+@font-face{font-family:'Tajawal';font-weight:500;font-style:normal;font-display:swap;src:url('/fonts/tajawal-ar-500.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:'Tajawal';font-weight:500;font-style:normal;font-display:swap;src:url('/fonts/tajawal-lat-500.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122}
+@font-face{font-family:'Tajawal';font-weight:700;font-style:normal;font-display:swap;src:url('/fonts/tajawal-ar-700.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:'Tajawal';font-weight:700;font-style:normal;font-display:swap;src:url('/fonts/tajawal-lat-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122}
+:root{
+  /* brand */
+  --brand:#075BFF;--brand-deep:#0647D8;--teal:#075BFF;
+  --bg:#F1F5FF;--surface:#FFFFFF;--surface-2:#F7F9FF;--ink:#101B35;--border:#DCE7FA;--border-input:#AFC5F0;
+  --text:#101B35;--muted:#5E6B86;
+  --accent:#075BFF;--accent-text:#0647D8;--accent-press:#0647D8;--on-accent:#FFFFFF;
+  --pop:#56A0FF;--mint:#C9DDFF;--violet:#075BFF;
+  --price:#101B35;--warn:#8A4B00;--danger:#C4001A;--success:#0E7C4A;--soft:#E5EFFF;--teal-soft:#E5EFFF;
+  --map1:#E6E9F8;--map2:#DCE0F4;--road:#FFFFFF;--water:#CFE3F5;--park:#DCEBE6;
+  /* glass */
+  --glass:rgba(255,255,255,.66);--glass-strong:rgba(255,255,255,.82);--glass-border:rgba(255,255,255,.92);--glass-edge:rgba(91,75,219,.08);
+  /* radii: 12 / 18 / 28 — one scale */
+  --r-sm:12px;--r-md:18px;--r-lg:28px;--r-xl:36px;--r-pill:999px;
+  /* spacing: 4pt grid */
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;
+  /* shadow scale */
+  --shadow-sm:0 1px 2px rgba(23,23,23,.08),0 2px 6px rgba(23,23,23,.05);--shadow-md:0 8px 20px -8px rgba(91,75,219,.2),0 2px 6px rgba(23,23,23,.06);--shadow-lg:var(--shadow);
+  /* motion */
+  --d-fast:140ms;--d-base:240ms;--d-slow:420ms;
+  /* depth */
+  --shadow:0 18px 44px -16px rgba(91,75,219,.22),0 2px 8px rgba(91,75,219,.08);
+  --hard:0 2px 6px rgba(28,25,23,.1);
+  --lift:0 10px 24px -8px rgba(91,75,219,.38),0 2px 4px rgba(91,75,219,.18);
+  --ease:cubic-bezier(.2,.8,.2,1);--spring:cubic-bezier(.34,1.4,.5,1);
+  /* type */
+  --f-ar:"Tajawal","Noto Sans Arabic",Tahoma,sans-serif;
+  --f-lat:"Plus Jakarta Sans","Tajawal",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --t-display:32px;--t-title:22px;--t-heading:18px;--t-body:16px;--t-small:14px;--t-cap:12px;
+}
+:root[data-theme="dark"]{
+  --bg:#0F1020;--surface:#191A2E;--surface-2:#212239;--ink:#000;--border:#2D2F4D;--border-input:#5A5D85;
+  --text:#F2F2FA;--muted:#A9ABC9;--accent:#075BFF;--accent-text:#9CC4FF;--accent-press:#075BFF;--on-accent:#FFFFFF;
+  --pop:#8DB5FF;--mint:#5A8BFF;--price:#E8E6FF;--warn:#FBBF24;--danger:#FF9A9A;--success:#6CE9A6;--soft:#2A2750;--teal-soft:#26244A;
+  --map1:#16172B;--map2:#1D1E37;--road:#2E3050;--water:#17304F;--park:#1A3A36;
+  --glass:rgba(25,26,46,.64);--glass-strong:rgba(25,26,46,.86);--glass-border:rgba(255,255,255,.12);--glass-edge:rgba(255,255,255,.06);
+  --shadow:0 18px 40px -12px rgba(0,0,0,.7),0 2px 6px rgba(0,0,0,.4);--lift:0 10px 24px -8px rgba(106,89,238,.5)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1020;--surface:#191A2E;--surface-2:#212239;--ink:#000;--border:#2D2F4D;--border-input:#5A5D85;
+  --text:#F2F2FA;--muted:#A9ABC9;--accent:#075BFF;--accent-text:#9CC4FF;--accent-press:#075BFF;--on-accent:#FFFFFF;
+  --pop:#8DB5FF;--mint:#5A8BFF;--price:#E8E6FF;--warn:#FBBF24;--danger:#FF9A9A;--success:#6CE9A6;--soft:#2A2750;--teal-soft:#26244A;
+  --map1:#16172B;--map2:#1D1E37;--road:#2E3050;--water:#17304F;--park:#1A3A36;
+  --glass:rgba(25,26,46,.64);--glass-strong:rgba(25,26,46,.86);--glass-border:rgba(255,255,255,.12);--glass-edge:rgba(255,255,255,.06);
+  --shadow:0 18px 40px -12px rgba(0,0,0,.7),0 2px 6px rgba(0,0,0,.4);--lift:0 10px 24px -8px rgba(106,89,238,.5)}}
+
+
+/* Kherja v3 — passenger vehicle selection */
+.vehicle-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 14px}
+.vehicle-option{position:relative;display:flex;align-items:center;gap:10px;min-width:0;min-height:82px;padding:12px;border-radius:22px;text-align:start;
+  background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 8px 22px rgba(38,55,70,.07),inset 0 1px 0 rgba(255,255,255,.9);
+  backdrop-filter:blur(18px) saturate(1.45);-webkit-backdrop-filter:blur(18px) saturate(1.45);
+  transition:transform .2s var(--spring),border-color .2s,background .2s,box-shadow .2s}
+.vehicle-option:active{transform:scale(.98)}
+.vehicle-option[aria-pressed=true]{border:1.5px solid var(--accent);background:rgba(230,227,251,.78);box-shadow:0 8px 22px rgba(91,75,219,.12),inset 0 0 0 1px rgba(91,75,219,.08)}
+.vehicle-art{width:42px;height:42px;flex:none;border-radius:15px;display:grid;place-items:center;color:var(--accent);background:rgba(255,255,255,.78)}
+.vehicle-copy{display:flex;flex-direction:column;min-width:0;gap:2px}
+.vehicle-copy b{font-size:14px;line-height:1.4}
+.vehicle-copy small{font-size:11px;color:var(--muted);line-height:1.35}
+.vehicle-check{position:absolute;top:7px;inset-inline-end:8px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;
+  color:white;background:var(--accent);opacity:0;transform:scale(.7);transition:.18s}
+.vehicle-option[aria-pressed=true] .vehicle-check{opacity:1;transform:scale(1)}
+@media(prefers-reduced-transparency:reduce){.vehicle-option{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--surface)}}
+@supports not (backdrop-filter:blur(1px)){.vehicle-option{background:var(--surface)}}
+
+[hidden]{display:none!important}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:var(--f-lat);font-size:var(--t-body);line-height:1.5;font-weight:500;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:lang(ar) body,:lang(ar) button,:lang(ar) input,:lang(ar) select{font-family:var(--f-ar)}
+:lang(ar) body{line-height:1.8}:lang(ar) h1,:lang(ar) h2{line-height:1.45}:lang(ar) *{letter-spacing:0!important;font-kerning:normal}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
+.app{position:relative;max-width:430px;height:100dvh;margin:0 auto;overflow:hidden;background:var(--bg)}
+@media(min-width:500px){.app{height:min(880px,100dvh);margin-top:max(0px,calc((100dvh - 880px)/2));border-radius:40px;box-shadow:0 30px 80px -20px rgba(60,60,130,.18);border:1px solid var(--border)}}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.num{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums;font-family:var(--f-lat)}
+
+/* screens: ambient warm wash + native-style push transition */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;padding:max(28px,env(safe-area-inset-top)) 24px max(24px,env(safe-area-inset-bottom));
+  background:radial-gradient(120% 60% at 100% 0,color-mix(in srgb,var(--accent) 7%,transparent),transparent 60%),var(--bg);
+  opacity:0;pointer-events:none;transform:translateX(-28px) scale(.99);transition:opacity .3s var(--ease),transform .45s var(--ease)}
+[dir=ltr] .screen{transform:translateX(28px) scale(.99)}
+.screen.on{opacity:1;pointer-events:auto;transform:none}
+h1{font-size:var(--t-display);line-height:1.2;margin:0 0 8px;font-weight:700}
+p.sub{color:var(--muted);margin:0 0 24px}
+.wm{font-size:18px;font-weight:700;margin:0 0 8px;color:var(--accent-text)}
+
+/* brand mark */
+.logo{width:76px;height:76px;border-radius:26px;background:transparent;display:grid;place-items:center;margin-bottom:20px;overflow:hidden;
+  box-shadow:0 18px 30px -10px rgba(7,91,255,.28);animation:float 5s ease-in-out infinite}
+.logo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:26px}
+@keyframes float{50%{transform:translateY(-5px)}}
+
+/* buttons */
+.btn{min-height:54px;padding:0 24px;border-radius:var(--r-md);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden;
+  transition:transform .18s var(--spring),box-shadow .2s var(--ease),filter .15s}
+.btn:active{transform:scale(.96)}
+.btn.primary{background:linear-gradient(180deg,#075BFF,var(--accent) 60%,var(--accent-press));color:var(--on-accent);box-shadow:var(--lift),inset 0 1px 0 rgba(255,255,255,.28)}
+.btn.primary:active{box-shadow:0 3px 8px -2px rgba(91,75,219,.5)}
+.btn.ghost{background:var(--surface);border:1.5px solid var(--border);color:var(--text)}
+.btn.danger{background:var(--surface);border:1.5px solid var(--danger);color:var(--danger)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn.loading{pointer-events:none;color:transparent}
+.btn.loading::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* forms */
+.field{display:block;margin-bottom:16px}
+.field span{display:block;font-size:var(--t-small);font-weight:600;margin-bottom:8px;color:var(--muted)}
+.input{width:100%;min-height:54px;border-radius:var(--r-md);border:1.5px solid var(--border);background:var(--surface);padding:0 16px;font:inherit;color:var(--text);transition:border-color .2s,box-shadow .2s}
+.input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+.lang{display:grid;gap:12px;margin-top:8px}
+.lang button{padding:16px 18px;border-radius:var(--r-md);background:var(--surface);border:1.5px solid var(--border);text-align:start;font-weight:600;display:flex;justify-content:space-between;align-items:center;transition:transform .18s var(--spring),border-color .2s}
+.lang button:active{transform:scale(.98)}
+.lang button[aria-pressed=true]{border-color:var(--accent);background:var(--soft);color:var(--accent-text);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+.otp{display:flex;gap:8px;direction:ltr;margin-bottom:16px}
+.otp input{flex:1;min-width:0;height:62px;text-align:center;font-size:24px;font-weight:700;border-radius:var(--r-md);border:1.5px solid var(--border);background:var(--surface);color:var(--text);transition:border-color .2s,box-shadow .2s,transform .2s var(--spring)}
+.otp input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent);transform:translateY(-2px)}
+.spacer{flex:1}
+.err{color:var(--danger);font-size:var(--t-small);min-height:21px;margin:-4px 0 8px;font-weight:600}
+
+/* onboarding screens: deep brand canvas with soft depth orbs */
+#s-lang,#s-phone,#s-otp{background:radial-gradient(90% 50% at 100% 0,rgba(124,108,245,.38),transparent 60%),radial-gradient(70% 45% at 0 100%,rgba(199,194,247,.25),transparent 60%),linear-gradient(165deg,#174C9C 0%,#123A7D 70%,#0B2860 100%);color:#fff}
+#s-lang h1,#s-phone h1,#s-otp h1,#s-lang .sub,#s-phone .sub,#s-otp .sub,#s-phone .field>span,#s-lang .wm,#s-phone .wm,#s-otp .wm,#s-otp b{color:#fff}
+#s-lang .sub,#s-phone .sub,#s-otp .sub{opacity:.88}
+#s-lang .btn.primary,#s-phone .btn.primary,#s-otp .btn.primary{background:#fff;color:var(--brand-deep);box-shadow:0 14px 28px -10px rgba(0,0,0,.45)}
+#s-lang .lang button{background:rgba(255,255,255,.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#fff;border-color:rgba(255,255,255,.35)}
+#s-lang .lang button[aria-pressed=true]{background:#fff;color:var(--brand-deep);border-color:#fff;box-shadow:0 14px 28px -10px rgba(0,0,0,.4)}
+#s-phone .err,#s-otp .err{color:#FFE2A8}
+#s-phone .input{background:rgba(255,255,255,.95);color:#1C1917}
+#s-otp .otp input{background:rgba(255,255,255,.95);color:#1C1917}
+#s-lang .logo{background:transparent;box-shadow:0 22px 40px -12px rgba(0,0,0,.35)}
+
+/* map: the main environment */
+.map{position:absolute;inset:0;background:var(--map1)}
+.map svg{width:100%;height:100%;display:block}
+.map .gm-style{width:100%;height:100%}.map .gm-style iframe{border:0}
+#my-location{position:absolute;top:calc(max(16px,env(safe-area-inset-top)) + 64px);inset-inline-end:16px;z-index:5;min-width:48px;height:48px;padding:0 14px;color:var(--accent);background:var(--glass-strong)}
+.topbar{position:absolute;top:max(16px,env(safe-area-inset-top));inset-inline:16px;display:flex;justify-content:space-between;gap:8px;z-index:5}
+
+/* glass: chips, sheets, offers. Falls back to solid surface when blur is unsupported or reduced */
+.chip{height:52px;min-width:52px;padding:0 20px;border-radius:26px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--danger);
+  background:var(--glass-strong);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border:1px solid var(--glass-border);box-shadow:var(--shadow);transition:transform .18s var(--spring)}
+.chip:active{transform:scale(.94)}
+.chip svg{flex:none}
+@media(prefers-reduced-transparency:reduce){.chip,.sheet,.offer{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--surface)}}
+@supports not (backdrop-filter:blur(1px)){.chip,.sheet,.offer{background:var(--surface)}}
+
+/* bottom sheets */
+.sheet{position:absolute;inset-inline:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:6;background:var(--glass-strong);backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);
+  border:1px solid var(--glass-border);border-radius:var(--r-lg) var(--r-lg) 32px 32px;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.5);padding:8px 20px 20px;
+  transform:translateY(120%);opacity:0;pointer-events:none;will-change:transform;touch-action:none;max-height:86%;display:flex;flex-direction:column}
+.sheet.on{transform:translateY(0);opacity:1;pointer-events:auto;transition:transform .55s var(--spring),opacity .3s var(--ease)}
+.sheet:not(.on){transition:transform .35s var(--ease),opacity .2s}
+.grab{width:42px;height:5px;border-radius:3px;background:var(--border-input);opacity:.4;margin:4px auto 14px;flex:none}
+.sheet h2{font-size:var(--t-title);margin:0 0 12px;font-weight:700}
+.place{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--glass-edge);min-height:56px;font-weight:600}
+.ic{width:24px;height:24px;flex:none}.ic.sm{width:16px;height:16px;vertical-align:-2px}.ic.xl{width:34px;height:34px}
+
+/* 3D-style icon chips: layered gradient, inner highlight, soft contact shadow */
+.pi{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;flex:none;color:#fff;
+  background:linear-gradient(150deg,#5A8BFF,#075BFF 60%,#0647D8);box-shadow:0 8px 14px -6px rgba(91,75,219,.35),inset 0 1.5px 0 rgba(255,255,255,.4),inset 0 -3px 5px rgba(40,30,120,.3)}
+.pi.b{background:linear-gradient(150deg,#56A0FF,#075BFF 60%,#0647D8);box-shadow:0 8px 14px -6px rgba(91,75,219,.6),inset 0 1.5px 0 rgba(255,255,255,.4),inset 0 -3px 5px rgba(40,30,120,.35)}
+.recents{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+.recents button{flex:none;padding:10px 16px;border-radius:22px;background:var(--surface);border:1px solid var(--border);font-size:var(--t-small);min-height:44px;font-weight:600;transition:transform .18s var(--spring)}
+.recents button:active{transform:scale(.94)}
+
+/* fare stepper */
+.price{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0}
+.price .step{width:64px;height:64px;border-radius:50%;background:var(--surface);color:var(--accent-text);border:1px solid var(--border);display:grid;place-items:center;box-shadow:var(--hard),inset 0 -3px 6px rgba(91,75,219,.08);transition:transform .18s var(--spring)}
+.price .step:active{transform:scale(.88)}
+.price .val{text-align:center;flex:1}
+.price .val b,.big{font-size:46px;line-height:1.1;color:var(--price);font-weight:800}
+.price .val small{display:block;color:var(--muted);font-size:var(--t-small);margin-top:4px}
+.warn{background:#FFF1CC;color:#5C3D00;border-radius:var(--r-sm);padding:10px 12px;font-size:var(--t-small);margin-bottom:8px;font-weight:600}
+@media(prefers-color-scheme:dark){.warn{background:#3B2E10;color:#FCE7A8}}
+.row{display:flex;gap:10px;margin-top:8px}
+.row .btn{flex:1}
+.pay label{display:inline-flex;align-items:center;gap:8px;min-height:44px}.pay input{width:24px;height:24px;accent-color:var(--accent)}
+.pay{display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:var(--muted);font-size:var(--t-small);margin:4px 0 8px}.pay svg{flex:none;width:28px;height:28px}
+
+/* radar */
+.radar{position:relative;height:150px;display:grid;place-items:center;margin:4px 0}
+.radar i{position:absolute;width:64px;height:64px;border-radius:50%;border:2px solid var(--accent);animation:ping 2.4s var(--ease) infinite;opacity:0}
+.radar i:nth-child(2){animation-delay:.8s}.radar i:nth-child(3){animation-delay:1.6s}
+.radar b{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#F59A63,var(--accent));border:3px solid #fff;box-shadow:0 6px 14px rgba(91,75,219,.5)}
+@keyframes ping{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+
+/* offers (rider side) */
+.offers{overflow-y:auto;display:grid;gap:10px;padding:4px 2px 8px;margin:0 -2px;touch-action:pan-y}
+.offer{background:var(--glass-strong);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-border);box-shadow:var(--hard),inset 0 1px 0 rgba(255,255,255,.5);border-radius:var(--r-md);padding:14px;display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;animation:rise .55s var(--spring) both}
+@keyframes rise{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}
+.av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;color:#1C1917!important;box-shadow:inset 0 -3px 6px rgba(0,0,0,.12),0 4px 10px -4px rgba(0,0,0,.25)}
+.offer .nm{font-weight:700}
+.offer .meta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 10px}
+.star{color:var(--text);font-weight:700}.star .ic{color:#E8A317}
+.offer .pr{text-align:end}
+.offer .pr b{display:block;font-size:22px;color:var(--price);font-weight:800}
+.offer .pr .ok{font-size:12px;color:var(--success);font-weight:700}
+.offer .acts{grid-column:1/-1;display:flex;gap:8px;margin-top:2px}
+.offer .acts .btn{min-height:46px;flex:1;font-size:15px;padding:0 12px}
+.badge{display:inline-flex;font-size:12px;font-weight:700;padding:1px 10px;border-radius:10px;background:var(--teal-soft);color:var(--price)}
+.timer{height:4px;background:var(--border);border-radius:2px;overflow:hidden;grid-column:1/-1}
+.timer i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--pop));transform-origin:left;animation:shrink 45s linear forwards}
+[dir=rtl] .timer i{transform-origin:right}
+@keyframes shrink{to{transform:scaleX(0)}}
+
+.driver{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;margin-bottom:12px}
+.driver .av{width:56px;height:56px;font-size:22px}
+.plate{display:inline-block;border:1.5px solid var(--text);border-radius:6px;padding:0 8px;font-weight:700;font-size:14px;background:var(--surface)}
+.status{display:flex;align-items:center;gap:8px;font-weight:700;margin:4px 0 12px}
+.status i{width:10px;height:10px;border-radius:50%;background:var(--success);box-shadow:0 0 0 4px color-mix(in srgb,var(--success) 25%,transparent);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.locked{display:flex;gap:8px;align-items:center;font-size:var(--t-small);background:var(--teal-soft);color:var(--price);padding:10px 12px;border-radius:var(--r-sm);margin-bottom:12px;font-weight:700}.locked svg{width:28px;height:28px;flex:none}
+.round{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none;background:linear-gradient(150deg,#56A0FF,#075BFF 65%,#0647D8);box-shadow:0 10px 18px -8px rgba(91,75,219,.7),inset 0 1.5px 0 rgba(255,255,255,.4);transition:transform .18s var(--spring)}
+.round:active{transform:scale(.9)}.round .ic{width:28px;height:28px}
+.stars{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.stars button{width:52px;height:52px;display:grid;place-items:center;color:var(--border);transition:transform .25s var(--spring)}
+.stars button.on{color:#F5A400;transform:scale(1.12)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.tags button{padding:8px 14px;border-radius:22px;border:1.5px solid var(--border);background:var(--surface);font-size:var(--t-small);min-height:44px;font-weight:600;transition:transform .18s var(--spring)}
+.tags button:active{transform:scale(.94)}
+.tags button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.big{text-align:center}
+.toast{position:absolute;inset-inline:24px;top:max(72px,env(safe-area-inset-top));z-index:20;background:var(--glass-strong);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:var(--text);border:1px solid var(--glass-border);box-shadow:var(--shadow);padding:13px 18px;border-radius:var(--r-md);
+  font-size:var(--t-small);font-weight:700;transform:translateY(-300%) scale(.95);opacity:0;transition:transform .5s var(--spring),opacity .25s}
+.toast.on{transform:none;opacity:1}
+
+/* driver mode + generic request card */
+.dr{padding:0}
+.req{background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--r-md);padding:16px;margin-top:12px;animation:rise .55s var(--spring) both}
+.sw{width:66px;height:38px;border-radius:19px;background:var(--border-input);position:relative;transition:background .3s var(--ease);flex:none;box-shadow:inset 0 2px 4px rgba(0,0,0,.18)}
+.sw::after{content:"";position:absolute;top:4px;inset-inline-start:4px;width:30px;height:30px;border-radius:50%;background:#fff;box-shadow:0 3px 6px rgba(0,0,0,.3);transition:transform .35s var(--spring)}
+.sw[aria-checked=true]{background:var(--pop)}
+[dir=rtl] .sw[aria-checked=true]::after{transform:translateX(-28px)}
+[dir=ltr] .sw[aria-checked=true]::after{transform:translateX(28px)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.seg{display:flex;gap:6px;background:var(--soft);border-radius:var(--r-md);padding:5px;margin:0 0 12px}
+.seg button{flex:1;min-height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;color:var(--muted);transition:background .25s var(--ease),color .2s,box-shadow .25s}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--accent-text);box-shadow:var(--hard)}
+.chipsel{display:flex;gap:8px;margin:4px 0 8px}.chipsel button{flex:1;min-height:52px;border-radius:var(--r-md);border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;transition:transform .18s var(--spring)}
+.chipsel button:active{transform:scale(.96)}
+.chipsel button[aria-pressed=true]{border-color:var(--accent);background:var(--soft);color:var(--accent-text)}
+#dl .field.sm{margin-bottom:10px}#dl .field.sm span{font-size:13px;margin-bottom:4px}#dl .input{min-height:48px}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hint{font-size:var(--t-cap);color:var(--muted);margin:0 0 8px;line-height:1.7}
+#sh-request{overflow-y:auto;touch-action:pan-y}
+.dl-info{display:flex;gap:10px;align-items:center;font-size:var(--t-small);margin-bottom:10px}.tel{color:var(--accent-text);font-weight:700;text-decoration:none;margin-inline-start:8px}
+.kind-badge{display:inline-flex;gap:6px;align-items:center;font-size:13px;font-weight:700;color:#fff;background:var(--teal);border-radius:20px;padding:2px 12px;margin-bottom:6px}
+.sheet .field .input{min-height:50px}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.logo{animation:none}}
+
+/* Stage 1 — reference look: light lavender canvas for onboarding/gate (was dark teal) */
+#s-lang,#s-phone,#s-otp,#s-notice{background:radial-gradient(80% 45% at 100% 0,rgba(124,108,245,.22),transparent 62%),radial-gradient(70% 40% at 0 100%,color-mix(in srgb,var(--mint) 45%,transparent),transparent 62%),linear-gradient(180deg,var(--bg) 0%,var(--surface-2) 100%);color:var(--text)}
+#s-lang h1,#s-phone h1,#s-otp h1,#s-notice h1,#s-lang .sub,#s-phone .sub,#s-otp .sub,#s-notice .sub,#s-phone .field>span,#s-lang .wm,#s-phone .wm,#s-otp .wm,#s-otp b{color:var(--text)}
+#s-lang .sub,#s-phone .sub,#s-otp .sub,#s-notice .sub{color:var(--muted);opacity:1}
+#s-lang .btn.primary,#s-phone .btn.primary,#s-otp .btn.primary,#s-notice .btn.primary{background:linear-gradient(180deg,#075BFF,var(--accent) 60%,var(--accent-press));color:#fff;box-shadow:var(--lift),inset 0 1px 0 rgba(255,255,255,.28)}
+#s-lang .lang button{background:var(--glass-strong);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--text);border:1px solid var(--glass-border);box-shadow:var(--shadow)}
+#s-lang .lang button[aria-pressed=true]{background:var(--soft);color:var(--accent-text);border-color:var(--accent);box-shadow:var(--shadow)}
+#s-phone .err,#s-otp .err{color:var(--danger)}
+#s-phone .input,#s-otp .otp input{background:var(--surface);color:var(--text)}
+#s-lang .logo{background:var(--surface);box-shadow:var(--shadow)}
+#s-notice .btn.ghost{color:var(--accent-text);border:1.5px solid var(--border-input)}
+
+/* ===== Stage 2 — passenger screens (scoped to #s-map / #s-profile; driver & admin untouched) ===== */
+#s-map .btn,#s-profile .btn{min-height:46px;border-radius:12px;font-size:15px;font-weight:600;padding:0 20px}
+#s-map .input,#s-profile .input{min-height:46px;border-radius:12px;border:1px solid var(--border);background:var(--surface);font-size:14px;font-weight:500;padding:0 14px}
+#s-map .sheet .field .input{min-height:46px}
+#s-profile .field span{font-size:13px;font-weight:600}
+#s-map .sheet{border-radius:24px;padding:12px 16px 16px;box-shadow:var(--shadow)}
+#s-map .grab{width:36px;height:4px;margin:0 auto 12px}
+#s-map .sheet h2{font-size:18px;font-weight:700;margin:0 0 10px}
+#s-map .topbar{top:max(14px,env(safe-area-inset-top))}
+#s-map .chip{height:44px;min-width:44px;padding:0 14px;border-radius:20px;font-size:13px;font-weight:600;box-shadow:var(--shadow)}
+#s-map #p-logout{color:var(--text)}
+#s-map .seg{padding:4px;border-radius:12px;margin:0 0 10px}
+#s-map .seg button{min-height:40px;border-radius:9px;font-size:14px;font-weight:600}
+#s-map .place{background:var(--surface);border:1px solid var(--border)!important;border-radius:12px;padding:0 12px;min-height:46px;margin-bottom:8px;font-size:14px;font-weight:500}
+#s-map .pi{width:28px;height:28px;border-radius:50%;background:var(--soft);color:var(--accent);box-shadow:none}
+#s-map .pi .ic{width:16px;height:16px}
+#s-map .recents{padding:4px 0 6px;gap:8px;flex-wrap:wrap;overflow:visible}
+#s-map .recents button{min-height:36px;padding:0 14px;border-radius:18px;font-size:13px;font-weight:600}
+#s-map .vehicle-choice{gap:8px;margin:0 0 10px}
+#s-map .vehicle-option{min-height:68px;padding:10px;border-radius:16px;box-shadow:var(--shadow-sm)}
+#s-map .vehicle-art{width:38px;height:38px;border-radius:12px;background:var(--surface)}
+#s-map .vehicle-copy b{font-size:14px;font-weight:700}
+#s-map .price{margin:6px 0 10px}
+#s-map .price .step{width:48px;height:48px;box-shadow:var(--shadow-sm)}
+#s-map .price .val b,#s-map .big{font-size:38px;font-weight:700}
+#s-map .pay{margin:2px 0 8px;font-size:13px}
+#s-map .warn{border-radius:12px;font-size:13px}
+#s-map .radar{height:168px}
+#s-map .radar i{border-color:var(--accent)}
+#s-map .radar i:first-child{animation:spin 1.3s linear infinite;opacity:1;width:128px;height:128px;border:6px solid var(--soft);border-top-color:var(--accent);box-shadow:none}
+#s-map .radar b{background:var(--accent);border:4px solid var(--surface);box-shadow:var(--lift)}
+#s-map .offers{gap:12px}
+#s-map .offer{border-radius:16px;padding:14px;background:var(--surface);box-shadow:var(--shadow-sm);border:1px solid var(--border)}
+#s-map .av{background:var(--soft)!important;color:var(--accent-text)!important;box-shadow:none;font-weight:700}
+#s-map .offer .nm{font-weight:700;font-size:15px}
+#s-map .offer .meta{font-size:12px}
+#s-map .offer .pr b{font-size:24px;font-weight:700}
+#s-map .offer .acts{flex-direction:column-reverse;gap:8px}
+#s-map .offer .acts .btn{flex:none;width:100%;min-height:46px}
+#s-map .offer .acts .btn.ghost{background:var(--surface-2);border:0;color:var(--muted)}
+#s-map .timer{height:3px}
+#s-map .driver{grid-template-columns:52px 1fr auto}
+#s-map .driver .av{width:52px;height:52px;font-size:20px}
+#s-map .plate{border-width:1px;border-radius:6px;font-weight:600;font-size:13px}
+#s-map .locked{border-radius:12px;background:var(--soft);font-size:13px}
+#s-map .round{width:46px;height:46px;box-shadow:var(--lift)}
+#s-map .steps{display:flex;gap:6px;margin:0 0 12px}
+#s-map .steps i{flex:1;height:4px;border-radius:2px;background:var(--border);transition:background .4s var(--ease)}
+#s-map #sh-way[data-step="0"] .steps i:nth-child(-n+1),#s-map #sh-way[data-step="1"] .steps i:nth-child(-n+2),#s-map #sh-way[data-step="2"] .steps i{background:var(--accent)}
+#s-map #sh-done h2::before{content:"";display:block;width:60px;height:60px;margin:0 auto 10px;border-radius:50%;background:var(--success) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/30px no-repeat;box-shadow:0 10px 22px -8px rgba(14,124,74,.55);animation:pop .5s var(--spring) both}
+#s-map .stars button{width:44px;height:44px}
+#s-map .tags button{min-height:38px;padding:0 12px;font-size:13px;font-weight:600}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){#s-map #sh-done h2::before{animation:none}#s-map .radar i:first-child{animation-duration:3s}}
+
+.screen.scroll{overflow-y:auto;padding-bottom:128px}
+/* floating glass tab bar with sliding indicator */
+.tabbar{position:absolute;bottom:max(14px,env(safe-area-inset-bottom));inset-inline:16px;z-index:8;display:none;grid-template-columns:repeat(3,1fr);padding:6px;border-radius:30px;background:var(--glass-strong);backdrop-filter:blur(26px) saturate(1.8);-webkit-backdrop-filter:blur(26px) saturate(1.8);border:1px solid var(--glass-border);box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.5)}
+.app.tabs .tabbar{display:grid}
+.tabbar::before{content:"";position:absolute;top:6px;bottom:6px;inset-inline-start:6px;width:calc((100% - 12px)/3);border-radius:24px;background:var(--soft);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 22%,transparent);transition:transform .5s var(--spring);transform:translateX(calc(var(--i,0) * 100%))}
+[dir=rtl] .tabbar::before{transform:translateX(calc(var(--i,0) * -100%))}
+.tabbar button{position:relative;min-height:58px;border-radius:24px;display:grid;justify-items:center;align-content:center;gap:2px;font-size:12px;font-weight:700;color:var(--muted);transition:color .25s}
+.tabbar button .ic{width:26px;height:26px;transition:transform .4s var(--spring)}
+.tabbar button[aria-current=page]{color:var(--accent-text)}
+.tabbar button[aria-current=page] .ic{transform:translateY(-2px) scale(1.12)}
+.tabbar button:active .ic{transform:scale(.88)}
+.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px}
+.hdr h1{margin:0;font-size:28px}
+.card{background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--r-md);padding:16px;margin-bottom:12px}
+.banner{border-radius:var(--r-md);padding:14px 16px;margin-bottom:12px;font-weight:700;display:flex;gap:12px;align-items:center;background:#FFF1CC;color:#5C3D00}
+.banner.ok{background:var(--teal-soft);color:var(--price)}.banner.bad{background:#FDE2E2;color:#7A0010}
+@media(prefers-color-scheme:dark){.banner{background:#3B2E10;color:#FCE7A8}.banner.bad{background:#3F1418;color:#FFC9CF}}
+.banner .btn{min-height:44px;padding:0 16px;margin-inline-start:auto;font-size:14px}
+.doc{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
+.doc .thumb{width:72px;height:72px;border-radius:var(--r-sm);background:var(--soft);color:var(--accent-text);display:grid;place-items:center;overflow:hidden}
+.doc .thumb img{width:100%;height:100%;object-fit:cover}
+.doc h3{margin:0;font-size:16px}.doc p{margin:2px 0 8px;font-size:13px;color:var(--muted);line-height:1.6}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:2px 10px;border-radius:12px}
+.st.pending{background:#FFF1CC;color:#5C3D00}.st.approved{background:var(--teal-soft);color:var(--price)}.st.rejected{background:#FDE2E2;color:#7A0010}.st.missing{background:var(--soft);color:var(--muted)}
+.doc .row{margin-top:8px;flex-wrap:wrap}.doc .btn{min-height:44px;font-size:14px;padding:0 16px}
+.doc input[type=date]{min-height:44px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);padding:0 10px;font:inherit;font-size:14px}
+.reason{font-size:13px;color:var(--danger);font-weight:700;margin:0 0 6px}
+.bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin:8px 0 4px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--pop));border-radius:5px;transition:width .6s var(--spring)}
+.kv{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}.kv:last-child{border:0}.kv span:first-child{color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:32px 12px}
+.calls{display:grid;gap:8px;margin-top:10px}.calls .btn{min-height:48px;justify-content:flex-start}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 10px;border-radius:12px;background:var(--teal);color:#fff;margin-inline-end:6px}
+a.btn{text-decoration:none}
+.chk{display:flex;gap:12px;align-items:center;min-height:48px;margin:6px 0 12px;font-weight:500}.chk input{width:24px;height:24px;accent-color:var(--accent);flex:none}
+
+/* One-app shell: gate (shared login), role picker, notice screen. Uses the same tokens as both role views. */
+.roles{grid-template-columns:1fr 1fr;margin:0 0 14px}
+.roles button{min-height:48px;justify-content:center}
+.roles button[aria-checked=true]{border-color:var(--accent);background:var(--soft);color:var(--accent-text);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+#s-phone .roles button{background:var(--glass-strong);color:var(--text);border-color:var(--glass-border)}
+#s-phone .roles button[aria-checked=true]{background:var(--soft);color:var(--accent-text);border-color:var(--accent)}
+#s-phone .lang button{background:var(--glass-strong);color:var(--text);border-color:var(--glass-border)}
+#s-phone .lang button[aria-pressed=true]{background:var(--soft);color:var(--accent-text);border-color:var(--accent)}
+#s-phone .rl{display:block;font-size:var(--t-small);margin:0 0 6px;color:var(--muted)}
+
+#p-logout{color:var(--text);margin-inline-start:auto}
+#demo-hint[hidden]{display:none}
+
+/* --- 15 s offer countdown (display only; the server deadline is authoritative) --- */
+.offer .cd{margin-top:6px;font-size:13px;font-weight:700;color:var(--accent-text);display:flex;align-items:center;gap:6px}
+.offer .cd::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.offer .timer i{animation:none;transition:width .25s linear}
+#oempty{text-align:center;padding:18px 8px}#oempty[hidden]{display:none}
+.of-st.expired,.of-st.declined{color:var(--danger)}.of-st .dcd{color:var(--accent-text);font-weight:700}
+@media(prefers-reduced-motion:reduce){.offer .timer i{transition:none}}
+/* --- compact buttons --- */
+.btn.sm{min-height:36px;padding:0 14px;font-size:13px;border-radius:12px}
+/* --- driver vehicle card + change sheet --- */
+.vcard{display:grid;gap:10px}.vrow{display:flex;align-items:center;gap:12px}.vrow>div{flex:1;min-width:0}
+.vpend{display:grid;gap:6px;padding-top:10px;border-top:1px solid var(--border)}.vact{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.st.pending{background:color-mix(in srgb,var(--warn) 22%,transparent);color:var(--text)}.st.rejected{background:color-mix(in srgb,var(--danger) 20%,transparent);color:var(--text)}
+.vsheet{position:fixed;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center;background:rgba(10,12,14,.45)}.vsheet[hidden]{display:none}
+.vpanel{width:min(100%,480px);display:grid;gap:12px;padding:18px 16px max(18px,env(safe-area-inset-bottom));border-radius:24px 24px 0 0;background:var(--glass-strong);color:var(--text);border:1px solid var(--glass-border);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6)}
+@media(prefers-reduced-transparency:reduce){.vpanel{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none}}
+/* --- M0-6/7/8: token-based vehicle cards, readable in dark mode --- */
+.vehicle-option{background:var(--glass);color:var(--text);border:1px solid color-mix(in srgb,var(--text) 16%,transparent)}
+.vehicle-copy small{font-size:12px;color:var(--muted)}
+.vehicle-art{background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--accent-text)}
+.vehicle-check{color:var(--on-accent,#fff)}
+.vehicle-option[aria-pressed=true]{background:var(--teal-soft,rgba(221,243,239,.78));border-color:var(--accent)}
+:root[data-theme=dark] .vehicle-option[aria-pressed=true]{box-shadow:0 8px 22px rgba(0,0,0,.35),inset 0 0 0 1px color-mix(in srgb,var(--accent) 35%,transparent)}
+
+.map .leaflet-container{width:100%;height:100%;font-family:inherit;z-index:1}
+
+/* OSM address search + route controls */
+.map-search{position:absolute;z-index:8;top:74px;left:12px;right:12px;max-width:480px;margin:auto;display:grid;grid-template-columns:1fr auto;gap:7px;padding:10px;border-radius:16px;background:var(--glass-strong);border:1px solid var(--glass-border);box-shadow:0 8px 26px rgba(0,0,0,.12);backdrop-filter:blur(16px)}
+.map-search input{min-width:0;width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--surface);color:var(--text);font:inherit;grid-column:1/-1}
+.map-search button{grid-column:1/-1}
+.map-search small{grid-column:1/-1;color:var(--muted);font-size:12px;min-height:16px}
+.map-search[hidden]{display:none}
+/* Small screens: the route-search panel (top) must never cover the bottom sheet controls. The sheet scrolls inside the space below the panel. */
+#s-map .sheet{max-height:calc(100% - 262px);overflow-y:auto;overscroll-behavior:contain}
+
+/* ===== passenger extra screens (Stage 3 passenger): shared page chrome. Scoped by id/class; driver & admin untouched ===== */
+.screen.page{padding:0;background:var(--bg);overflow:clip}
+.screen.page:not(.on){visibility:hidden;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility 0s .25s}
+.page .ph{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding:max(14px,env(safe-area-inset-top)) 12px 8px;min-height:60px;flex:none}
+.page .ph h1{margin:0;text-align:center;font-size:17px;font-weight:700;color:var(--text)}
+.page .ph-back{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--text);background:transparent}
+.page .ph-back:active{background:var(--soft)}
+[dir=rtl] .page .ph-back .ic,[dir=rtl] .row-chev{transform:scaleX(-1)}
+.page .pb{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:4px 16px 16px;-webkit-overflow-scrolling:touch}
+.ptabs{display:flex;flex:none;gap:4px;padding:8px 12px max(10px,env(safe-area-inset-bottom));background:var(--glass-strong);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border-top:1px solid var(--glass-border);box-shadow:0 -8px 24px -16px rgba(91,75,219,.25)}
+.ptabs .ptab{flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:12px;color:var(--muted);font-size:11px;font-weight:600;transition:color .2s var(--ease),background .2s var(--ease)}
+.ptabs .ptab .ic{width:22px;height:22px}
+.ptabs .ptab[aria-current=true]{color:var(--accent-text);background:var(--soft)}
+.ptabs .ptab:active{transform:scale(.95)}
+#sh-home .ptabs{margin:10px -16px -16px;border-radius:0 0 24px 24px;border-top:1px solid var(--border);box-shadow:none;background:transparent;backdrop-filter:none}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm)}
+.st-box{display:grid;justify-items:center;gap:10px;text-align:center;padding:44px 16px;color:var(--muted)}
+.st-box b{color:var(--text);font-size:15px}.st-box p{margin:0;font-size:13px}
+.st-box .ic.xl{width:44px;height:44px;color:var(--accent)}
+.st-box .btn{min-width:160px}
+.spin{width:30px;height:30px;border-radius:50%;border:3px solid var(--soft);border-top-color:var(--accent);animation:spin .9s linear infinite}
+.chips{display:flex;gap:8px;margin:0 0 12px;flex-wrap:wrap}
+.chips button{min-height:36px;padding:0 14px;border-radius:18px;background:var(--surface);border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--muted)}
+.chips button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;font-size:12px;font-weight:700;background:var(--soft);color:var(--accent-text)}
+.badge.ok{background:color-mix(in srgb,var(--success) 18%,transparent);color:var(--success)}
+.badge.no{background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}
+@media(prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
+.page .av{background:var(--soft)!important;color:var(--accent-text)!important;box-shadow:none!important;font-weight:700}
+.pf-head b,.ct-id b,.hd-driver b,.hr-main b{unicode-bidi:plaintext}
+
+.hlist{display:grid;gap:10px}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;text-align:start;width:100%;min-height:64px;transition:transform .18s var(--spring)}
+.hrow:active{transform:scale(.98)}
+.hr-main{display:grid;gap:4px;min-width:0}.hr-main b{font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hr-main small{color:var(--muted);font-size:12px}
+.hr-end{display:grid;justify-items:end;gap:6px;flex:none}.hr-end b{font-size:15px;font-weight:700}
+.hd-card{padding:16px;margin-bottom:12px;display:grid;gap:12px}
+.hd-card h2{margin:0;font-size:14px;color:var(--muted);font-weight:600}
+.hd-driver{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center}.hd-driver small{display:block;color:var(--muted);font-size:12px}
+.hd-driver .av{width:48px;height:48px;font-size:18px;display:grid;place-items:center;border-radius:50%}
+.hd-route{display:flex;gap:12px;align-items:center}.hd-route small{display:block;color:var(--muted);font-size:12px}.hd-route b{font-size:14px;font-weight:600}
+.hd-amt{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted)}.hd-amt b{font-size:22px;color:var(--text);font-weight:700}
+.hd-date{text-align:center;color:var(--muted);font-size:12px;margin:0 0 12px}
+#hd-report{width:100%}
+.hd-card .badge{justify-self:start}
+
+.pf-head{display:grid;justify-items:center;gap:4px;padding:8px 0 18px;text-align:center}
+.pf-av{width:84px;height:84px;font-size:32px;display:grid;place-items:center;border-radius:50%;margin-bottom:6px;box-shadow:var(--shadow-sm)!important}
+.pf-head b{font-size:20px;font-weight:700}.pf-head small{color:var(--muted);font-size:13px}
+.menu{list-style:none;margin:0 0 16px;padding:4px 0;overflow:hidden}
+.menu li+li{border-top:1px solid var(--border)}
+.menu button{width:100%;min-height:54px;display:flex;align-items:center;gap:14px;padding:0 16px;font-size:15px;font-weight:600;color:var(--text);text-align:start}
+.menu button>span{flex:1}.menu button .ic{color:var(--accent);flex:none}.menu button .row-chev{color:var(--muted);width:18px;height:18px}
+.menu button:active{background:var(--soft)}
+#pf-logout{width:100%}
+.sec{font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 8px;text-transform:none}
+.chips.opt button{flex:1;min-height:44px;font-size:14px}
+.set-err{color:var(--danger);font-size:13px;font-weight:600}
+.faq{overflow:hidden;margin-bottom:16px}
+.faq details+details{border-top:1px solid var(--border)}
+.faq summary{list-style:none;cursor:pointer;min-height:54px;display:flex;align-items:center;padding:0 16px;font-weight:600;font-size:14px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";margin-inline-start:auto;color:var(--accent);font-size:20px;font-weight:500}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:0;padding:0 16px 16px;color:var(--muted);font-size:14px;line-height:1.6}
+#help-report{width:100%}
+
+.ct-hero,.sos-hero{width:84px;height:84px;margin:6px auto 12px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);box-shadow:var(--shadow-sm)}
+.sos-hero{background:color-mix(in srgb,var(--danger) 12%,transparent);color:var(--danger)}
+.ct-hero .ic.xl,.sos-hero .ic.xl{width:42px;height:42px}
+.ct-intro{text-align:center;color:var(--muted);font-size:14px;margin:0 0 16px}
+.sos-title{text-align:center;color:var(--danger);font-size:19px;font-weight:700;margin:0 0 16px}
+.ct-row{display:flex;align-items:center;gap:12px;padding:12px 14px;flex-wrap:wrap}
+.ct-row .av{width:44px;height:44px;font-size:17px;display:grid;place-items:center;border-radius:50%;flex:none}
+.ct-id{display:grid;gap:2px;flex:1;min-width:0}.ct-id b{font-size:14px;font-weight:700}.ct-id small{color:var(--muted);font-size:13px}
+.ct-icons{display:flex;gap:8px}
+.ct-icons .round{width:44px;height:44px}.ct-icons .round.alt{background:var(--soft);color:var(--accent);box-shadow:none}
+.ct-acts{display:flex;gap:8px;width:100%}.ct-acts .btn{flex:1;min-height:44px;font-size:14px;gap:6px}
+.ct-form{padding:16px;margin:12px 0;display:grid;gap:10px}
+.ct-form .row{margin-top:4px}
+#ct-add,#sos-add{width:100%;margin-top:12px}
+.ct-note{margin:14px 4px 0;padding:10px 12px;border-radius:12px;background:var(--soft);color:var(--accent-text);font-size:13px;font-weight:600;text-align:center}
+.ct-acts .btn{padding:0 8px;font-size:13px;white-space:nowrap}
+
+.rp-kinds{display:grid;gap:8px;margin-bottom:6px}
+.rp-kinds button{min-height:48px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:12px;background:var(--surface);border:1px solid var(--border);font-size:14px;font-weight:600;text-align:start;color:var(--text)}
+.rp-kinds .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border-input);flex:none;transition:border-color .2s,background .2s,box-shadow .2s}
+.rp-kinds button[aria-checked=true]{border-color:var(--accent);background:var(--soft)}
+.rp-kinds button[aria-checked=true] .dot{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--surface)}
+.rp-text{min-height:120px;padding:12px 14px;resize:none;line-height:1.5}
+#rp-send{width:100%;margin-top:14px}
+.ok-badge{width:60px;height:60px;border-radius:50%;background:var(--success) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/30px no-repeat;box-shadow:0 10px 22px -8px rgba(14,124,74,.55)}
+
+.ph-act{background:none;border:0;color:var(--accent-text);font:inherit;font-weight:600;font-size:14px;min-height:44px;padding:0 4px;cursor:pointer}
+.hrow.unread{border-inline-start:3px solid var(--accent)}
+.del-box{margin-top:28px}.del-box p{color:var(--muted);font-size:14px}.del-box .row{display:flex;gap:8px}.del-box .row .btn{flex:1}
+
+
+.dm-menu{flex:none;list-style:none;margin:0 0 14px;padding:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.dm-menu li+li{border-top:1px solid var(--border)}
+.dm-menu button{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:0 14px;background:none;border:0;color:var(--text);font:inherit;font-weight:600;cursor:pointer;text-align:start}
+.dm-menu button>span{flex:1}.dm-menu .row-chev{color:var(--muted)}[dir=rtl] .dm-menu .row-chev{transform:scaleX(-1)}
+.dm-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}.dm-h h1{flex:1;margin:0;font-size:20px}
+.dm-back{min-width:44px;min-height:44px;border-radius:12px;border:0;background:var(--soft);color:var(--accent-text);cursor:pointer;display:grid;place-items:center}[dir=rtl] .dm-back .ic{transform:scaleX(-1)}
+.dm-act{background:none;border:0;color:var(--accent-text);font:inherit;font-weight:600;min-height:44px;cursor:pointer}
+.dm-earn{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 16px}
+.dm-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px 8px;display:grid;gap:2px;text-align:center;min-width:0}.dm-card b{font-size:16px;overflow-wrap:anywhere}.dm-card small{color:var(--muted);font-size:12px}
+.dm-row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px 14px;margin-bottom:8px}
+.dm-row.unread{border-inline-start:3px solid var(--accent)}.dm-row>span{display:grid;gap:2px;min-width:0}.dm-row b{overflow-wrap:anywhere}.dm-row small{color:var(--muted);font-size:13px}.dm-end{text-align:end;justify-items:end}
+.dm-b.completed{color:var(--ok,#16a34a)}.dm-b.cancelled{color:var(--danger,#dc2626)}
+.dm-link{color:var(--accent-text);font-weight:700;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;padding:0 8px}
+.dm-st{text-align:center;color:var(--muted);padding:24px 8px}.dm-st .btn{margin-top:10px}
+.dm-sec{font-size:14px;color:var(--muted);margin:18px 0 8px}
+.dm-chips{display:flex;gap:8px;flex-wrap:wrap}.dm-chips button{min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+.dm-chips button[aria-pressed=true],.dm-chips button[aria-checked=true]{background:var(--soft);border-color:var(--accent);color:var(--accent-text)}
+.dm-form{display:grid;gap:12px;margin-top:12px}.dm-ok{text-align:center;font-weight:700;color:var(--accent-text);padding:20px 0}
+.screen.dm:not(.on){visibility:hidden}
+.screen.dm{padding:20px 16px 24px}.dm-menu .ic,.dm-back .ic{width:22px;height:22px;flex:none}
+.dm-earn,.dm-form,.dm-chips,#dm-hist,#dm-n-list,#dm-c-list{flex:none}
+#app{overflow:clip}
+
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol><symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol><symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol><symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></symbol><symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.7 8.9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol><symbol id="i-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-swap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol><symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></symbol><symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></symbol><symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol><symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol><symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol><symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></symbol><symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol><symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L8 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></symbol><symbol id="i-moto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17" r="3"/><circle cx="18.5" cy="17" r="3"/><path d="M8.5 17h5l3-7h-4"/><path d="M15 6h3l1 4"/><path d="m11 10 2.5 7"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></symbol><symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></symbol><symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol><symbol id="i-flag2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V4"/><path d="M5 4h13l-2 4 2 4H5"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3.5-5 7-5s7 1.5 7 5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 15c2.5.5 4 2 4 5"/></symbol></svg>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- GATE: shared language + phone + OTP. Removed from the DOM once the server has said which role this account has. -->
+<section class="screen" id="s-lang" aria-labelledby="t-lang" data-gate>
+  <div class="spacer"></div>
+  <div class="logo" aria-hidden="true"><img src="/assets/kj-icon-512.png" alt=""></div>
+  <p class="wm" aria-hidden="true">خرجة · Kherja</p><h1 data-i="brand_h"></h1><p class="sub" data-i="brand_s"></p>
+  <div class="lang" role="group" aria-label="Language / اللغة">
+    <button data-lang="ar" aria-pressed="true">العربية <span>✓</span></button>
+    <button data-lang="fr" aria-pressed="false">Français <span></span></button>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn primary" id="go-phone" data-i="continue"></button>
+</section>
+
+<section class="screen" id="s-phone" data-gate>
+  <div class="spacer"></div>
+  <div class="logo" aria-hidden="true"><img src="/assets/kj-icon-512.png" alt=""></div>
+  <p class="wm">خرجة · Kherja</p>
+  <h1 id="phone-h"></h1><p class="sub" id="phone-s"></p>
+  <div class="lang" id="inline-lang" role="group" aria-label="Language / اللغة" style="margin-bottom:16px;grid-template-columns:1fr 1fr" hidden>
+    <button data-lang="ar" aria-pressed="true">العربية</button><button data-lang="fr" aria-pressed="false">Français</button></div>
+  <span class="rl" id="role-l" data-i="role_l"></span>
+  <div class="lang roles" id="roles" role="radiogroup" aria-labelledby="role-l">
+    <button type="button" role="radio" data-role="rider" aria-checked="true" data-i="role_rider"></button>
+    <button type="button" role="radio" data-role="driver" aria-checked="false" data-i="role_driver"></button>
+  </div>
+  <label class="field"><span data-i="phone_l"></span><input class="input num" id="phone" inputmode="tel" autocomplete="tel" placeholder="05 55 12 34 56" maxlength="14"></label>
+  <div class="err" id="phone-err" role="alert"></div>
+  <div class="spacer"></div>
+  <button class="btn primary" id="send-otp" data-i="send_code"></button>
+</section>
+
+<section class="screen" id="s-otp" data-gate>
+  <div class="spacer"></div>
+  <h1 data-i="otp_h"></h1><p class="sub"><span data-i="otp_s"></span> <span class="num" id="otp-to"></span></p>
+  <div class="otp" id="otp" role="group" data-aria="otp_g"><input inputmode="numeric" maxlength="1" aria-label="1"><input inputmode="numeric" maxlength="1" aria-label="2"><input inputmode="numeric" maxlength="1" aria-label="3"><input inputmode="numeric" maxlength="1" aria-label="4"><input inputmode="numeric" maxlength="1" aria-label="5"><input inputmode="numeric" maxlength="1" aria-label="6"></div>
+  <div class="err" id="otp-err" role="alert"></div>
+  <p class="sub" id="demo-hint" hidden><span data-i="demo_code"></span> <b class="num">123456</b></p>
+  <div class="spacer"></div>
+  <button class="btn primary" id="verify" data-i="verify"></button>
+</section>
+
+<!-- NOTICE: admin-role account, wrong/blocked role, or no connection. Never logs the user out by itself. -->
+<template id="tpl-notice"><section class="screen" id="s-notice" role="alert">
+  <div class="spacer"></div>
+  <h1 id="notice-h"></h1><p class="sub" id="notice-s"></p>
+  <div class="spacer"></div>
+  <button class="btn primary" id="notice-retry" data-i="retry"></button>
+  <button class="btn ghost" id="notice-logout" style="margin-top:10px" data-i="logout"></button>
+</section></template>
+</div>
+
+<!-- Role views: inert until the shell mounts the one the server authorised. -->
+<template id="view-passenger"><!-- S04 profile -->
+  <section class="screen" id="s-profile">
+    <div class="spacer"></div>
+    <h1 data-i="prof_h"></h1><p class="sub" data-i="prof_s"></p>
+    <label class="field"><span data-i="name_l"></span><input class="input" id="name" autocomplete="name"></label>
+    <label class="field"><span data-i="city_l"></span>
+      <select class="input" id="city"><option>الجزائر العاصمة · Alger</option><option>وهران · Oran</option><option>قسنطينة · Constantine</option><option>عنابة · Annaba</option><option>سطيف · Sétif</option></select></label>
+    <div class="spacer"></div>
+    <button class="btn primary" id="finish" data-i="start"></button>
+  </section>
+
+  <!-- S05+ map and sheets -->
+  <section class="screen" id="s-map" style="padding:0">
+    <div class="map" id="map" aria-label="Map"></div>
+    <div class="topbar">
+      <button class="chip" id="sos" hidden><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg> <span data-i="sos"></span></button>
+      <button class="chip" id="my-location" type="button" aria-label="My location"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span data-i="my_location"></span></button>
+      <button class="chip" id="p-logout" type="button"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg> <span data-i="logout"></span></button>
+    </div>
+    <div class="map-search" id="map-search">
+      <input id="map-from" type="search" placeholder="من أين؟ / Départ" aria-label="Pickup address">
+      <input id="map-to" type="search" placeholder="إلى أين؟ / Destination" aria-label="Destination address">
+      <button class="btn primary sm" id="map-route" type="button">بحث عن المسار</button>
+      <small id="map-route-info" aria-live="polite"></small>
+    </div>
+
+    <div class="sheet" id="sh-home" aria-label="home">
+      <div class="grab"></div>
+      <div class="seg" role="group" data-aria="kind_g"><button data-kind="ride" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg><span data-i="k_ride"></span></button><button data-kind="delivery" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg><span data-i="k_del"></span></button></div>
+      <h2 id="hello"></h2>
+      <div class="vehicle-choice" id="vehicle-choice" role="group" data-aria="veh_group">
+        <button class="vehicle-option selected" type="button" data-ride-vehicle="car" aria-pressed="true">
+          <span class="vehicle-art car-art"><svg class="ic xl" aria-hidden="true"><use href="#i-car"/></svg></span>
+          <span class="vehicle-copy"><b data-i="choose_car"></b><small data-i="car_desc"></small></span>
+          <span class="vehicle-check" aria-hidden="true">✓</span>
+        </button>
+        <button class="vehicle-option" type="button" data-ride-vehicle="moto" aria-pressed="false">
+          <span class="vehicle-art moto-art"><svg class="ic xl" aria-hidden="true"><use href="#i-moto"/></svg></span>
+          <span class="vehicle-copy"><b data-i="choose_moto"></b><small data-i="moto_desc"></small></span>
+          <span class="vehicle-check" aria-hidden="true">✓</span>
+        </button>
+      </div>
+      <div class="place"><span class="pi a"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg></span><span data-i="from_val"></span></div>
+      <div class="place" style="border:0"><span class="pi b"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg></span><span data-i="to_val"></span></div>
+      <div class="recents" id="recents"></div>
+      <button class="btn primary" id="to-request" style="margin-top:8px" data-i="set_price"></button>
+      <nav class="ptabs" data-ptabs="home"></nav>
+    </div>
+
+    <div class="sheet" id="sh-request" aria-label="request">
+      <div class="grab"></div>
+      <h2 data-i="your_fare"></h2>
+      <div class="price">
+        <button class="step" id="minus" aria-label="-50"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg></button>
+        <div class="val"><b class="num" id="pval">450</b> <span data-i="dzd"></span><small><span data-i="recommended"></span> <span class="num" id="recommended-price">450</span></small><small id="fare-context" class="fare-context" data-i="fare_context"></small></div>
+        <button class="step" id="plus" aria-label="+50"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button>
+      </div>
+      <div id="dl" hidden>
+        <div class="chipsel" role="group" data-aria="item_g"><button data-item="food" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-food"/></svg><span data-i="it_food"></span></button><button data-item="parcel" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg><span data-i="it_parcel"></span></button></div>
+        <label class="field sm"><span data-i="dl_note_l"></span><input class="input" id="dl-note" maxlength="200" data-ph="dl_note_ph"></label>
+        <label class="field sm"><span data-i="dl_from_l"></span><input class="input" id="dl-from" maxlength="120" data-ph="dl_from_ph"></label>
+        <label class="field sm"><span data-i="dl_to_l"></span><input class="input" id="dl-to" maxlength="120" data-ph="dl_to_ph"></label>
+        <div class="two"><label class="field sm"><span data-i="dl_rn_l"></span><input class="input" id="dl-rn" maxlength="60" autocomplete="off"></label>
+        <label class="field sm"><span data-i="dl_rp_l"></span><input class="input num" id="dl-rp" inputmode="tel" maxlength="14" placeholder="05 55 …"></label></div>
+        <div class="err" id="dl-err" role="alert"></div>
+        <p class="hint" data-i="dl_rules"></p>
+      </div>
+      <div class="warn" id="lowwarn" hidden data-i="low_warn"></div>
+      <label class="field" style="margin:0"><span class="sr" data-i="note_l"></span><input class="input" id="note" data-ph="note_ph"></label>
+      <div class="pay"><svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg> <span data-i="cash"></span> · <label><input type="checkbox" id="women"> <span data-i="women_pref"></span></label></div>
+      <div class="row"><button class="btn ghost" id="back-home" data-i="back" style="flex:.4"></button><button class="btn primary" id="order" data-i="find_driver"></button></div>
+    </div>
+
+    <div class="sheet" id="sh-wait" aria-live="polite">
+      <div class="grab"></div>
+      <h2 data-i="searching"></h2>
+      <div class="radar"><i></i><i></i><i></i><b></b></div>
+      <p class="sub" style="text-align:center;margin:0 0 12px"><span data-i="your_fare"></span>: <b class="num" id="wprice"></b> <span data-i="dzd"></span></p>
+      <button class="btn ghost" id="cancel-wait" data-i="cancel"></button>
+    </div>
+
+    <div class="sheet" id="sh-offers" aria-live="polite">
+      <div class="grab"></div>
+      <h2><span data-i="offers_h"></span> · <span class="num" id="ocount">0</span></h2>
+      <div class="offers" id="offers"></div><p class="sub" id="oempty" data-i="no_offers" hidden></p>
+    </div>
+
+    <div class="sheet" id="sh-way">
+      <div class="grab"></div>
+      <div class="steps" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="status"><i></i><span id="way-status"></span></div>
+      <div class="driver"><div class="av" id="d-av"></div>
+        <div><div style="font-weight:700" id="d-name"></div><div style="font-size:14px;color:var(--muted)" id="d-car"></div><span class="plate num" id="d-plate"></span> <a class="tel num" id="d-phone" hidden></a></div>
+        <div class="star"><svg class="ic sm" aria-hidden="true"><use href="#i-star"/></svg> <span class="num" id="d-rate"></span></div></div>
+      <div class="dl-info" id="dl-info" hidden><span class="pi b"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg></span><span id="dl-info-t"></span></div>
+      <div class="locked"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> <span><span data-i="locked"></span> <b class="num" id="d-price"></b> <span data-i="dzd"></span></span></div>
+      <div class="row">
+        <button class="round" data-aria="call_l" id="call"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></button>
+        <button class="round" data-aria="share_l" id="share"><svg class="ic" aria-hidden="true"><use href="#i-share"/></svg></button>
+        <button class="btn danger" id="cancel-ride" data-i="cancel"></button>
+        <button class="btn primary" id="sim-next" data-i="sim_next"></button>
+      </div>
+    </div>
+
+    <div class="sheet" id="sh-done">
+      <div class="grab"></div>
+      <h2 style="text-align:center" data-i="done_h"></h2>
+      <div class="big"><span class="num" id="f-price"></span> <small style="font-size:18px" data-i="dzd"></small></div>
+      <p class="sub" style="text-align:center;margin:4px 0 0" data-i="pay_cash"></p>
+      <div class="stars" id="stars" role="radiogroup" data-aria="rate"></div>
+      <div class="tags" id="tags"></div>
+      <button class="btn primary" id="submit-rate" data-i="submit"></button>
+    </div>
+
+  </section>
+
+<!-- passenger navigation: icons + shared page chrome (screens themselves live in passenger.<feature>.html) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-hist" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1 1-1.1 1.8"/><path d="M12 17h.01"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></symbol>
+<symbol id="i-sms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.7 7L4 20l1.1-4.6A8 8 0 1 1 21 12z"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 19.5h19z"/><path d="M12 10v4.5M12 17.5h.01"/></symbol>
+</defs></svg>
+
+<!-- Mes courses (history) + ride details; data: GET /api/rides, GET /api/rides/:id -->
+  <section class="screen page" id="s-hist" aria-labelledby="hist-h">
+    <header class="ph"><span></span><h1 id="hist-h" data-i="hist_h"></h1><span></span></header>
+    <div class="pb">
+      <div class="chips" role="group" data-aria="hist_f"><button type="button" data-f="all" aria-pressed="true" data-i="f_all"></button><button type="button" data-f="completed" aria-pressed="false" data-i="f_done"></button><button type="button" data-f="cancelled" aria-pressed="false" data-i="f_canc"></button></div>
+      <div id="hist-list"></div>
+    </div>
+    <nav class="ptabs" data-ptabs="hist"></nav>
+  </section>
+
+  <section class="screen page" id="s-hdet" aria-labelledby="hdet-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="hdet-h" data-i="hdet_h"></h1><span></span></header>
+    <div class="pb" id="hdet-body"></div>
+  </section>
+
+<!-- Mon profil / Paramètres / Aide & Support. Data: GET /api/me, POST /api/me (lang), localStorage theme -->
+  <section class="screen page" id="s-prof" aria-labelledby="prof-h2">
+    <header class="ph"><span></span><h1 id="prof-h2" data-i="prof2_h"></h1><span></span></header>
+    <div class="pb">
+      <div class="pf-head"><span class="av pf-av" id="pf-av" aria-hidden="true"></span><b id="pf-name"></b><small id="pf-phone" dir="ltr"></small></div>
+      <ul class="menu card" id="pf-menu">
+        <li><button type="button" data-go="s-hist"><svg class="ic" aria-hidden="true"><use href="#i-hist"/></svg><span data-i="m_rides"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+        <li data-needs="s-notif"><button type="button" data-go="s-notif"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg><span data-i="m_notif"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+        <li data-needs="s-contacts"><button type="button" data-go="s-contacts"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><span data-i="m_contacts"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+        <li><button type="button" data-go="s-set"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg><span data-i="m_settings"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+        <li><button type="button" data-go="s-help"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg><span data-i="m_help"></span><svg class="ic row-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>
+      </ul>
+      <button type="button" class="btn danger" id="pf-logout" data-i="logout"></button>
+    </div>
+    <nav class="ptabs" data-ptabs="prof"></nav>
+  </section>
+
+  <section class="screen page" id="s-set" aria-labelledby="set-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="set-h" data-i="m_settings"></h1><span></span></header>
+    <div class="pb">
+      <h2 class="sec" data-i="appearance"></h2>
+      <div class="chips opt" role="group" data-aria="appearance" id="set-theme"><button type="button" data-th="system" aria-pressed="false" data-i="th_sys"></button><button type="button" data-th="light" aria-pressed="false" data-i="th_light"></button><button type="button" data-th="dark" aria-pressed="false" data-i="th_dark"></button></div>
+      <h2 class="sec" data-i="language"></h2>
+      <div class="chips opt" role="group" data-aria="language" id="set-lang"><button type="button" data-lg="ar" aria-pressed="false" lang="ar">العربية</button><button type="button" data-lg="fr" aria-pressed="false" lang="fr">Français</button></div>
+      <p class="set-err" id="set-err" role="alert" hidden></p>
+      <div class="del-box"><h2 class="sec" data-i="del_h"></h2><p data-i="del_p"></p>
+        <button type="button" class="btn danger" id="del-start" data-i="del_btn"></button>
+        <div id="del-ask" hidden><div class="row"><button type="button" class="btn ghost" id="del-no" data-i="del_cancel"></button><button type="button" class="btn danger" id="del-yes" data-i="del_confirm"></button></div></div>
+        <p class="set-err" id="del-err" role="alert" hidden></p></div>
+    </div>
+  </section>
+
+  <section class="screen page" id="s-help" aria-labelledby="help-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="help-h" data-i="m_help"></h1><span></span></header>
+    <div class="pb">
+      <div class="faq card" id="faq"></div>
+      <button type="button" class="btn ghost" id="help-report" data-i="report_btn" hidden></button>
+    </div>
+  </section>
+
+<!-- Contacts de confiance + SOS. Data: GET/POST /api/safety/contacts. Calls/SMS use the device (tel:/sms: links); no automatic alerting exists. -->
+  <section class="screen page" id="s-contacts" aria-labelledby="ct-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="ct-h" data-i="contacts_h"></h1><span></span></header>
+    <div class="pb">
+      <div class="ct-hero" aria-hidden="true"><svg class="ic xl" aria-hidden="true"><use href="#i-shield"/></svg></div>
+      <p class="ct-intro" data-i="contacts_s"></p>
+      <div id="ct-list"></div>
+      <form class="card ct-form" id="ct-form" hidden novalidate>
+        <label class="field"><span data-i="c_name"></span><input class="input" id="ct-name" maxlength="60" autocomplete="off"></label>
+        <label class="field"><span data-i="c_phone"></span><input class="input" id="ct-phone" type="tel" inputmode="tel" dir="ltr" autocomplete="off" placeholder="05 55 12 34 56"></label>
+        <p class="set-err" id="ct-err" role="alert" hidden></p>
+        <div class="row"><button type="button" class="btn ghost" id="ct-cancel" data-i="cancel"></button><button type="submit" class="btn primary" id="ct-save" data-i="save"></button></div>
+      </form>
+      <button type="button" class="btn primary" id="ct-add" data-i="add_contact"></button>
+      <p class="ct-note" data-i="auto_note"></p>
+    </div>
+  </section>
+
+  <section class="screen page" id="s-sos" aria-labelledby="sos-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="sos-h">SOS</h1><span></span></header>
+    <div class="pb">
+      <div class="sos-hero" aria-hidden="true"><svg class="ic xl" aria-hidden="true"><use href="#i-alert"/></svg></div>
+      <h2 class="sos-title" data-i="sos_h"></h2>
+      <div id="sos-list"></div>
+      <button type="button" class="btn ghost" id="sos-add" data-i="add_contact" hidden></button>
+      <p class="ct-note" data-i="auto_note"></p>
+    </div>
+  </section>
+
+<!-- Signaler un problème. Data: POST /api/rides/:id/report {kind: price_dispute|safety|other, body} -->
+  <section class="screen page" id="s-report" aria-labelledby="rp-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="rp-h" data-i="report_btn"></h1><span></span></header>
+    <div class="pb">
+      <form id="rp-form" novalidate>
+        <h2 class="sec" data-i="rp_type"></h2>
+        <div class="rp-kinds" role="radiogroup" data-aria="rp_type">
+          <button type="button" role="radio" aria-checked="false" data-k="price_dispute"><span class="dot"></span><span data-i="k_price"></span></button>
+          <button type="button" role="radio" aria-checked="false" data-k="safety"><span class="dot"></span><span data-i="k_safety"></span></button>
+          <button type="button" role="radio" aria-checked="false" data-k="other"><span class="dot"></span><span data-i="k_other"></span></button>
+        </div>
+        <h2 class="sec" data-i="rp_desc"></h2>
+        <textarea class="input rp-text" id="rp-body" maxlength="1000" rows="5" data-ph="rp_ph"></textarea>
+        <p class="set-err" id="rp-err" role="alert" hidden></p>
+        <button type="submit" class="btn primary" id="rp-send" data-i="rp_send"></button>
+      </form>
+      <div class="st-box" id="rp-done" hidden role="status"><span class="ok-badge" aria-hidden="true"></span><b data-i="rp_ok"></b><button type="button" class="btn ghost" id="rp-close" data-i="back"></button></div>
+    </div>
+  </section>
+
+<!-- Notifications: GET /api/notifications, POST /api/notifications/read. In-app only (no push provider). Account deletion: DELETE /api/me -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol></defs></svg>
+  <section class="screen page" id="s-notif" aria-labelledby="nt-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="nt-h" data-i="m_notif"></h1><button type="button" class="ph-act" id="nt-all" data-i="nt_readall"></button></header>
+    <div class="pb"><div id="nt-list"></div></div>
+  </section>
+
+</template>
+<template id="view-driver"><section class="screen scroll" id="s-profile">
+  <h1 data-i="prof_h"></h1><p class="sub" data-i="prof_s"></p>
+  <label class="field"><span data-i="name_l"></span><input class="input" id="name" autocomplete="name"></label>
+  <div class="field"><span data-i="veh_l"></span>
+    <div class="seg" role="group" data-aria="veh_l"><button data-veh="car" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg><span data-i="veh_car"></span></button><button data-veh="moto" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-moto"/></svg><span data-i="veh_moto"></span></button></div></div>
+  <label class="field"><span data-i="model_l"></span><input class="input" id="model" placeholder="Renault Symbol"></label>
+  <label class="field"><span data-i="plate_l"></span><input class="input num" id="plate" placeholder="12345-116-16" style="text-align:start"></label>
+  <label class="chk"><input type="checkbox" id="woman"> <span data-i="woman_l"></span></label>
+  <div class="err" id="prof-err" role="alert"></div>
+  <button class="btn primary" id="save-prof" data-i="next"></button>
+</section>
+
+<section class="screen scroll" id="s-docs">
+  <div class="hdr"><h1 data-i="docs_h"></h1></div>
+  <p class="sub" data-i="docs_s"></p>
+  <div class="card"><b><span id="docs-count">0</span>/4</b><div class="bar"><i id="docs-bar" style="width:0"></i></div></div>
+  <div id="docs-list"></div>
+  <p class="sub" style="font-size:13px" data-i="docs_priv"></p>
+</section>
+
+<section class="screen scroll" id="s-home">
+  <div class="hdr"><h1 id="hello"></h1>
+    <button class="sw" id="online" role="switch" aria-checked="false" data-aria="online_l"></button></div>
+  <div id="banner"></div>
+  <p class="sub" id="dr-s"></p>
+  <div id="dr-req"></div>
+</section>
+
+<section class="screen scroll" id="s-account">
+  <div class="hdr"><h1 data-i="acc_h"></h1></div>
+  <div class="card" id="acc-card"></div>
+  <div class="card vcard" id="veh-card"></div>
+  <div class="vsheet" id="vsheet" role="dialog" aria-modal="true" aria-labelledby="vtitle" hidden></div></div>
+  <button class="btn ghost" id="logout" style="width:100%;margin-bottom:12px" data-i="logout"></button>
+  <button class="btn danger" id="delete" style="width:100%" data-i="delete"></button>
+</section>
+
+<nav class="tabbar" aria-label="Main">
+  <button data-tab="home" aria-current="page"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span data-i="tab_home"></span></button>
+  <button data-tab="docs"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg><span data-i="tab_docs"></span></button>
+  <button data-tab="account"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span data-i="tab_acc"></span></button>
+</nav>
+
+<!-- Driver: activity & earnings, notifications, trusted contacts, settings, report. Real APIs only. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="dmi-hist" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+<symbol id="dmi-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+<symbol id="dmi-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></symbol>
+<symbol id="dmi-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h.01"/></symbol>
+<symbol id="dmi-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3.5-5 7-5s7 1.5 7 5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 15c2.5.5 4 2 4 5"/></symbol>
+<symbol id="dmi-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+<symbol id="dmi-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol></defs></svg>
+<section class="screen scroll dm" id="dm-act" aria-labelledby="dm-act-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-act-h" data-i="m_act"></h1></header>
+  <p class="sub" data-i="earn_note"></p><div class="dm-earn" id="dm-earn"></div><div id="dm-hist"></div></section>
+<section class="screen scroll dm" id="dm-notif" aria-labelledby="dm-n-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-n-h" data-i="m_notif"></h1><button type="button" class="dm-act" id="dm-n-all" data-i="nt_readall" hidden></button></header><div id="dm-n-list"></div></section>
+<section class="screen scroll dm" id="dm-cont" aria-labelledby="dm-c-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-c-h" data-i="m_contacts"></h1></header>
+  <p class="sub" data-i="c_note"></p><div id="dm-c-list"></div>
+  <form id="dm-c-form" class="dm-form" novalidate><label class="field"><span data-i="c_name"></span><input class="input" id="dm-c-name" maxlength="60" autocomplete="off"></label>
+  <label class="field"><span data-i="c_phone"></span><input class="input num" id="dm-c-phone" inputmode="tel" maxlength="14" dir="ltr" style="text-align:start"></label>
+  <div class="err" id="dm-c-err" role="alert"></div><button class="btn primary" type="submit" data-i="c_add"></button></form></section>
+<section class="screen scroll dm" id="dm-set" aria-labelledby="dm-s-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-s-h" data-i="m_settings"></h1></header>
+  <h2 class="dm-sec" data-i="appearance"></h2><div class="dm-chips" role="group" id="dm-theme"><button type="button" data-th="system" data-i="th_sys"></button><button type="button" data-th="light" data-i="th_light"></button><button type="button" data-th="dark" data-i="th_dark"></button></div>
+  <h2 class="dm-sec" data-i="language"></h2><div class="dm-chips" role="group" id="dm-lang"><button type="button" data-lg="ar" lang="ar">العربية</button><button type="button" data-lg="fr" lang="fr">Français</button></div>
+  <p class="err" id="dm-s-err" role="alert"></p></section>
+<section class="screen scroll dm" id="dm-rep" aria-labelledby="dm-r-h"><header class="dm-h"><button type="button" class="dm-back" data-dmback aria-label="back"><svg class="ic" aria-hidden="true"><use href="#dmi-back"/></svg></button><h1 id="dm-r-h" data-i="report_btn"></h1></header>
+  <form id="dm-r-form" class="dm-form" novalidate><div class="dm-chips" role="radiogroup" id="dm-r-kinds"><button type="button" role="radio" aria-checked="false" data-k="price_dispute" data-i="k_price"></button><button type="button" role="radio" aria-checked="false" data-k="safety" data-i="k_safety"></button><button type="button" role="radio" aria-checked="false" data-k="other" data-i="k_other"></button></div>
+  <label class="field"><span data-i="rp_desc"></span><textarea class="input" id="dm-r-body" maxlength="1000" rows="4"></textarea></label>
+  <div class="err" id="dm-r-err" role="alert"></div><button class="btn primary" type="submit" data-i="rp_send"></button></form>
+  <p class="dm-ok" id="dm-r-done" role="status" hidden data-i="rp_ok"></p></section>
+</template>
+<script type="text/plain" id="code-passenger">const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const T={
+ ar:{brand_h:"طريقك، بسعرك",brand_s:"اقترح سعر رحلتك واختر السائق الذي يناسبك.",continue:"متابعة",
+  phone_h:"رقم هاتفك",phone_s:"سنرسل لك رمز التحقق.",phone_l:"رقم الهاتف",send_code:"إرسال الرمز",
+  otp_h:"أدخل الرمز",otp_s:"أرسلناه إلى",demo_code:"رمز التجربة:",verify:"تأكيد",
+  prof_h:"عرّفنا بنفسك",prof_s:"الاسم يظهر للسائق.",name_l:"الاسم",city_l:"المدينة",start:"ابدأ",
+  online_l:"متصل بالطلبات",my_location:"موقعي",call_l:"اتصال بالسائق",share_l:"مشاركة الرحلة",otp_g:"رمز التحقق",hello:"إلى أين نذهب؟",from_val:"موقعك الحالي · باب الزوار",to_val:"المطار الدولي هواري بومدين",set_price:"حدّد سعرك",
+  your_fare:"سعرك",dzd:"د.ج",recommended:"السعر المقترح",fare_context:"تخفيض نهاري: السيارة 5% والدراجة 10% · زيادة الليل 15% والذروة 10% (تقديرية)",low_warn:"سعرك أقل بكثير من المقترح، قد لا يقبله السائقون.",
+  note_l:"ملاحظة",note_ph:"ملاحظة للسائق (مثال: عند المدخل الرئيسي)",cash:"نقدًا",women_pref:"سائقة فقط",back:"رجوع",find_driver:"ابحث عن سائق",
+  searching:"نبحث عن سائقين قريبين…",cancel:"إلغاء",offers_h:"العروض",offer_expired:"انتهى العرض",no_offers:"لا عروض الآن، بانتظار السائقين…",veh_group:"نوع المركبة",accept:"قبول",decline:"رفض",accepts_price:"يقبل سعرك",
+  eta:"دقائق",cancels:"إلغاء",rides:"رحلة",locked:"السعر مثبّت:",st_en:"السائق في الطريق إليك",st_ar:"السائق وصل",st_in:"أنت في الرحلة",
+  sim_next:"التالي",done_h:"وصلت بسلامة",pay_cash:"ادفع نقدًا للسائق",submit:"إرسال التقييم",rate:"قيّم رحلتك",
+  tags:["سائق محترم","سيارة نظيفة","قيادة آمنة","التزم بالسعر"],sos:"طوارئ",share_ok:"تم نسخ رابط الرحلة",sos_ok:"تم إخطار جهات الاتصال الموثوقة",
+  mode_d:"وضع السائق",mode_r:"وضع الراكب",dr_h:"أنت متصل",dr_off:"غير متصل",dr_on:"بانتظار الطلبات…",dr_new:"طلب جديد",
+  bid_same:"اقبل بسعره",bid_counter:"اقترح",km:"كم",thanks:"شكرًا لتقييمك",cancelled:"أُلغي الطلب",invalid:"رقم غير صحيح",bad_code:"الرمز غير صحيح",
+  recents:["البيت","العمل","محطة القطار","الجامعة"],good:"أضفناها للتقييم",
+  choose_car:"سيارة",car_desc:"رحلة مريحة",choose_moto:"دراجة نارية",moto_desc:"أسرع داخل المدينة",
+  names:["كريم","ياسين","سامي"],cars:["رونو سامبول","داسيا لوغان","هيونداي أكسنت"]},
+ fr:{brand_h:"Votre route, votre prix",brand_s:"Proposez votre tarif et choisissez le chauffeur qui vous convient.",continue:"Continuer",
+  phone_h:"Votre numéro",phone_s:"Nous vous envoyons un code de vérification.",phone_l:"Numéro de téléphone",send_code:"Envoyer le code",
+  otp_h:"Saisissez le code",otp_s:"Envoyé au",demo_code:"Code de démo :",verify:"Valider",
+  prof_h:"Faisons connaissance",prof_s:"Le prénom est visible du chauffeur.",name_l:"Prénom",city_l:"Ville",start:"Commencer",
+  online_l:"En ligne",my_location:"Ma position",call_l:"Appeler le chauffeur",share_l:"Partager le trajet",otp_g:"Code de vérification",hello:"Où allons-nous ?",from_val:"Votre position · Bab Ezzouar",to_val:"Aéroport Houari Boumediene",set_price:"Fixer mon prix",
+  your_fare:"Votre prix",dzd:"DA",recommended:"Prix conseillé",fare_context:"Promo jour : voiture −5 %, moto −10 % · nuit +15 %, heures de pointe +10 % (estimé)",low_warn:"Votre prix est bien en dessous du conseillé, les chauffeurs risquent de refuser.",
+  note_l:"Note",note_ph:"Note au chauffeur (ex. entrée principale)",cash:"Espèces",women_pref:"Chauffeuse uniquement",back:"Retour",find_driver:"Trouver un chauffeur",
+  searching:"Recherche de chauffeurs proches…",cancel:"Annuler",offers_h:"Offres",offer_expired:"Offre expirée",no_offers:"Aucune offre pour le moment…",veh_group:"Type de véhicule",accept:"Accepter",decline:"Refuser",accepts_price:"Accepte votre prix",
+  eta:"min",cancels:"annul.",rides:"courses",locked:"Prix verrouillé :",st_en:"Le chauffeur arrive",st_ar:"Le chauffeur est arrivé",st_in:"Course en cours",
+  sim_next:"Suivant",done_h:"Vous êtes arrivé",pay_cash:"Payez le chauffeur en espèces",submit:"Envoyer la note",rate:"Notez votre course",
+  tags:["Chauffeur respectueux","Voiture propre","Conduite sûre","Prix respecté"],sos:"SOS",share_ok:"Lien de trajet copié",sos_ok:"Vos contacts de confiance sont prévenus",
+  mode_d:"Mode chauffeur",mode_r:"Mode passager",dr_h:"Vous êtes en ligne",dr_off:"Hors ligne",dr_on:"En attente de demandes…",dr_new:"Nouvelle demande",
+  bid_same:"Accepter son prix",bid_counter:"Proposer",km:"km",thanks:"Merci pour votre avis",cancelled:"Demande annulée",invalid:"Numéro invalide",bad_code:"Code incorrect",
+  recents:["Maison","Travail","Gare","Université"],good:"",
+  choose_car:"Voiture",car_desc:"Trajet confortable",choose_moto:"Moto",moto_desc:"Plus rapide en ville",
+  names:["Karim","Yacine","Sami"],cars:["Renault Symbol","Dacia Logan","Hyundai Accent"]}
+};
+let L=(window.Kherja&&window.Kherja.lang)||"ar",S={price:450,stars:0,tags:new Set(),offer:null,timers:[],vehicleType:"car"};
+const t=k=>T[L][k];
+function applyI18n(){
+  document.documentElement.lang=L;document.documentElement.dir=L==="ar"?"rtl":"ltr";
+  $$("[data-i]").forEach(e=>{const v=t(e.dataset.i);if(typeof v==="string")e.textContent=v});
+  $$("[data-ph]").forEach(e=>e.placeholder=t(e.dataset.ph));
+  $$("[data-aria]").forEach(e=>e.setAttribute("aria-label",t(e.dataset.aria)));
+  $("#hello").textContent=t("hello");
+  $("#recents").innerHTML=t("recents").map(r=>`<button>${r}</button>`).join("");
+  $("#tags").innerHTML=t("tags").map((x,i)=>`<button aria-pressed="false" data-t="${i}">${x}</button>`).join("");
+  $$("#tags button").forEach(b=>b.onclick=()=>{const on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",on)});
+  drawStars();
+}
+let state="lang";
+function screen(id){$$(".screen").forEach(s=>s.classList.toggle("on",s.id===id))}
+function sheet(id){
+  $$(".sheet").forEach(s=>s.classList.toggle("on",s.id===id));
+  $("#sos").hidden=!["sh-way","sh-done"].includes(id);
+}
+function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),2400)}
+function later(fn,ms){const id=setTimeout(fn,ms);S.timers.push(id);return id}
+function clear(){S.timers.forEach(clearTimeout);S.timers=[]}
+
+/* map: original stylised SVG, no third-party tiles */
+function drawMap(){
+  const roads=[];
+  for(let i=0;i<9;i++){roads.push(`<path d="M${-20+i*55} -20 L${40+i*50} 900" stroke="var(--road)" stroke-width="${i%3?7:14}" fill="none"/>`)}
+  for(let i=0;i<10;i++){roads.push(`<path d="M-20 ${i*95} Q200 ${i*95+30} 450 ${i*95-20}" stroke="var(--road)" stroke-width="${i%4?7:14}" fill="none"/>`)}
+  $("#map").innerHTML=`<svg viewBox="0 0 430 880" preserveAspectRatio="xMidYMid slice">
+   <defs><radialGradient id="g1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".35"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></radialGradient><radialGradient id="g2"><stop offset="0" stop-color="var(--price)" stop-opacity=".30"/><stop offset="1" stop-color="var(--price)" stop-opacity="0"/></radialGradient></defs><rect width="430" height="880" fill="var(--map1)"/><circle cx="120" cy="720" r="200" fill="url(#g1)"/><circle cx="360" cy="780" r="170" fill="url(#g2)"/>
+   <path d="M0 640 C120 600 200 700 430 650 L430 880 L0 880Z" fill="var(--water)"/>
+   <rect x="250" y="120" width="130" height="90" rx="26" fill="var(--park)"/><rect x="30" y="300" width="100" height="80" rx="24" fill="var(--park)"/>
+   ${roads.join("")}
+   <path id="route" d="M110 520 C140 430 230 440 250 360 S330 240 330 170" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" fill="none" stroke-dasharray="1 0"/>
+   <g transform="translate(110 520)"><circle r="18" fill="var(--accent)" opacity=".2"/><circle r="9" fill="var(--accent)" stroke="#fff" stroke-width="3"/></g>
+   <g transform="translate(330 170)"><rect x="-10" y="-10" width="20" height="20" rx="5" fill="var(--price)" stroke="#fff" stroke-width="3"/></g>
+   <g id="car" style="transition:none" transform="translate(40 700)"><circle r="16" fill="var(--text)"/><path d="M-7 3l7-12 7 12-7-3z" fill="var(--bg)"/></g></svg>`;
+  initLeafletMap();
+}
+let leafletMap=null,leafletUserMarker=null,routeLayer=null,pickupMarker=null,dropoffMarker=null,routePoints=null,mapPickNext='pickup',routeDistanceKm=null,fareTouched=false;
+function fareFactors(date=new Date()){
+ const h=date.getHours(),night=(h>=22||h<6),peak=((h>=7&&h<10)||(h>=16&&h<20));
+ // Affordable, capped demand adjustment: night +15%, rush hour +10%; never compound beyond 1.30.
+ let multiplier=1;if(night)multiplier+=.15;if(peak)multiplier+=.10;multiplier=Math.min(multiplier,1.30);
+ // Introductory vehicle promotions during ordinary hours.
+ const promo=!night&&!peak?(S.vehicleType==='moto'?.10:.05):0;
+ return {night,peak,multiplier,promo};
+}
+function suggestedFare(){const km=routeDistanceKm,f=fareFactors();if(!Number.isFinite(km)||km<=0)return S.vehicleType==='moto'?350:450;
+ const base=S.vehicleType==='moto'?200:250,rate=S.vehicleType==='moto'?20:60;
+ const raw=base+km*rate;return Math.max(350,Math.round((raw*f.multiplier*(1-f.promo))/50)*50);
+}
+let quoteSeq=0;
+async function updateSuggestedFare(){const seq=++quoteSeq;let rec=suggestedFare();if(routePoints?.pickup&&routePoints?.dropoff&&location.protocol.startsWith('http')){try{const q=await api('POST','/api/fare/quote',{pickup:routePoints.pickup,dropoff:routePoints.dropoff,vehicle_type:S.vehicleType});if(seq!==quoteSeq)return;rec=q.suggested_fare_dzd;}catch(err){console.warn('Server fare quote unavailable; using local fallback',err);}}if(seq!==quoteSeq)return;const node=$('#recommended-price');if(node)node.textContent=rec;const info=$('#fare-context');if(info){const f=fareFactors();info.textContent=f.night?(L==='ar'?'زيادة ليلية +15%':'Majoration nuit +15%'):f.peak?(L==='ar'?'زيادة ذروة +10% (تقديرية)':'Pointe +10% (estimée)'):(L==='ar'?(S.vehicleType==='moto'?'عرض الدراجة النهاري −10%':'عرض السيارة النهاري −5%'):(S.vehicleType==='moto'?'Promo moto jour −10%':'Promo voiture jour −5%'));}if(!fareTouched){S.price=rec;upd();}}
+function initLeafletMap(){
+  const host=$('#map');if(!host||!window.L||typeof window.L.map!=='function')return;const LF=window.L;
+  try{host.replaceChildren();leafletMap=LF.map(host,{zoomControl:false,scrollWheelZoom:true}).setView([36.7538,3.0588],13);
+    LF.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(leafletMap);
+    LF.control.zoom({position:'bottomright'}).addTo(leafletMap);
+    leafletUserMarker=LF.circleMarker([36.7538,3.0588],{radius:8,color:'#fff',weight:3,fillColor:'#075BFF',fillOpacity:1}).addTo(leafletMap);
+    leafletMap.on('click',async e=>{const key=mapPickNext;mapPickNext=key==='pickup'?'dropoff':'pickup';if(!routePoints)routePoints={};routePoints[key]={lat:e.latlng.lat,lng:e.latlng.lng,label:`${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`};const marker=key==='pickup'?pickupMarker:dropoffMarker;if(marker)leafletMap.removeLayer(marker);const fresh=LF.marker(e.latlng).addTo(leafletMap).bindPopup(key==='pickup'?'نقطة الانطلاق':'نقطة الوصول');if(key==='pickup')pickupMarker=fresh;else dropoffMarker=fresh;try{const label=await reverseGeocode(e.latlng.lat,e.latlng.lng);routePoints[key].label=label;$('#map-'+(key==='pickup'?'from':'to')).value=label;}catch{}if(routePoints.pickup&&routePoints.dropoff)drawRoute(routePoints.pickup,routePoints.dropoff);});
+    setTimeout(()=>leafletMap.invalidateSize(),100);
+  }catch(err){console.warn('Leaflet map initialization failed; keeping local fallback.',err)}
+}
+async function geocodeAddress(q){const url='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q='+encodeURIComponent(q);const r=await fetch(url,{headers:{'Accept-Language':L==='ar'?'ar':'fr'}});if(!r.ok)throw new Error('search unavailable');const a=await r.json();if(!a.length)throw new Error('not found');return {lat:Number(a[0].lat),lng:Number(a[0].lon),label:a[0].display_name};}
+async function reverseGeocode(lat,lng){const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,{headers:{'Accept-Language':L==='ar'?'ar':'fr'}});if(!r.ok)throw new Error('reverse unavailable');const a=await r.json();return a.display_name||`${lat.toFixed(5)}, ${lng.toFixed(5)}`;}
+async function drawRoute(a,b){try{const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`);if(!r.ok)throw new Error('route unavailable');const data=await r.json();if(!data.routes?.length)throw new Error('route not found');const route=data.routes[0];if(routeLayer)leafletMap.removeLayer(routeLayer);routeLayer=window.L.geoJSON(route.geometry,{style:{color:'#075BFF',weight:6,opacity:.85}}).addTo(leafletMap);leafletMap.fitBounds(routeLayer.getBounds(),{padding:[60,60]});routeDistanceKm=route.distance/1000;$('#map-route-info').textContent=`${routeDistanceKm.toFixed(1)} km · ${Math.round(route.duration/60)} min`;updateSuggestedFare();return route;}catch(e){$('#map-route-info').textContent=L==='ar'?'تعذر حساب المسار حالياً':'Route indisponible';throw e;}}
+$('#map-route').onclick=async()=>{const from=$('#map-from').value.trim(),to=$('#map-to').value.trim();if(!from||!to){$('#map-route-info').textContent=L==='ar'?'أدخل نقطة الانطلاق والوصول':'Saisissez départ et destination';return;}const btn=$('#map-route');btn.disabled=true;$('#map-route-info').textContent=L==='ar'?'جاري البحث…':'Recherche…';try{const a=await geocodeAddress(from);await new Promise(r=>setTimeout(r,1100));const b=await geocodeAddress(to);routePoints={pickup:a,dropoff:b};mapPickNext='pickup';if(pickupMarker)leafletMap.removeLayer(pickupMarker);if(dropoffMarker)leafletMap.removeLayer(dropoffMarker);pickupMarker=window.L.marker([a.lat,a.lng]).addTo(leafletMap).bindPopup(a.label);dropoffMarker=window.L.marker([b.lat,b.lng]).addTo(leafletMap).bindPopup(b.label);await drawRoute(a,b);}catch(e){$('#map-route-info').textContent=L==='ar'?'لم نجد العنوان أو الخدمة غير متاحة':'Adresse introuvable / service indisponible';}finally{btn.disabled=false;}};
+async function locatePassenger(){
+  if(!navigator.geolocation){toast(L==='ar'?'المتصفح لا يدعم تحديد الموقع':'La géolocalisation n’est pas disponible');return}
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const point={lat:pos.coords.latitude,lng:pos.coords.longitude};
+    if(leafletMap){leafletMap.setView([point.lat,point.lng],16);if(leafletUserMarker)leafletUserMarker.setLatLng([point.lat,point.lng]);}else toast(L==='ar'?'تم تحديد موقعك':'Position détectée');
+  },()=>toast(L==='ar'?'اسمح بالوصول إلى موقعك من إعدادات المتصفح':'Autorisez la localisation dans les réglages du navigateur'),{enableHighAccuracy:true,timeout:10000,maximumAge:15000});
+}
+$('#my-location').onclick=locatePassenger;
+let carRaf;
+function moveCar(from,to,ms,done){ // car follows route from t=from..to (0..1); along route, approach from outside
+  const route=$("#route"),len=route.getTotalLength(),car=$("#car");cancelAnimationFrame(carRaf);
+  const start=performance.now(),p0=from;
+  const approach=(from<0);
+  (function tick(now){
+    let k=Math.min(1,(now-start)/ms);k=1-Math.pow(1-k,2.2);
+    let x,y;
+    if(approach){const a=route.getPointAtLength(0);x=40+(a.x-40)*k;y=700+(a.y-700)*k}
+    else{const p=route.getPointAtLength(len*(from+(to-from)*k));x=p.x;y=p.y}
+    car.setAttribute("transform",`translate(${x} ${y})`);
+    if(k<1)carRaf=requestAnimationFrame(tick);else done&&done();
+  })(start);
+}
+
+/* sheet drag: direct manipulation, spring-ish settle, never trapped */
+function dragify(el){
+  let y0=0,dy=0,drag=false,v=0,last=0,lt=0;
+  el.addEventListener("pointerdown",e=>{if(e.target.closest("button,input,select,label,.offers"))return;drag=true;y0=e.clientY;last=y0;lt=e.timeStamp;el.setPointerCapture(e.pointerId);el.style.transition="none"});
+  el.addEventListener("pointermove",e=>{if(!drag)return;dy=e.clientY-y0;const r=dy<0?-Math.sqrt(-dy)*3:dy; v=(e.clientY-last)/(e.timeStamp-lt||1);last=e.clientY;lt=e.timeStamp;el.style.transform=`translateY(${r}px)`});
+  const end=()=>{if(!drag)return;drag=false;const proj=dy+v*180;el.style.transition="";el.style.transform=proj>120?"translateY(calc(100% - 96px))":"";if(proj<=120)el.style.transform=""; dy=0};
+  el.addEventListener("pointerup",end);el.addEventListener("pointercancel",end);
+}
+$$(".sheet").forEach(dragify);
+
+/* flow */
+$$("[data-lang]").forEach(b=>b.onclick=()=>{L=b.dataset.lang;$$("[data-lang]").forEach(x=>{const on=x===b;x.setAttribute("aria-pressed",on);x.lastElementChild.textContent=on?"✓":""});applyI18n()});
+$("#finish").onclick=()=>{S.name=$("#name").value.trim()||"—";$("#hello").textContent=t("hello");state="rider";screen("s-map");drawMap();sheet("sh-home")};
+$("#to-request").onclick=()=>{sheet("sh-request");upd()};
+$("#back-home").onclick=()=>sheet("sh-home");
+function upd(){$("#pval").textContent=S.price;$("#lowwarn").hidden=S.price>=315}
+$("#minus").onclick=()=>{S.price=Math.max(100,S.price-50);upd()};$("#plus").onclick=()=>{S.price+=50;upd()};
+$("#order").onclick=()=>{clear();$("#wprice").textContent=S.price;sheet("sh-wait");later(showOffers,2200)};
+$("#cancel-wait").onclick=()=>{clear();sheet("sh-home");toast(t("cancelled"))};
+
+const ICS='<svg class="ic sm" aria-hidden="true"><use href="#i-star"/></svg>';
+const COLORS=["#FFD2B0","#9BE5D2","#FDE3A7"];
+function showOffers(){
+  sheet("sh-offers");$("#offers").innerHTML="";$("#ocount").textContent=0;let n=0;
+  const data=[{p:S.price,eta:3,r:4.9,c:2,rides:1240},{p:S.price+50,eta:5,r:4.8,c:5,rides:870},{p:Math.max(100,S.price-0),eta:7,r:4.7,c:8,rides:410}];
+  data.forEach((d,i)=>later(()=>{
+    const same=d.p<=S.price;
+    const el=document.createElement("div");el.className="offer";
+    el.innerHTML=`<div class="av" style="background:${COLORS[i]}">${t("names")[i][0]}</div>
+     <div><div class="nm">${t("names")[i]}</div><div class="meta"><span class="star">${ICS} <span class="num">${d.r}</span></span><span>${t("cars")[i]}</span><span><span class="num">${d.eta}</span> ${t("eta")}</span><span><span class="num">${d.c}%</span> ${t("cancels")}</span></div></div>
+     <div class="pr"><b class="num">${d.p}</b>${same?`<span class="ok">${t("accepts_price")}</span>`:""}</div>
+     <div class="timer"><i style="width:100%"></i></div>
+     <div class="acts"><button class="btn ghost" data-x>${t("decline")}</button><button class="btn primary" data-ok>${t("accept")}</button></div>`;
+    el.querySelector("[data-x]").onclick=()=>{el.remove();$("#ocount").textContent=--n};
+    el.querySelector("[data-ok]").onclick=()=>pick(i,d);
+    $("#offers").appendChild(el);$("#ocount").textContent=++n;
+  },i*1400));
+}
+function pick(i,d){
+  clear();S.offer={i,d};
+  $("#d-av").textContent=t("names")[i][0];$("#d-av").style.background=COLORS[i];$("#d-name").textContent=t("names")[i];
+  $("#d-car").textContent=t("cars")[i];$("#d-plate").textContent=`0${i+4}${i+7}21-${116+i} 16`;$("#d-rate").textContent=d.r;$("#d-price").textContent=d.p;
+  S.step=0;way();sheet("sh-way");moveCar(-1,0,7000,()=>{});
+  later(()=>{if(S.step===0)adv()},8000);
+}
+function way(){$("#sh-way").dataset.step=S.step;$("#way-status").textContent=[t("st_en"),t("st_ar"),t("st_in")][S.step];$("#cancel-ride").hidden=S.step>0}
+function adv(){
+  S.step++;
+  if(S.step>2){finish();return}
+  way();if(S.step===2)moveCar(0,1,8000,finish);
+}
+function finish(){cancelAnimationFrame(carRaf);$("#f-price").textContent=S.offer.d.p;if(!$("#sh-done").classList.contains("on")){S.stars=0;drawStars()}sheet("sh-done")}
+$("#sim-next").onclick=()=>{if(S.step===2){moveCar(1,1,1,()=>{});finish()}else adv()};
+$("#cancel-ride").onclick=()=>{clear();cancelAnimationFrame(carRaf);sheet("sh-home");toast(t("cancelled"))};
+$("#call").onclick=()=>toast("+213 …");
+$("#share").onclick=()=>toast(t("share_ok"));
+$("#sos").onclick=()=>toast(t("sos_ok"));
+function drawStars(){
+  $("#stars").innerHTML=[1,2,3,4,5].map(n=>`<button role="radio" aria-checked="${S.stars===n}" aria-label="${n}" class="${n<=S.stars?"on":""}" data-n="${n}"><svg class="ic xl" aria-hidden="true"><use href="#i-star"/></svg></button>`).join("");
+  $$("#stars button").forEach(b=>b.onclick=()=>{S.stars=+b.dataset.n;drawStars()});
+}
+$("#submit-rate").onclick=()=>{toast(t("thanks"));S.price=450;upd();sheet("sh-home")};
+
+applyI18n();
+;
+/* Delivery: same negotiation as rides, plus item, addresses and recipient. */
+Object.assign(T.ar,{k_ride:"رحلة",k_del:"توصيل",kind_g:"نوع الطلب",item_g:"نوع الطلب المراد توصيله",it_food:"أكل",it_parcel:"طرد",
+ hello_d:"ماذا نوصّل؟",set_price_d:"حدّد سعر التوصيل",fare_d:"سعر التوصيل",find_d:"ابحث عن موصّل",dl_note_l:"وصف الطلب",dl_note_ph:"مثال: بيتزا وعصير، أو كيس ملابس",
+ dl_from_l:"عنوان الاستلام",dl_from_ph:"المطعم أو المحل أو الشخص",dl_to_l:"عنوان التسليم",dl_to_ph:"عنوانك أو عنوان المستلم",dl_rn_l:"اسم المستلم",dl_rp_l:"هاتف المستلم",
+ dl_rules:"ممنوع توصيل المواد الممنوعة قانونًا، والأسلحة، والأموال النقدية. الموصّل يتصل بالمستلم عند وصوله.",dl_need:"اكتب وصف الطلب",
+ st_en_d:"الموصّل في طريقه لاستلام الطلب",st_ar_d:"الموصّل وصل لاستلام الطلب",st_in_d:"طلبك في الطريق إليك",done_d:"تم التسليم",
+ dl_after:"سيصل الموصّل إلى عنوانك ويتصل بك.",dl_badge:"توصيل",dl_food:"أكل",dl_parcel:"طرد",call_rider:"اتصل بالطالب",call_recv:"اتصل بالمستلم",
+ nxd:{arrived:"وصلت للاستلام",in_progress:"استلمت الطلب",completed:"تم التسليم"},dl_ride_d:"توصيل جارٍ",no_phone:"الرقم يظهر بعد قبول العرض"});
+Object.assign(T.fr,{k_ride:"Course",k_del:"Livraison",kind_g:"Type de demande",item_g:"Type de colis",it_food:"Repas",it_parcel:"Colis",
+ hello_d:"Que livrer ?",set_price_d:"Fixer le prix de livraison",fare_d:"Prix de livraison",find_d:"Trouver un livreur",dl_note_l:"Description",dl_note_ph:"Ex. pizza et jus, ou sac de vêtements",
+ dl_from_l:"Adresse de retrait",dl_from_ph:"Restaurant, magasin ou personne",dl_to_l:"Adresse de livraison",dl_to_ph:"Votre adresse ou celle du destinataire",dl_rn_l:"Nom du destinataire",dl_rp_l:"Téléphone du destinataire",
+ dl_rules:"Interdit : produits illégaux, armes, argent liquide. Le livreur appelle le destinataire à son arrivée.",dl_need:"Décrivez la commande",
+ st_en_d:"Le livreur va récupérer la commande",st_ar_d:"Le livreur est arrivé au retrait",st_in_d:"Votre commande est en route",done_d:"Livré",
+ dl_after:"Le livreur viendra à votre adresse et vous appellera.",dl_badge:"Livraison",dl_food:"Repas",dl_parcel:"Colis",call_rider:"Appeler le client",call_recv:"Appeler le destinataire",
+ nxd:{arrived:"Arrivé au retrait",in_progress:"Commande récupérée",completed:"Livré"},dl_ride_d:"Livraison en cours",no_phone:"Le numéro s'affiche après acceptation"});
+S.kind='ride';S.item='food';S.contactPhone=null;
+function applyKind(){const d=S.kind==='delivery';
+  $$('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.kind===S.kind));
+  $('#vehicle-choice').hidden=d;
+  $('#hello').textContent=t(d?'hello_d':'hello');$('#to-request').textContent=t(d?'set_price_d':'set_price');
+  $('#sh-request h2').textContent=t(d?'fare_d':'your_fare');$('#order').textContent=t(d?'find_d':'find_driver');
+  $('#dl').hidden=!d;$('#women').closest('label').hidden=d;
+  $$('[data-item]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.item===S.item));}
+$$('[data-kind]').forEach(b=>b.onclick=()=>{S.kind=b.dataset.kind;applyKind()});
+$$('[data-ride-vehicle]').forEach(b=>b.onclick=()=>{S.vehicleType=b.dataset.rideVehicle;fareTouched=false;$$('[data-ride-vehicle]').forEach(x=>{const on=x===b;x.setAttribute('aria-pressed',String(on));x.classList.toggle('selected',on)});updateSuggestedFare()});
+$$('[data-item]').forEach(b=>b.onclick=()=>{S.item=b.dataset.item;applyKind()});
+{const _ai=applyI18n;applyI18n=function(){_ai();applyKind()}}
+$('#order').addEventListener('click',e=>{ if(S.kind!=='delivery')return;
+  if(!$('#dl-note').value.trim()){e.stopImmediatePropagation();$('#dl-err').textContent=t('dl_need');$('#dl-note').focus();return}
+  $('#dl-err').textContent='';const it=t(S.item==='food'?'it_food':'it_parcel');
+  S.summary=it+': '+$('#dl-note').value.trim()+' · '+($('#dl-to').value.trim()||'');},true);
+{const _w=way;way=function(){const d=S.kind==='delivery';$('#way-status').textContent=[t(d?'st_en_d':'st_en'),t(d?'st_ar_d':'st_ar'),t(d?'st_in_d':'st_in')][S.step];$('#cancel-ride').hidden=S.step>0;
+  $('#dl-info').hidden=!d;if(d)$('#dl-info-t').textContent=(S.summary||'')+' — '+t('dl_after');
+  const ph=$('#d-phone');ph.hidden=!S.contactPhone;if(S.contactPhone){ph.textContent=S.contactPhone;ph.href='tel:'+S.contactPhone}}}
+{const _f=finish;finish=function(){_f();$('#sh-done h2').textContent=t(S.kind==='delivery'?'done_d':'done_h')}}
+$('#call').onclick=()=>{S.contactPhone?(location.href='tel:'+S.contactPhone):toast(t('no_phone'))};
+applyI18n();
+;
+/* API mode: when served over http by backend/server.js. Opened as a file it stays a demo with fake data. */
+const API=location.protocol.startsWith('http');
+if(API){
+Object.assign(T.ar,{logout:"تسجيل الخروج",lo_fail:"تعذّر تسجيل الخروج، حاول مرة أخرى",too_many:"محاولات كثيرة، انتظر قليلًا",open_exists:"عندك طلب مفتوح",req_fail:"تعذّر إرسال الطلب",offer_gone:"العرض لم يعد متاحًا",dev_only:"وضع السائق للتجربة فقط",
+  drv_wait:"بانتظار ردّ الراكب…",nx:{arrived:"وصلت",in_progress:"ابدأ الرحلة",completed:"أنهِ الرحلة"},drv_ride:"رحلة جارية",cancelled_r:"أُلغيت الرحلة",net:"تعذّر الاتصال"});
+Object.assign(T.fr,{logout:"Se déconnecter",lo_fail:"Déconnexion impossible, réessayez",too_many:"Trop d'essais, patientez",open_exists:"Une demande est déjà ouverte",req_fail:"Envoi impossible",offer_gone:"Offre indisponible",dev_only:"Mode chauffeur : démo uniquement",
+  drv_wait:"En attente du passager…",nx:{arrived:"Arrivé",in_progress:"Démarrer",completed:"Terminer"},drv_ride:"Course en cours",cancelled_r:"Course annulée",net:"Connexion impossible"});
+const api=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined,credentials:'same-origin'});
+  let j={};try{j=await r.json()}catch{} if(!r.ok)throw Object.assign(new Error(j.error||r.status),{status:r.status}); return j};
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let phoneN='',poll=null,reqId=null,rideId=null,declined=new Set(),drSig='';
+const stop=()=>{clearInterval(poll);poll=null};
+const PK=()=>routePoints?.pickup&&Number.isFinite(routePoints.pickup.lat)&&Number.isFinite(routePoints.pickup.lng)?routePoints.pickup:({lat:36.7538,lng:3.0588,label:t('from_val')}),DS=()=>routePoints?.dropoff&&Number.isFinite(routePoints.dropoff.lat)&&Number.isFinite(routePoints.dropoff.lng)?routePoints.dropoff:({lat:36.6910,lng:3.2154,label:t('to_val')});
+function reqPayload(){const base={pickup:PK(),dropoff:DS(),price:S.price,note:$('#note').value.trim()||undefined,women_only:$('#women').checked,vehicle_type:S.vehicleType};
+  if(S.kind!=='delivery')return base; // demo coordinates: no geocoder yet, addresses are typed labels
+  return {...base,women_only:false,kind:'delivery',pickup:{lat:36.7538,lng:3.0588,label:$('#dl-from').value.trim()||t('dl_from_ph')},dropoff:{lat:36.7332,lng:3.0870,label:$('#dl-to').value.trim()||t('dl_to_ph')},
+    item_type:S.item,item_note:$('#dl-note').value.trim(),recipient_name:$('#dl-rn').value.trim()||undefined,recipient_phone:$('#dl-rp').value.trim()||undefined}}
+$('#sim-next').hidden=true;
+
+$('#finish').onclick=async()=>{try{await api('POST','/api/me',{name:$('#name').value.trim()||undefined,city:$('#city').value,lang:L})}catch{}
+  state='rider';screen('s-map');drawMap();sheet('sh-home')};
+
+$('#order').onclick=async()=>{
+  try{const r=await api('POST','/api/requests',reqPayload());reqId=r.id}
+  catch(e){toast(e.status===409?t('open_exists'):t('req_fail'));return}
+  declined=new Set();$('#offers').innerHTML='';$('#wprice').textContent=S.price;sheet('sh-wait');stop();let shown=false;
+  poll=setInterval(async()=>{try{const {offers,server_now,offer_ttl_ms}=await api('GET',`/api/requests/${reqId}/offers`);skew=server_now-Date.now();ttl=offer_ttl_ms||15000;const o2=offers.filter(o=>!declined.has(o.id));
+    if(o2.length&&!shown){shown=true;sheet('sh-offers')} renderOffers(o2)}catch{}},1200)};
+$('#cancel-wait').onclick=async()=>{stop();try{await api('POST',`/api/requests/${reqId}/cancel`)}catch{} sheet('sh-home');toast(t('cancelled'))};
+
+/* 15 s countdown: the server's expires_at is authoritative; the client only displays it (skew = server clock - local clock) */
+let skew=0,ttl=15000;
+function tickCd(){const box=$('#offers');[...box.children].forEach(c=>{const r=+c.dataset.exp-(Date.now()+skew);if(r<=0){c.remove();return}
+  c.querySelector('.cdn').textContent='00:'+String(Math.ceil(r/1000)).padStart(2,'0');c.querySelector('.timer i').style.width=Math.min(100,100*r/ttl)+'%'});
+  const n=box.children.length;$('#ocount').textContent=n;$('#oempty').hidden=n>0}
+setInterval(tickCd,250);
+function renderOffers(list){const box=$('#offers'),ids=new Set(list.map(o=>String(o.id)));
+  [...box.children].forEach(c=>{if(!ids.has(c.dataset.id))c.remove()});
+  list.forEach((o,i)=>{if(box.querySelector(`[data-id="${o.id}"]`))return;const d=o.driver,nm=d.name||'—';
+    const el=document.createElement('div');el.className='offer';el.dataset.id=o.id;el.dataset.exp=o.expires_at;
+    el.innerHTML=`<div class="av" style="background:${COLORS[o.id%3]}">${esc(nm[0]||'?')}</div>
+     <div><div class="nm">${esc(nm)}</div><div class="meta"><span class="star">${ICS} <span class="num">${esc(d.rating)}</span></span><span>${esc(d.car)}</span><span><span class="num">${o.eta_min}</span> ${t('eta')}</span><span><span class="num">${d.cancel_pct}%</span> ${t('cancels')}</span></div><div class="cd" role="timer"><span class="cdn num">00:15</span></div></div>
+     <div class="pr"><b class="num">${o.price}</b>${o.price<=S.price?`<span class="ok">${t('accepts_price')}</span>`:''}</div>
+     <div class="timer"><i></i></div>
+     <div class="acts"><button class="btn ghost" data-x>${t('decline')}</button><button class="btn primary" data-ok>${t('accept')}</button></div>`;
+    el.querySelector('[data-x]').onclick=()=>{declined.add(o.id);el.remove();tickCd()};
+    el.querySelector('[data-ok]').onclick=()=>acceptApi(o);box.appendChild(el)});
+  tickCd()} // refresh countdown text/bar and the empty state immediately, not on the next 250 ms timer
+async function acceptApi(o){
+  try{const r=await api('POST',`/api/offers/${o.id}/accept`);rideId=r.ride_id;stop();const d=o.driver,nm=d.name||'—';S.contactPhone=null;api('GET',`/api/rides/${rideId}`).then(v=>{S.contactPhone=v.contact.phone;way()}).catch(()=>{});
+    S.offer={d:{p:r.locked_price,r:d.rating}};$('#d-av').textContent=nm[0]||'?';$('#d-av').style.background=COLORS[o.id%3];$('#d-name').textContent=nm;$('#d-car').textContent=d.car;
+    $('#d-plate').textContent=d.plate;$('#d-rate').textContent=d.rating;$('#d-price').textContent=r.locked_price;S.step=0;way();sheet('sh-way');moveCar(-1,0,7000,()=>{});
+    let last='en_route';poll=setInterval(async()=>{try{const x=await api('GET',`/api/rides/${rideId}`);if(x.status===last)return;last=x.status;
+      if(x.status==='arrived'){S.step=1;way()}
+      else if(x.status==='in_progress'){S.step=2;way();moveCar(0,1,8000,()=>{})}
+      else if(x.status==='completed'){stop();finish()}
+      else if(x.status==='cancelled'){stop();cancelAnimationFrame(carRaf);sheet('sh-home');toast(t('cancelled_r'))}}catch{}},1200)}
+  catch(e){if(e.status===409){const c=$(`#offers [data-id="${o.id}"]`);if(c)c.remove();tickCd()}toast(e.status===409?t('offer_expired'):t('offer_gone'))}}
+$('#cancel-ride').onclick=async()=>{stop();try{await api('POST',`/api/rides/${rideId}/status`,{status:'cancelled'})}catch{} cancelAnimationFrame(carRaf);sheet('sh-home');toast(t('cancelled'))};
+$('#submit-rate').onclick=async()=>{if(S.stars){try{await api('POST',`/api/rides/${rideId}/rating`,{stars:S.stars,tags:$$('#tags button[aria-pressed=true]').map(b=>b.textContent)})}catch{}}
+  toast(t('thanks'));S.price=450;upd();sheet('sh-home')};
+$('#share').onclick=()=>toast(t('share_ok'));
+/* ---- logout (only ever triggered by this button; no error path calls it) ---- */
+$('#p-logout').onclick=async()=>{
+  try{await api('POST','/api/auth/logout')}catch(e){if(e.status!==401){toast(t('lo_fail'));return}} // failure other than an already-expired session: stay signed in
+  stop();S.timers.forEach(clearTimeout);S.timers=[];cancelAnimationFrame(carRaf);location.reload()}; // reload drops all in-memory state; /api/me then answers 401 and the shared gate shows
+applyI18n(); // the logout label is added with the API strings above, after the first applyI18n()
+}
+
+/* ---- one-app start: the shell has already authenticated and authorised this account as a rider (passenger) ---- */
+{const u=(window.Kherja&&window.Kherja.user)||{};S.name=u.name||'—';
+ if(u.name){state='rider';screen('s-map');drawMap();sheet('sh-home')}else{screen('s-profile');$('#name').focus()}}
+
+/* ===== passenger navigation: tab bar (Accueil / Historique / Profil) + back stack for the extra screens ===== */
+const NAV={stack:[],load:{},tabs:["home","hist","prof"]};
+Object.assign(T.ar,{tab_home:"الرئيسية",tab_hist:"رحلاتي",tab_prof:"حسابي",tabs_l:"التنقل الرئيسي",back:"رجوع",loading:"جاري التحميل...",
+  offline_h:"لا يوجد اتصال بالإنترنت",offline_s:"تحقق من اتصالك بالإنترنت ثم أعد المحاولة",retry:"إعادة المحاولة",load_fail:"تعذّر التحميل، حاول مرة أخرى"});
+Object.assign(T.fr,{tab_home:"Accueil",tab_hist:"Historique",tab_prof:"Profil",tabs_l:"Navigation principale",back:"Retour",loading:"Chargement...",
+  offline_h:"Pas de connexion internet",offline_s:"Vérifiez votre connexion puis réessayez",retry:"Réessayer",load_fail:"Chargement impossible, réessayez"});
+const curScreen=()=>{const e=$$(".screen.on")[0];return e?e.id:"s-map"};
+function go(id,{back=false}={}){
+  const cur=curScreen();
+  if(!back&&cur!==id){NAV.stack.push(cur)}
+  screen(id);
+  const sc=$("#"+id);if(sc){const pb=sc.querySelector(".pb");if(pb)pb.scrollTop=0}
+  $$("#"+id+" [data-tab], #sh-home [data-tab]").forEach(b=>b.setAttribute("aria-current",String(b.dataset.tab===({"s-hist":"hist","s-hdet":"hist","s-prof":"prof","s-set":"prof","s-help":"prof","s-contacts":"prof","s-report":"hist"}[id]||"home"))));
+  if(NAV.load[id])NAV.load[id]();
+}
+function goBack(){const to=NAV.stack.pop()||"s-map";go(to,{back:true})}
+function tabGo(tab){NAV.stack.length=0;if(tab==="home"){screen("s-map");$$("[data-tab]").forEach(b=>b.setAttribute("aria-current",String(b.dataset.tab==="home")));return}go(tab==="hist"?"s-hist":"s-prof")}
+function buildTabbar(){
+  const items={home:"home",hist:"hist",prof:"user"};
+  $$("[data-ptabs]").forEach(n=>{n.setAttribute("aria-label",t("tabs_l"));
+    n.innerHTML=NAV.tabs.map(k=>`<button type="button" class="ptab" data-tab="${k}" aria-current="${n.dataset.ptabs===k}"><svg class="ic" aria-hidden="true"><use href="#i-${items[k]}"/></svg><span>${t("tab_"+k)}</span></button>`).join("");
+    n.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>tabGo(b.dataset.tab))});
+}
+$$("[data-back]").forEach(b=>{b.onclick=goBack;b.setAttribute("aria-label",t("back"))});
+/* shared loading / error / offline states for list screens */
+function stateBox(kind,retry){
+  if(kind==="loading")return `<div class="st-box" role="status" aria-live="polite"><span class="spin" aria-hidden="true"></span><p>${t("loading")}</p></div>`;
+  const off=!navigator.onLine;
+  return `<div class="st-box" role="alert"><svg class="ic xl" aria-hidden="true"><use href="#i-alert"/></svg><b>${off?t("offline_h"):t("load_fail")}</b>${off?`<p>${t("offline_s")}</p>`:""}<button type="button" class="btn ghost" data-retry>${t("retry")}</button></div>`;
+}
+function fmtDate(v){let d=v;if(typeof v==="string"){d=/^\d+$/.test(v)?+v:v.includes("T")?v:v.replace(" ","T")+"Z"}
+  const dt=new Date(d);if(isNaN(dt))return"";return new Intl.DateTimeFormat(L==="ar"?"ar-DZ-u-nu-latn":"fr-FR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(dt)}
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+/* own fetch helper: the view's api() lives in a block scope and is not reachable from here */
+const kapi=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined,credentials:'same-origin'});
+  let j={};try{j=await r.json()}catch{} if(!r.ok)throw Object.assign(new Error(j.error||r.status),{status:r.status});return j};
+
+/* ===== Mes courses + détails (real data only) ===== */
+Object.assign(T.ar,{hist_h:"رحلاتي",hist_f:"تصفية الرحلات",f_all:"الكل",f_done:"مكتملة",f_canc:"ملغاة",hdet_h:"تفاصيل الرحلة",hist_empty:"لا توجد رحلات بعد",
+  st_completed:"مكتملة",st_cancelled:"ملغاة",st_live:"جارية",route_l:"المسار",amount_l:"المبلغ",from_l:"من",to_l:"إلى",report_btn:"تبليغ عن مشكلة",ride_no:"رحلة رقم"});
+Object.assign(T.fr,{hist_h:"Mes courses",hist_f:"Filtrer les courses",f_all:"Toutes",f_done:"Terminées",f_canc:"Annulées",hdet_h:"Détails de la course",hist_empty:"Aucune course pour le moment",
+  st_completed:"Terminée",st_cancelled:"Annulée",st_live:"En cours",route_l:"Trajet",amount_l:"Montant",from_l:"De",to_l:"À",report_btn:"Signaler un problème",ride_no:"Course n°"});
+const H={rides:null,filter:"all",det:{}};
+const stKey=s=>s==="completed"?"completed":s==="cancelled"?"cancelled":"live";
+const badge=s=>`<span class="badge ${s==="completed"?"ok":s==="cancelled"?"no":""}">${t("st_"+stKey(s))}</span>`;
+function histRow(r){const d=H.det[r.id];
+  return `<button type="button" class="hrow card" data-id="${r.id}"><span class="hr-main"><b class="hr-route">${d?`${esc(d.p_label||"—")} → ${esc(d.d_label||"—")}`:`${t("ride_no")} ${r.id}`}</b><small>${esc(fmtDate(r.created_at))}</small></span><span class="hr-end"><b>${r.locked_price!=null?r.locked_price+" "+t("dzd"):""}</b>${badge(r.status)}</span></button>`}
+function renderHist(){
+  const box=$("#hist-list");if(!H.rides)return;
+  const list=H.rides.filter(r=>H.filter==="all"||(H.filter==="completed"?r.status==="completed":r.status==="cancelled"));
+  if(!list.length){box.innerHTML=`<div class="st-box"><svg class="ic xl" aria-hidden="true"><use href="#i-hist"/></svg><b>${t("hist_empty")}</b></div>`;return}
+  box.innerHTML=`<div class="hlist">${list.map(histRow).join("")}</div>`;
+  box.querySelectorAll(".hrow").forEach(b=>b.onclick=()=>openDetail(+b.dataset.id));
+}
+async function loadHist(){
+  const box=$("#hist-list");box.innerHTML=stateBox("loading");
+  try{const j=await kapi("GET","/api/rides");H.rides=j.rides||[];renderHist();
+    // route labels come from the ride detail endpoint; fetch the visible ones (max 20) in parallel and fill rows in place
+    await Promise.all(H.rides.slice(0,20).map(async r=>{if(H.det[r.id])return;try{H.det[r.id]=await kapi("GET","/api/rides/"+r.id)}catch{}}));renderHist();
+  }catch(e){box.innerHTML=stateBox("error");const b=box.querySelector("[data-retry]");if(b)b.onclick=loadHist}
+}
+$$("#s-hist .chips button").forEach(b=>b.onclick=()=>{H.filter=b.dataset.f;$$("#s-hist .chips button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderHist()});
+NAV.load["s-hist"]=loadHist;
+async function openDetail(id){
+  go("s-hdet");const body=$("#hdet-body");body.innerHTML=stateBox("loading");
+  try{const d=H.det[id]=await kapi("GET","/api/rides/"+id);const dr=d.driver;
+    const row=H.rides&&H.rides.find(r=>r.id===id);
+    body.innerHTML=`<div class="card hd-card">${badge(d.status)}${dr?`<div class="hd-driver"><span class="av" aria-hidden="true">${esc((dr.name||"?").trim().charAt(0))}</span><span><b>${esc(dr.name||"")}</b><small>${esc(dr.car||"")}${dr.plate?" · "+esc(dr.plate):""}</small></span><span class="star">★ ${dr.rating}</span></div>`:""}</div>
+      <div class="card hd-card"><h2>${t("route_l")}</h2><div class="hd-route"><span class="pi"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg></span><span><small>${t("from_l")}</small><b>${esc(d.p_label||"—")}</b></span></div><div class="hd-route"><span class="pi"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg></span><span><small>${t("to_l")}</small><b>${esc(d.d_label||"—")}</b></span></div></div>
+      <div class="card hd-card hd-amt"><span>${t("amount_l")}</span><b>${d.locked_price!=null?d.locked_price+" "+t("dzd"):"—"}</b></div>
+      ${row?`<p class="hd-date">${esc(fmtDate(row.created_at))}</p>`:""}
+      <button type="button" class="btn ghost" id="hd-report" data-id="${id}">${t("report_btn")}</button>`;
+    const rb=$("#hd-report");rb.onclick=()=>{if(window.openReport)openReport(id)};
+    if(!window.openReport)rb.hidden=true;
+  }catch(e){body.innerHTML=stateBox("error");const b=body.querySelector("[data-retry]");if(b)b.onclick=()=>openDetail(id)}
+}
+
+/* ===== Profil / Paramètres / Aide ===== */
+Object.assign(T.ar,{prof2_h:"حسابي",m_rides:"رحلاتي",m_contacts:"جهات الاتصال",m_settings:"الإعدادات",m_help:"المساعدة",appearance:"المظهر",language:"اللغة",
+  th_sys:"النظام",th_light:"فاتح",th_dark:"داكن",lang_fail:"تعذّر تغيير اللغة، حاول مرة أخرى",
+  faq:[["كيف يعمل السعر؟","تقترح سعر رحلتك ويرسل لك السائقون عروضهم. عند قبول عرض يصبح السعر مثبّتًا."],["كم تبقى صلاحية العرض؟","كل عرض صالح 15 ثانية."],["هل يمكنني الإلغاء؟","نعم، طالما أن السائق في الطريق إليك."],["كيف أبلّغ عن مشكلة؟","افتح الرحلة من «رحلاتي» ثم اضغط «تبليغ عن مشكلة»."]]});
+Object.assign(T.fr,{prof2_h:"Mon profil",m_rides:"Mes courses",m_contacts:"Contacts de confiance",m_settings:"Paramètres",m_help:"Aide & Support",appearance:"Apparence",language:"Langue",
+  th_sys:"Système",th_light:"Mode clair",th_dark:"Mode sombre",lang_fail:"Changement de langue impossible, réessayez",
+  faq:[["Comment fonctionne le prix ?","Vous proposez votre prix et les chauffeurs vous envoient leurs offres. Une fois une offre acceptée, le prix est verrouillé."],["Combien de temps une offre reste-t-elle valable ?","Chaque offre est valable 15 secondes."],["Puis-je annuler ?","Oui, tant que le chauffeur est en route."],["Comment signaler un problème ?","Ouvrez la course dans « Mes courses » puis touchez « Signaler un problème »."]]});
+async function loadProf(){
+  const me=(window.Kherja&&window.Kherja.user)||{};
+  $("#pf-name").textContent=me.name||"—";$("#pf-av").textContent=(me.name||"?").trim().charAt(0);
+  try{const j=await kapi("GET","/api/me");$("#pf-name").textContent=j.name||"—";$("#pf-av").textContent=(j.name||"?").trim().charAt(0);$("#pf-phone").textContent=j.phone||""}catch{$("#pf-phone").textContent=""}
+}
+NAV.load["s-prof"]=loadProf;
+$$("#pf-menu [data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+$$("#pf-menu [data-needs]").forEach(li=>{if(!$("#"+li.dataset.needs))li.hidden=true});
+$("#pf-logout").onclick=()=>$("#p-logout").click(); // same handler as the map's logout button (POST /api/auth/logout, then reload)
+/* settings */
+function themeNow(){try{const v=localStorage.getItem("kherja-theme");return v==="light"||v==="dark"?v:"system"}catch{return"system"}}
+function paintSettings(){const th=themeNow();$$("#set-theme button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.th===th)));$$("#set-lang button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lg===L)))}
+$$("#set-theme button").forEach(b=>b.onclick=()=>{const v=b.dataset.th;try{if(v==="system")localStorage.removeItem("kherja-theme");else localStorage.setItem("kherja-theme",v)}catch{}
+  if(v==="system")delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=v;paintSettings()});
+$$("#set-lang button").forEach(b=>b.onclick=async()=>{if(b.dataset.lg===L)return;const e=$("#set-err");e.hidden=true;
+  try{await kapi("POST","/api/me",{lang:b.dataset.lg});location.reload()}catch{e.textContent=t("lang_fail");e.hidden=false}});
+NAV.load["s-set"]=paintSettings;
+/* help */
+function buildFaq(){$("#faq").innerHTML=t("faq").map(([q,a])=>`<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}
+NAV.load["s-help"]=()=>{buildFaq();const b=$("#help-report");b.hidden=!window.openReportLatest};
+$("#help-report").onclick=()=>{if(window.openReportLatest)openReportLatest()};
+
+/* ===== Contacts de confiance + SOS (no fake notification: device call/SMS links only) ===== */
+Object.assign(T.ar,{contacts_h:"جهات الاتصال",contacts_s:"أضف جهات اتصال موثوقة للحصول على مساعدة سريعة.",c_name:"اسم جهة الاتصال",c_phone:"رقم الهاتف",add_contact:"إضافة جهة اتصال",save:"حفظ",
+  auto_note:"تنبيه: التنبيهات التلقائية غير متوفرة حالياً.",c_call:"اتصال",c_sms:"رسالة",sos_h:"تنبيه الطوارئ",c_none:"لا توجد جهات اتصال بعد",c_bad:"رقم الهاتف غير صالح",c_max:"الحد الأقصى 5 جهات اتصال",c_fail:"تعذّر الحفظ، حاول مرة أخرى",c_name_req:"أدخل الاسم"});
+Object.assign(T.fr,{contacts_h:"Contacts de confiance",contacts_s:"Ajoutez vos contacts de confiance pour une assistance rapide.",c_name:"Nom du contact",c_phone:"Numéro de téléphone",add_contact:"Ajouter un contact",save:"Enregistrer",
+  auto_note:"L'alerte automatique n'est pas connectée pour le moment.",c_call:"Appeler",c_sms:"Envoyer SMS",sos_h:"Alerte d'urgence",c_none:"Aucun contact pour le moment",c_bad:"Numéro invalide",c_max:"Maximum 5 contacts",c_fail:"Enregistrement impossible, réessayez",c_name_req:"Saisissez un nom"});
+const C={list:null};
+const telHref=p=>"tel:"+String(p).replace(/[^+\d]/g,"");
+const smsHref=p=>"sms:"+String(p).replace(/[^+\d]/g,"");
+function contactRow(c,full){const nm=esc(c.name);
+  return `<div class="card ct-row"><span class="av" aria-hidden="true">${esc((c.name||"?").trim().charAt(0))}</span><span class="ct-id"><b>${nm}</b><small dir="ltr">${esc(c.phone)}</small></span>
+   ${full?`<span class="ct-acts"><a class="btn primary" href="${telHref(c.phone)}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>${t("c_call")}</a><a class="btn ghost" href="${smsHref(c.phone)}"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>${t("c_sms")}</a></span>`
+   :`<span class="ct-icons"><a class="round" href="${telHref(c.phone)}" aria-label="${t("c_call")} ${nm}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></a><a class="round alt" href="${smsHref(c.phone)}" aria-label="${t("c_sms")} ${nm}"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></a></span>`}</div>`}
+async function fetchContacts(target,full,retry){
+  const box=$(target);box.innerHTML=stateBox("loading");
+  try{const j=await kapi("GET","/api/safety/contacts");C.list=j.contacts||[];
+    box.innerHTML=C.list.length?`<div class="hlist">${C.list.map(c=>contactRow(c,full)).join("")}</div>`:`<div class="st-box"><b>${t("c_none")}</b></div>`;
+    return C.list}
+  catch{box.innerHTML=stateBox("error");const b=box.querySelector("[data-retry]");if(b)b.onclick=retry;return null}
+}
+NAV.load["s-contacts"]=()=>{$("#ct-form").hidden=true;$("#ct-add").hidden=false;fetchContacts("#ct-list",false,NAV.load["s-contacts"])};
+NAV.load["s-sos"]=async()=>{const l=await fetchContacts("#sos-list",true,NAV.load["s-sos"]);$("#sos-add").hidden=!(l&&!l.length)};
+$("#sos-add").onclick=()=>go("s-contacts");
+$("#ct-add").onclick=()=>{$("#ct-form").hidden=false;$("#ct-add").hidden=true;$("#ct-err").hidden=true;$("#ct-name").focus()};
+$("#ct-cancel").onclick=()=>{$("#ct-form").hidden=true;$("#ct-add").hidden=false};
+$("#ct-form").onsubmit=async ev=>{ev.preventDefault();const err=$("#ct-err"),btn=$("#ct-save"),name=$("#ct-name").value.trim(),phone=$("#ct-phone").value.trim();
+  const fail=m=>{err.textContent=m;err.hidden=false};err.hidden=true;
+  if(!name)return fail(t("c_name_req"));if(!phone)return fail(t("c_bad"));
+  btn.classList.add("loading");
+  try{await kapi("POST","/api/safety/contacts",{name,phone});$("#ct-name").value="";$("#ct-phone").value="";NAV.load["s-contacts"]()}
+  catch(e){fail(e.status===409?t("c_max"):e.status===400?t("c_bad"):t("c_fail"))}
+  finally{btn.classList.remove("loading")}};
+/* The SOS chip used to show a toast claiming contacts were notified, but nothing is sent. It now opens the SOS screen (call / SMS via the device). */
+$("#sos").onclick=()=>go("s-sos");
+/* The in-ride "share" button only showed a "link copied" toast without copying anything (no share-link backend exists): hidden instead of faking success. */
+{const sh=$("#share");if(sh)sh.hidden=true}
+
+/* ===== Signaler un problème (real endpoint) ===== */
+Object.assign(T.ar,{rp_type:"نوع المشكلة",k_price:"خلاف حول السعر",k_safety:"السلامة",k_other:"أخرى",rp_desc:"تفاصيل إضافية (اختياري)",rp_ph:"صف المشكلة...",rp_send:"إرسال البلاغ",
+  rp_ok:"تم إرسال البلاغ",rp_fail:"تعذّر الإرسال، حاول مرة أخرى",rp_none:"لا توجد رحلة للتبليغ عنها",rp_pick:"اختر نوع المشكلة",report_btn:"تبليغ عن مشكلة"});
+Object.assign(T.fr,{rp_type:"Type de problème",k_price:"Désaccord sur le prix",k_safety:"Sécurité",k_other:"Autre",rp_desc:"Description (optionnel)",rp_ph:"Décrivez le problème...",rp_send:"Envoyer le signalement",
+  rp_ok:"Signalement envoyé",rp_fail:"Envoi impossible, réessayez",rp_none:"Aucune course à signaler",rp_pick:"Choisissez un type de problème",report_btn:"Signaler un problème"});
+const R={ride:null,kind:null};
+function openReport(id){R.ride=id;R.kind=null;$("#rp-body").value="";$("#rp-err").hidden=true;$("#rp-form").hidden=false;$("#rp-done").hidden=true;
+  $$("#s-report .rp-kinds button").forEach(b=>b.setAttribute("aria-checked","false"));go("s-report")}
+async function openReportLatest(){
+  try{const j=await kapi("GET","/api/rides");const r=(j.rides||[])[0];if(!r){toast(t("rp_none"));return}openReport(r.id)}catch{toast(t("load_fail"))}}
+window.openReport=openReport;window.openReportLatest=openReportLatest;
+$$("#s-report .rp-kinds button").forEach(b=>b.onclick=()=>{R.kind=b.dataset.k;$$("#s-report .rp-kinds button").forEach(x=>x.setAttribute("aria-checked",String(x===b)));$("#rp-err").hidden=true});
+$("#rp-form").onsubmit=async ev=>{ev.preventDefault();const err=$("#rp-err"),btn=$("#rp-send");
+  if(!R.kind){err.textContent=t("rp_pick");err.hidden=false;return}
+  btn.classList.add("loading");err.hidden=true;
+  try{await kapi("POST",`/api/rides/${R.ride}/report`,{kind:R.kind,body:$("#rp-body").value.trim()||undefined});$("#rp-form").hidden=true;$("#rp-done").hidden=false}
+  catch{err.textContent=t("rp_fail");err.hidden=false}
+  finally{btn.classList.remove("loading")}};
+$("#rp-close").onclick=goBack;
+// reveal the report buttons now that the endpoint wiring exists
+{const hb=$("#hd-report");if(hb)hb.hidden=false;const h2=$("#help-report");if(h2)h2.hidden=false}
+
+/* ===== Notifications (real server events only) + account deletion ===== */
+Object.assign(T.ar,{m_notif:"الإشعارات",nt_readall:"قراءة الكل",nt_empty:"لا توجد إشعارات",nt_new_offer:"وصلك عرض جديد",nt_offer_accepted:"تم قبول عرضك",nt_report_status:"تحديث بلاغك",
+  nt_s_arrived:"السائق وصل",nt_s_in_progress:"بدأت الرحلة",nt_s_completed:"انتهت الرحلة",nt_s_cancelled:"أُلغيت الرحلة",nt_s_en_route:"السائق في الطريق",
+  nt_r_open:"مفتوح",nt_r_reviewing:"قيد المراجعة",nt_r_closed:"مغلق",
+  del_h:"حذف الحساب",del_p:"يحذف حسابك ورحلاتك وبلاغاتك نهائيًا ولا يمكن التراجع.",del_btn:"حذف حسابي",del_confirm:"نعم، احذف نهائيًا",del_cancel:"تراجع",del_fail:"تعذّر حذف الحساب، حاول مرة أخرى"});
+Object.assign(T.fr,{m_notif:"Notifications",nt_readall:"Tout lire",nt_empty:"Aucune notification",nt_new_offer:"Nouvelle offre reçue",nt_offer_accepted:"Votre offre a été acceptée",nt_report_status:"Mise à jour de votre signalement",
+  nt_s_arrived:"Le chauffeur est arrivé",nt_s_in_progress:"La course a commencé",nt_s_completed:"Course terminée",nt_s_cancelled:"Course annulée",nt_s_en_route:"Le chauffeur est en route",
+  nt_r_open:"Ouvert",nt_r_reviewing:"En cours d'examen",nt_r_closed:"Clos",
+  del_h:"Supprimer le compte",del_p:"Supprime définitivement votre compte, vos courses et vos signalements. Action irréversible.",del_btn:"Supprimer mon compte",del_confirm:"Oui, supprimer définitivement",del_cancel:"Annuler",del_fail:"Suppression impossible, réessayez"});
+function ntText(n){const d=n.detail||"";
+  if(n.kind==="ride_status")return t("nt_s_"+d)||t("nt_report_status");
+  if(n.kind==="report_status")return t("nt_report_status")+" · "+(t("nt_r_"+d)||"");
+  if(n.kind==="new_offer")return t("nt_new_offer")+(d?" · "+esc(d)+" "+t("dzd"):"");
+  if(n.kind==="offer_accepted")return t("nt_offer_accepted")+(d?" · "+esc(d)+" "+t("dzd"):"");return ""}
+async function loadNotif(){const box=$("#nt-list");box.innerHTML=stateBox("loading");
+  try{const j=await kapi("GET","/api/notifications");const l=j.notifications||[];
+    box.innerHTML=l.length?`<div class="hlist">${l.map(n=>`<div class="hrow card${n.read_at?"":" unread"}"><span class="hr-main"><b>${ntText(n)}</b><small>${esc(fmtDate(n.created_at))}</small></span></div>`).join("")}</div>`
+      :`<div class="st-box"><svg class="ic xl" aria-hidden="true"><use href="#i-bell"/></svg><b>${t("nt_empty")}</b></div>`;
+    $("#nt-all").hidden=!j.unread;
+  }catch{box.innerHTML=stateBox(navigator.onLine===false?"offline":"error",loadNotif)}}
+NAV.load["s-notif"]=loadNotif;
+$("#nt-all").onclick=async()=>{try{await kapi("POST","/api/notifications/read",{});loadNotif()}catch{}};
+/* account deletion (settings) */
+$("#del-start").onclick=()=>{$("#del-ask").hidden=false;$("#del-start").hidden=true};
+$("#del-no").onclick=()=>{$("#del-ask").hidden=true;$("#del-start").hidden=false;$("#del-err").hidden=true};
+$("#del-yes").onclick=async()=>{const e=$("#del-err");e.hidden=true;
+  try{await kapi("DELETE","/api/me");location.reload()}catch{e.textContent=t("del_fail");e.hidden=false}};
+
+buildTabbar();applyI18n();
+</script>
+<script type="text/plain" id="code-driver">const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const T={
+ ar:{d_h:"اربح بسعر عادل",d_s:"سجّل كسائق أو موصّل، وارفع وثائقك مرة واحدة.",phone_l:"رقم الهاتف",send_code:"إرسال الرمز",otp_h:"أدخل الرمز",otp_s:"أرسلناه إلى",demo_code:"رمز التجربة:",verify:"تأكيد",
+  invalid:"رقم غير صحيح",bad_code:"الرمز غير صحيح",too_many:"محاولات كثيرة، انتظر قليلًا",net:"تعذّر الاتصال",otp_g:"رمز التحقق",
+  prof_h:"بياناتك ومركبتك",prof_s:"تظهر للركاب عند تقديم عرضك.",name_l:"الاسم",veh_l:"نوع المركبة",veh_car:"سيارة",veh_moto:"دراجة",model_l:"الطراز",plate_l:"رقم اللوحة",woman_l:"أنا سائقة (يظهر لمن يطلب سائقة فقط)",next:"التالي",
+  f_name:"اكتب اسمك",f_model:"اكتب طراز المركبة",f_plate:"اكتب رقم اللوحة",plate_taken:"رقم اللوحة مسجّل مسبقًا",
+  docs_h:"الوثائق",docs_s:"نراجع كل وثيقة قبل أن تبدأ العمل. صوّرها بوضوح وبإضاءة جيدة.",docs_priv:"الصور تُخزَّن بأمان ويراها فريق المراجعة فقط، وتُحذف عند حذف حسابك.",
+  vehicle_photo:"صورة المركبة",vehicle_photo_h:"صورة واضحة للمركبة من الأمام تظهر فيها اللوحة.",license:"رخصة السياقة",license_h:"الوجه الأمامي للرخصة، سارية المفعول.",
+  registration:"البطاقة الرمادية",registration_h:"بطاقة تسجيل المركبة باسمك أو مع تفويض.",insurance:"وثيقة التأمين",insurance_h:"تأمين ساري المفعول للمركبة.",
+  expires:"تاريخ الانتهاء",take:"التقاط أو رفع صورة",replace:"استبدال الصورة",uploading:"جارٍ الرفع…",uploaded:"تم الرفع",up_fail:"تعذّر رفع الصورة، جرّب صورة أصغر",
+  st_missing:"لم تُرفع",st_pending:"قيد المراجعة",st_approved:"مقبولة",st_rejected:"مرفوضة",
+  hello:"أهلًا،",online_l:"متاح لاستقبال الطلبات",
+  b_missing:"أكمل رفع الوثائق لتبدأ العمل",b_pending:"وثائقك قيد المراجعة. سنخبرك عند القبول.",b_rejected:"رُفضت وثيقة، أعد رفعها من تبويب الوثائق",b_susp:"حسابك موقوف. تواصل مع الدعم.",b_ok:"حسابك مفعّل",go_docs:"الوثائق",
+  dr_off:"غير متصل",dr_on:"بانتظار الطلبات…",dr_new:"طلب جديد",dr_del:"توصيل",it_food:"أكل",it_parcel:"طرد",bid_same:"اقبل بسعره",bid_counter:"اقترح",km:"كم",drv_wait:"بانتظار ردّ الطالب…",
+  drv_ride:"رحلة جارية",nx_arrived:"وصلت",nx_in_progress:"ابدأ الرحلة",nx_completed:"أنهِ الرحلة",cash_due:"تحصيل نقدي معلّق",cash_method:"الدفع نقدًا",cash_pending:"بانتظار تأكيد استلام المبلغ",cash_confirm:"تأكيد استلام المبلغ",cash_done:"تم تأكيد استلام المبلغ",call_rider:"اتصل بالطالب",call_recv:"اتصل بالمستلم",offer_gone:"الطلب لم يعد متاحًا",loc_need:"فعّل خدمة الموقع لتستقبل الطلبات",no_online:"لا يمكنك الاتصال الآن",
+  tab_home:"الرئيسية",tab_docs:"الوثائق",tab_acc:"حسابي",acc_h:"حسابي",logout:"تسجيل الخروج",delete:"حذف حسابي نهائيًا",del_ask:"سيُحذف حسابك ووثائقك نهائيًا. متابعة؟",not_driver:"هذا الرقم مسجّل كراكب. استخدم تطبيق الراكب.",
+  k_phone:"الهاتف",k_veh:"المركبة",k_plate:"اللوحة",k_status:"حالة الوثائق",
+  vc_appr:"معتمدة",vc_req:"طلب تغيير المركبة",vc_lock:"التغييرات تحتاج موافقة الإدارة. تبقى مركبتك الحالية فعّالة حتى ذلك الحين.",vc_free:"يُطبّق التغيير فورًا.",vc_submit:"إرسال",vc_close:"إغلاق",vc_pending:"بانتظار موافقة الإدارة",vc_rejected:"مرفوض",vc_cancel:"إلغاء الطلب",vc_keep:"إبقاء",vc_ask:"إلغاء الطلب؟",vc_edit:"تعديل الطلب",vc_sent:"أُرسل الطلب إلى الإدارة",vc_applied:"تم تحديث المركبة",vc_same:"لا يوجد تغيير",vc_cancelled:"أُلغي الطلب",vc_limit:"محاولات كثيرة، حاول لاحقًا",vc_title:"مركبتك",
+  of_wait:"بانتظار اختيار الراكب",of_exp:"انتهى عرضك",of_dec:"اختار الراكب سائقًا آخر"},
+ fr:{d_h:"Gagnez au juste prix",d_s:"Inscrivez-vous comme chauffeur ou livreur et envoyez vos documents une seule fois.",phone_l:"Numéro de téléphone",send_code:"Envoyer le code",otp_h:"Saisissez le code",otp_s:"Envoyé au",demo_code:"Code de démo :",verify:"Valider",
+  invalid:"Numéro invalide",bad_code:"Code incorrect",too_many:"Trop d'essais, patientez",net:"Connexion impossible",otp_g:"Code de vérification",
+  prof_h:"Vous et votre véhicule",prof_s:"Visible des clients quand vous proposez une offre.",name_l:"Prénom",veh_l:"Type de véhicule",veh_car:"Voiture",veh_moto:"Moto",model_l:"Modèle",plate_l:"Immatriculation",woman_l:"Je suis une conductrice (visible pour celles qui le demandent)",next:"Suivant",
+  f_name:"Saisissez votre prénom",f_model:"Saisissez le modèle",f_plate:"Saisissez l'immatriculation",plate_taken:"Immatriculation déjà enregistrée",
+  docs_h:"Documents",docs_s:"Chaque document est vérifié avant que vous commenciez. Photographiez-les nets et bien éclairés.",docs_priv:"Les photos sont stockées en sécurité, vues uniquement par l'équipe de vérification, et supprimées avec votre compte.",
+  vehicle_photo:"Photo du véhicule",vehicle_photo_h:"Photo nette de face, plaque visible.",license:"Permis de conduire",license_h:"Recto du permis, en cours de validité.",
+  registration:"Carte grise",registration_h:"Carte grise à votre nom ou avec autorisation.",insurance:"Assurance",insurance_h:"Attestation d'assurance en cours de validité.",
+  expires:"Date d'expiration",take:"Prendre ou envoyer une photo",replace:"Remplacer la photo",uploading:"Envoi…",uploaded:"Envoyé",up_fail:"Échec de l'envoi, essayez une photo plus légère",
+  st_missing:"Non envoyé",st_pending:"En vérification",st_approved:"Validé",st_rejected:"Refusé",
+  hello:"Bonjour,",online_l:"Disponible pour les demandes",
+  b_missing:"Envoyez tous vos documents pour commencer",b_pending:"Vos documents sont en vérification. Nous vous prévenons à la validation.",b_rejected:"Un document est refusé, renvoyez-le depuis l'onglet Documents",b_susp:"Compte suspendu. Contactez le support.",b_ok:"Compte activé",go_docs:"Documents",
+  dr_off:"Hors ligne",dr_on:"En attente de demandes…",dr_new:"Nouvelle demande",dr_del:"Livraison",it_food:"Repas",it_parcel:"Colis",bid_same:"Accepter son prix",bid_counter:"Proposer",km:"km",drv_wait:"En attente du client…",
+  drv_ride:"Course en cours",nx_arrived:"Arrivé",nx_in_progress:"Démarrer",nx_completed:"Terminer",cash_due:"Paiement en espèces à confirmer",cash_method:"Paiement en espèces",cash_pending:"En attente de confirmation de l’encaissement",cash_confirm:"Confirmer l’encaissement",cash_done:"Encaissement confirmé",call_rider:"Appeler le client",call_recv:"Appeler le destinataire",offer_gone:"Demande indisponible",loc_need:"Activez la localisation pour recevoir des demandes",no_online:"Connexion impossible pour le moment",
+  tab_home:"Accueil",tab_docs:"Documents",tab_acc:"Mon compte",acc_h:"Mon compte",logout:"Se déconnecter",delete:"Supprimer mon compte",del_ask:"Votre compte et vos documents seront supprimés définitivement. Continuer ?",not_driver:"Ce numéro est inscrit comme passager. Utilisez l'application passager.",
+  k_phone:"Téléphone",k_veh:"Véhicule",k_plate:"Plaque",k_status:"État des documents",
+  vc_appr:"Validé",vc_req:"Demander un changement de véhicule",vc_lock:"Les changements nécessitent l'accord de l'administration. Votre véhicule actuel reste actif d'ici là.",vc_free:"Le changement s'applique immédiatement.",vc_submit:"Envoyer",vc_close:"Fermer",vc_pending:"En attente d'approbation",vc_rejected:"Refusé",vc_cancel:"Annuler la demande",vc_keep:"Garder",vc_ask:"Annuler la demande ?",vc_edit:"Modifier la demande",vc_sent:"Demande envoyée à l'administration",vc_applied:"Véhicule mis à jour",vc_same:"Aucun changement",vc_cancelled:"Demande annulée",vc_limit:"Trop d'essais, réessayez plus tard",vc_title:"Votre véhicule",
+  of_wait:"En attente du choix du client",of_exp:"Votre offre a expiré",of_dec:"Le client a choisi un autre chauffeur"}
+};
+let L=(window.Kherja&&window.Kherja.lang)||'ar',ME=null,poll=null,sig='',locTimer=null,veh='car';
+const t=k=>T[L][k]??k;
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined,credentials:'same-origin'});let j={};try{j=await r.json()}catch{}if(!r.ok)throw Object.assign(new Error(j.error||r.status),{status:r.status});return j};
+function applyI18n(){document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';
+  $$('[data-i]').forEach(e=>{const v=t(e.dataset.i);if(typeof v==='string')e.textContent=v});$$('[data-aria]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.aria)));
+  $$('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===L));if(ME)renderAll()}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
+function screen(id){$$('.screen').forEach(s=>s.classList.toggle('on',s.id===id));const tab=['s-home','s-docs','s-account'].includes(id);$('#app').classList.toggle('tabs',tab);
+  $$('.tabbar button').forEach((b,i)=>{const on=('s-'+b.dataset.tab)===id;b.setAttribute('aria-current',on?'page':'false');if(on)$('.tabbar').style.setProperty('--i',i)})}
+const stop=()=>{clearInterval(poll);poll=null;clearInterval(locTimer);locTimer=null};
+
+/* auth */
+/* profile */
+$$('[data-veh]').forEach(b=>b.onclick=()=>{veh=b.dataset.veh;$$('[data-veh]').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+$('#save-prof').onclick=async()=>{const name=$('#name').value.trim(),model=$('#model').value.trim(),plate=$('#plate').value.trim(),e=$('#prof-err');
+  if(!name)return e.textContent=t('f_name');if(!model)return e.textContent=t('f_model');if(!plate)return e.textContent=t('f_plate');e.textContent='';
+  try{await api('POST','/api/driver/profile',{name,vehicle_type:veh,car:model,plate,is_woman:$('#woman').checked})}catch(x){e.textContent=x.status===409?t('plate_taken'):t('net');return}
+  await boot('s-docs')};
+
+/* documents */
+const KINDS=['vehicle_photo','license','registration','insurance'];
+function renderDocs(){const docs=Object.fromEntries(ME.docs.map(d=>[d.kind,d]));const n=KINDS.filter(k=>docs[k]).length;$('#docs-count').textContent=n;$('#docs-bar').style.width=(n*25)+'%';
+  $('#docs-list').innerHTML='';
+  KINDS.forEach(k=>{const d=docs[k],st=d?d.status:'missing';const card=document.createElement('div');card.className='card doc';
+    card.innerHTML=`<div class="thumb">${d?`<img alt="${esc(t(k))}" src="/api/driver/docs/${d.id}/file?v=${d.id}">`:`<svg class="ic xl" aria-hidden="true"><use href="#i-${k==='vehicle_photo'?'camera':'file'}"/></svg>`}</div>
+     <div><h3>${t(k)}</h3><p>${t(k+'_h')}</p><span class="st ${st}">${t('st_'+st)}</span>${d&&d.reason?`<p class="reason">${esc(d.reason)}</p>`:''}
+     <div class="row">${k==='license'||k==='insurance'?`<label><span class="sr">${t('expires')}</span><input type="date" data-exp="${k}" value="${esc(d&&d.expires_on||'')}" aria-label="${t('expires')}"></label>`:''}
+     <label class="btn ghost" style="cursor:pointer"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg><span>${d?t('replace'):t('take')}</span><input class="sr" type="file" accept="image/*" capture="environment" data-kind="${k}" aria-label="${t(k)}"></label></div></div>`;
+    $('#docs-list').appendChild(card)});
+  $$('#docs-list input[type=file]').forEach(inp=>inp.onchange=()=>upload(inp))}
+async function shrink(file){const bmp=await createImageBitmap(file);const k=Math.min(1,1280/Math.max(bmp.width,bmp.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(bmp.width*k));c.height=Math.max(1,Math.round(bmp.height*k));
+  c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);let q=.82,blob;for(;;){blob=await new Promise(r=>c.toBlob(r,'image/jpeg',q));if(blob.size<1.4e6||q<.4)break;q-=.15}
+  const buf=new Uint8Array(await blob.arrayBuffer());let bin='';for(let i=0;i<buf.length;i+=0x8000)bin+=String.fromCharCode.apply(null,buf.subarray(i,i+0x8000));return btoa(bin)}
+async function upload(inp){const f=inp.files[0];if(!f)return;const kind=inp.dataset.kind;toast(t('uploading'));
+  try{const exp=($(`[data-exp="${kind}"]`)||{}).value||undefined;await api('POST','/api/driver/docs',{kind,data:await shrink(f),expires_on:exp});toast(t('uploaded'));await refresh()}catch{toast(t('up_fail'))}}
+
+/* home */
+function banner(){const p=ME.profile,n=ME.docs.length;let cls='',txt='',btn=true;
+  if(p.suspended){cls='bad';txt=t('b_susp');btn=false}else if(ME.can_go_online&&p.docs_status==='approved'){cls='ok';txt=t('b_ok');btn=false}
+  else if(p.docs_status==='rejected'){cls='bad';txt=t('b_rejected')}else if(n<4){txt=t('b_missing')}else if(p.docs_status==='pending'&&!ME.can_go_online){txt=t('b_pending');btn=false}else{btn=false}
+  $('#banner').innerHTML=txt?`<div class="banner ${cls}" role="status">${esc(txt)}${btn?`<button class="btn primary" id="b-docs">${t('go_docs')}</button>`:''}</div>`:'';const b=$('#b-docs');if(b)b.onclick=()=>go('docs')}
+function renderHome(){$('#hello').textContent=t('hello')+' '+(ME.user.name||'');banner();const sw=$('#online');sw.disabled=!ME.can_go_online;sw.style.opacity=ME.can_go_online?1:.45;
+  $('#dr-s').textContent=sw.getAttribute('aria-checked')==='true'?t('dr_on'):t('dr_off')}
+function renderAccount(){const p=ME.profile;$('#acc-card').innerHTML=[['k_phone',`<span class="num">${esc(ME.user.phone)}</span>`],['k_veh',esc(p.car)+' · '+t(p.vehicle_type==='moto'?'veh_moto':'veh_car')],['k_plate',`<span class="num">${esc(p.plate)}</span>`],['k_status',t(ME.docs.length<4?'st_missing':'st_'+p.docs_status)]].map(([k,v])=>`<div class="kv"><span>${t(k)}</span><span>${v}</span></div>`).join('')}
+let vcEdit=false;
+function renderVehicle(){const p=ME.profile,c=ME.change_request,r=ME.last_rejection,ty=x=>t(x==='moto'?'veh_moto':'veh_car');
+  let h=`<div class="vrow"><svg class="ic xl" aria-hidden="true"><use href="#i-${p.vehicle_type==='moto'?'moto':'car'}"/></svg><div><b>${esc(p.car)}</b><div class="sub"><span class="num">${esc(p.plate)}</span> · ${ty(p.vehicle_type)}</div></div><span class="st approved">${t('vc_appr')}</span></div>`;
+  if(c)h+=`<div class="vpend" role="status"><span class="st pending">${t('vc_pending')}</span><p class="sub">${esc(c.car)} · ${ty(c.vehicle_type)} · <span class="num">${esc(c.plate)}</span></p><div class="vact" id="vact"><button class="btn ghost sm" id="vc-edit">${t('vc_edit')}</button><button class="btn ghost sm" id="vc-cancel">${t('vc_cancel')}</button></div></div>`;
+  else{if(r)h+=`<div class="vpend" role="status"><span class="st rejected">${t('vc_rejected')}</span><p class="reason">${esc(r.reason||'')}</p></div>`;h+=`<div class="vact"><button class="btn ghost sm" id="vc-open">${t('vc_req')}</button></div>`}
+  $('#veh-card').innerHTML=h;const o=$('#vc-open');if(o)o.onclick=()=>openSheet(false);const e=$('#vc-edit');if(e)e.onclick=()=>openSheet(true);
+  const cb=$('#vc-cancel');if(cb)cb.onclick=()=>{$('#vact').innerHTML=`<span class="sub">${t('vc_ask')}</span><button class="btn danger sm" id="vc-yes">${t('vc_cancel')}</button><button class="btn ghost sm" id="vc-no">${t('vc_keep')}</button>`;
+    $('#vc-no').onclick=renderVehicle;$('#vc-yes').onclick=async()=>{try{await api('POST','/api/driver/vehicle-change/cancel',{request_id:c.id});toast(t('vc_cancelled'))}catch(x){toast(x.status===429?t('vc_limit'):t('net'))}await refresh()}}}
+const SHEET=()=>`<div class="vpanel"><h2 id="vtitle">${t('vc_title')}</h2>
+  <div class="seg" role="group" aria-label="${t('veh_l')}"><button data-vveh="car" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg><span>${t('veh_car')}</span></button><button data-vveh="moto" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-moto"/></svg><span>${t('veh_moto')}</span></button></div>
+  <label class="field"><span>${t('model_l')}</span><input class="input" id="vmodel" maxlength="60"></label>
+  <label class="field"><span>${t('plate_l')}</span><input class="input num" id="vplate" maxlength="20" style="text-align:start"></label>
+  <p class="sub" id="vnote" style="font-size:13px"></p><div class="err" id="verr" role="alert"></div>
+  <div class="vact"><button class="btn primary sm" id="vsubmit">${t('vc_submit')}</button><button class="btn ghost sm" id="vclose">${t('vc_close')}</button></div></div>`;
+let vcOpener=null;
+function openSheet(edit){const p=ME.profile,c=edit?ME.change_request:null,src=c||p;vcOpener=document.activeElement;$('#vsheet').innerHTML=SHEET();veh=src.vehicle_type;
+  $$('[data-vveh]').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.vveh===veh);b.onclick=()=>{veh=b.dataset.vveh;$$('[data-vveh]').forEach(x=>x.setAttribute('aria-pressed',x===b))}});
+  $('#vmodel').value=src.car;$('#vplate').value=src.plate;$('#vnote').textContent=t(p.approval_required?'vc_lock':'vc_free');
+  $('#vclose').onclick=closeSheet;$('#vsubmit').onclick=submitSheet;$('#vsheet').hidden=false;$('#vmodel').focus()}
+function closeSheet(){$('#vsheet').hidden=true;$('#vsheet').innerHTML='';if(vcOpener&&vcOpener.isConnected)vcOpener.focus()}
+$('#vsheet').onclick=e=>{if(e.target.id==='vsheet')closeSheet()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#vsheet').hidden)closeSheet()});
+async function submitSheet(){const car=$('#vmodel').value.trim(),plate=$('#vplate').value.trim(),e=$('#verr'),b=$('#vsubmit');if(!car)return e.textContent=t('f_model');if(!plate)return e.textContent=t('f_plate');e.textContent='';b.disabled=true;
+  try{const r=await api('POST','/api/driver/profile',{vehicle_type:veh,car,plate});toast(t(r.change==='pending'?'vc_sent':r.change==='applied'?'vc_applied':'vc_same'));closeSheet();await refresh()}
+  catch(x){e.textContent=x.status===409?t('plate_taken'):x.status===429?t('vc_limit'):t('net');b.disabled=false}}
+function renderAll(){renderHome();renderDocs();renderAccount();renderVehicle()}
+function go(tab){screen('s-'+tab)}
+$$('.tabbar button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+async function refresh(){ME=await api('GET','/api/driver/me');renderAll()}
+
+let dskew=0;setInterval(()=>{$$('.of-st[data-exp]').forEach(e=>{const r=+e.dataset.exp-(Date.now()+dskew);const c=e.querySelector('.dcd');if(c)c.textContent=r>0?'00:'+String(Math.ceil(r/1000)).padStart(2,'0'):'';if(r<=0){e.textContent=t('of_exp');e.removeAttribute('data-exp')}})},250);
+const NEXT={en_route:'arrived',arrived:'in_progress',in_progress:'completed'};
+async function tick(){try{const on=$('#online').getAttribute('aria-checked')==='true';
+  const [feed,act,mine,due]=await Promise.all([on?api('GET','/api/driver/requests'):Promise.resolve({requests:[]}),api('GET','/api/rides/active'),on?api('GET','/api/driver/offers'):Promise.resolve({offers:[],server_now:Date.now()}),api('GET','/api/driver/cash-due')]);const requests=feed.requests,ride=act.ride;
+  dskew=mine.server_now-Date.now();const OF={};mine.offers.forEach(o=>{if(!OF[o.request_id])OF[o.request_id]=o});
+  const s=JSON.stringify([requests.map(r=>[r.id,r.already_offered,r.price,OF[r.id]&&OF[r.id].status]),ride&&[ride.id,ride.status],due.rides.map(r=>[r.id,r.locked_price])]);if(s===sig)return;sig=s;const box=$('#dr-req');box.innerHTML='';
+  if(ride){const nxt=NEXT[ride.status];const del=ride.kind==='delivery';
+    box.innerHTML=`<div class="req"><div style="display:flex;justify-content:space-between;align-items:center"><b>${del?`<span class="tag">${t('dr_del')}</span>`:''}${t('drv_ride')}</b><span class="num" style="font-weight:800;font-size:22px">${ride.locked_price}</span></div>
+     ${del?`<p class="sub" style="margin:6px 0 0">${t('it_'+ride.item_type)} · ${esc(ride.item_note)}</p>`:''}
+     <p class="sub" style="margin:6px 0 0">${esc(ride.p_label)} → ${esc(ride.d_label)}</p>
+     <div class="calls">${ride.contact?`<a class="btn ghost" href="tel:${esc(ride.contact.phone)}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>${t('call_rider')} · <span class="num">${esc(ride.contact.phone)}</span></a>`:''}
+     ${ride.recipient?`<a class="btn ghost" href="tel:${esc(ride.recipient.phone)}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>${t('call_recv')} · ${esc(ride.recipient.name)}</a>`:''}</div>
+     ${nxt?`<div class="row"><button class="btn primary" id="dr-next">${t('nx_'+nxt)}</button></div>`:''}</div>`;
+    const nb=$('#dr-next');if(nb)nb.onclick=async()=>{try{await api('POST',`/api/rides/${ride.id}/status`,{status:nxt});sig='';tick()}catch{toast(t('net'))}};return}
+  due.rides.forEach(r=>{const el=document.createElement('div');el.className='req';el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><b>${t('cash_due')}</b><span class="num" style="font-weight:800;font-size:22px">${r.locked_price} DZD</span></div><p class="sub" style="margin:6px 0 10px">${t('cash_pending')}</p><button class="btn primary" data-cash>${t('cash_confirm')}</button>`;el.querySelector('[data-cash]').onclick=async ev=>{const b=ev.currentTarget;b.disabled=true;try{await api('POST',`/api/rides/${r.id}/cash-collected`,{});toast(t('cash_done'));sig='';tick()}catch{b.disabled=false;toast(t('net'))}};box.appendChild(el)});
+  requests.forEach(r=>{const el=document.createElement('div');el.className='req';const del=r.kind==='delivery';
+    el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><b>${del?`<span class="tag">${t('dr_del')} · ${t('it_'+r.item_type)}</span>`:''}${t('dr_new')}</b><span class="num" style="font-weight:800;font-size:22px">${r.price}</span></div>
+     ${del?`<p class="sub" style="margin:6px 0 0">${esc(r.item_note)}</p>`:''}<p class="sub" style="margin:6px 0 12px">${esc(r.p_label)} → ${esc(r.d_label)} · <span class="num">${r.dist_km}</span> ${t('km')}</p>`+
+     (r.already_offered?(()=>{const o=OF[r.id],st=o?o.status:'pending';return `<p class="sub of-st ${st}" role="status" ${st==='pending'&&o?`data-exp="${o.expires_at}"`:''} style="margin:0">${st==='expired'?t('of_exp'):st==='declined'?t('of_dec'):`${t('of_wait')} <span class="num dcd"></span>`}</p>`})():`<div class="row" style="margin:0"><button class="btn ghost" data-c>${t('bid_counter')} <span class="num">${r.price+50}</span></button><button class="btn primary" data-a>${t('bid_same')}</button></div>`);
+    const bid=p=>async()=>{try{await api('POST',`/api/requests/${r.id}/offers`,{price:p,eta_min:4});toast('✓');sig='';tick()}catch{toast(t('offer_gone'))}};
+    const a=el.querySelector('[data-a]');if(a){a.onclick=bid(r.price);el.querySelector('[data-c]').onclick=bid(r.price+50)}box.appendChild(el)})}catch(e){if(e.status===401)location.reload()}}
+function position(){return new Promise((res,rej)=>{if(!navigator.geolocation)return rej(new Error('no geo'));navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude}),rej,{timeout:8000,maximumAge:15000})})}
+$('#online').onclick=async()=>{const sw=$('#online');if(sw.disabled)return;const on=sw.getAttribute('aria-checked')!=='true';
+  try{if(on){let pos;try{pos=await position()}catch{toast(t('loc_need'));return}await api('POST','/api/driver/online',{online:true,...pos});
+      clearInterval(locTimer);locTimer=setInterval(async()=>{try{await api('POST','/api/driver/online',{online:true,...await position()})}catch{}},20000)}
+    else{clearInterval(locTimer);await api('POST','/api/driver/online',{online:false})}}catch{toast(t('no_online'));return}
+  sw.setAttribute('aria-checked',on);sig='';renderHome();tick()};
+
+/* account */
+$('#logout').onclick=async()=>{stop();try{await api('POST','/api/auth/logout')}catch{}location.reload()};
+$('#delete').onclick=async()=>{if(!confirm(t('del_ask')))return;stop();try{await api('DELETE','/api/me')}catch{}location.reload()};
+
+/* start */
+async function boot(to){try{ME=await api('GET','/api/driver/me')}catch(e){if(e.status===401){location.reload();return}Kherja.notice(e.status===403?'wrong_role':'net');return}
+  if(!ME.profile){screen('s-profile');return}
+  renderAll();stop();sig='';poll=setInterval(tick,1500);tick();
+  const sw=$('#online');sw.setAttribute('aria-checked','false');go(to?to.replace('s-',''):(ME.docs.length<4?'docs':'home'))}
+applyI18n();boot();
+
+/* ===== Driver extra screens (real endpoints: /api/rides, /api/driver/earnings, /api/notifications, /api/safety/contacts, /api/me, /api/rides/:id/report) ===== */
+Object.assign(T.ar,{m_act:"النشاط والأرباح",m_notif:"الإشعارات",m_contacts:"جهات الاتصال",m_settings:"الإعدادات",report_btn:"تبليغ عن مشكلة",
+  earn_note:"إجمالي أجور الرحلات المكتملة، بدون أي عمولة محسوبة.",e_today:"اليوم",e_week:"آخر 7 أيام",e_all:"الكل",dzd:"دج",trips:"رحلة",hist_empty:"لا توجد رحلات بعد",ride_no:"رحلة رقم",
+  st_completed:"مكتملة",st_cancelled:"ملغاة",st_live:"جارية",loading:"جارٍ التحميل…",load_fail:"تعذّر التحميل",retry:"إعادة المحاولة",
+  nt_readall:"قراءة الكل",nt_empty:"لا توجد إشعارات",nt_offer_accepted:"تم قبول عرضك",nt_new_offer:"وصلك عرض جديد",nt_report_status:"تحديث بلاغك",
+  nt_s_arrived:"وصل السائق",nt_s_in_progress:"بدأت الرحلة",nt_s_completed:"انتهت الرحلة",nt_s_cancelled:"أُلغيت الرحلة",nt_s_en_route:"في الطريق",nt_r_open:"مفتوح",nt_r_reviewing:"قيد المراجعة",nt_r_closed:"مغلق",
+  c_note:"أرقام تتصل بها أو تراسلها بنفسك عند الحاجة. لا يُرسل التطبيق أي رسالة تلقائيًا.",c_name:"اسم جهة الاتصال",c_phone:"رقم الهاتف",c_add:"إضافة",c_none:"لا توجد جهات اتصال بعد",c_bad:"رقم غير صحيح",c_fail:"تعذّر الحفظ",c_call:"اتصال",c_sms:"رسالة",
+  appearance:"المظهر",language:"اللغة",th_sys:"النظام",th_light:"فاتح",th_dark:"داكن",lang_fail:"تعذّر تغيير اللغة",
+  k_price:"خلاف حول السعر",k_safety:"السلامة",k_other:"أخرى",rp_desc:"تفاصيل إضافية (اختياري)",rp_send:"إرسال البلاغ",rp_ok:"تم إرسال البلاغ",rp_fail:"تعذّر الإرسال، حاول مرة أخرى",rp_none:"لا توجد رحلة للتبليغ عنها",rp_pick:"اختر نوع المشكلة"});
+Object.assign(T.fr,{m_act:"Activité et gains",m_notif:"Notifications",m_contacts:"Contacts de confiance",m_settings:"Paramètres",report_btn:"Signaler un problème",
+  earn_note:"Total brut des courses terminées, sans commission appliquée.",e_today:"Aujourd'hui",e_week:"7 derniers jours",e_all:"Total",dzd:"DZD",trips:"courses",hist_empty:"Aucune course pour le moment",ride_no:"Course n°",
+  st_completed:"Terminée",st_cancelled:"Annulée",st_live:"En cours",loading:"Chargement…",load_fail:"Chargement impossible",retry:"Réessayer",
+  nt_readall:"Tout lire",nt_empty:"Aucune notification",nt_offer_accepted:"Votre offre a été acceptée",nt_new_offer:"Nouvelle offre reçue",nt_report_status:"Mise à jour de votre signalement",
+  nt_s_arrived:"Le chauffeur est arrivé",nt_s_in_progress:"La course a commencé",nt_s_completed:"Course terminée",nt_s_cancelled:"Course annulée",nt_s_en_route:"En route",nt_r_open:"Ouvert",nt_r_reviewing:"En cours d'examen",nt_r_closed:"Clos",
+  c_note:"Numéros que vous appelez ou contactez vous-même en cas de besoin. L'application n'envoie aucun message automatiquement.",c_name:"Nom du contact",c_phone:"Téléphone",c_add:"Ajouter",c_none:"Aucun contact pour le moment",c_bad:"Numéro invalide",c_fail:"Enregistrement impossible",c_call:"Appeler",c_sms:"SMS",
+  appearance:"Apparence",language:"Langue",th_sys:"Système",th_light:"Mode clair",th_dark:"Mode sombre",lang_fail:"Changement de langue impossible",
+  k_price:"Désaccord sur le prix",k_safety:"Sécurité",k_other:"Autre",rp_desc:"Description (optionnel)",rp_send:"Envoyer le signalement",rp_ok:"Signalement envoyé",rp_fail:"Envoi impossible, réessayez",rp_none:"Aucune course à signaler",rp_pick:"Choisissez un type de problème"});
+const DM={stack:[]};
+const dmGo=id=>{DM.stack.push($(".screen.on")?.id||"s-account");screen(id);const f=DM.load[id];if(f)f()};
+const dmBack=()=>{screen(DM.stack.pop()||"s-account")};
+$$("[data-dmback]").forEach(b=>b.onclick=dmBack);
+const dmFmt=s=>{try{return new Date(String(s).replace(" ","T")+"Z").toLocaleString(L==="ar"?"ar-DZ-u-nu-latn":"fr-FR",{dateStyle:"medium",timeStyle:"short"})}catch{return s||""}};
+const dmBox=(k,retry)=>k==="loading"?`<p class="dm-st" role="status">${t("loading")}</p>`:`<div class="dm-st" role="alert"><b>${t("load_fail")}</b><button type="button" class="btn ghost" data-retry>${t("retry")}</button></div>`;
+const dmRetry=(box,fn)=>{const b=box.querySelector("[data-retry]");if(b)b.onclick=fn};
+DM.load={};
+/* activity + earnings */
+DM.load["dm-act"]=async function ld(){const box=$("#dm-hist"),eb=$("#dm-earn");box.innerHTML=dmBox("loading");
+  try{const [e,r]=await Promise.all([api("GET","/api/driver/earnings"),api("GET","/api/rides")]);
+    eb.innerHTML=[["e_today",e.today],["e_week",e.week],["e_all",e.all]].map(([k,v])=>`<div class="dm-card"><small>${t(k)}</small><b class="num">${v.total} ${t("dzd")}</b><small>${v.n} ${L==="fr"&&v.n<2?"course":t("trips")}</small></div>`).join("");
+    const l=r.rides||[];const det={};await Promise.all(l.slice(0,20).map(async x=>{try{det[x.id]=await api("GET","/api/rides/"+x.id)}catch{}}));
+    box.innerHTML=l.length?l.map(x=>{const d=det[x.id]||{};const k=x.status==="completed"?"completed":x.status==="cancelled"?"cancelled":"live";
+      return `<div class="dm-row"><span><b>${d.p_label?esc(d.p_label)+" → "+esc(d.d_label||"—"):t("ride_no")+" "+x.id}</b><small>${esc(dmFmt(x.created_at))}</small></span><span class="dm-end"><b class="num">${x.locked_price} ${t("dzd")}</b><small class="dm-b ${k}">${t("st_"+k)}</small></span></div>`}).join("")
+      :`<p class="dm-st">${t("hist_empty")}</p>`;
+    DM.lastRide=l[0]?l[0].id:null;
+  }catch{box.innerHTML=dmBox("error");dmRetry(box,ld)}};
+/* notifications */
+const dmNt=n=>{const d=n.detail||"";return n.kind==="ride_status"?t("nt_s_"+d):n.kind==="report_status"?t("nt_report_status")+" · "+t("nt_r_"+d):n.kind==="new_offer"?t("nt_new_offer"):t("nt_offer_accepted")+(d?" · "+esc(d)+" "+t("dzd"):"")};
+DM.load["dm-notif"]=async function ld(){const box=$("#dm-n-list");box.innerHTML=dmBox("loading");
+  try{const j=await api("GET","/api/notifications");const l=j.notifications||[];
+    box.innerHTML=l.length?l.map(n=>`<div class="dm-row${n.read_at?"":" unread"}"><span><b>${dmNt(n)}</b><small>${esc(dmFmt(n.created_at))}</small></span></div>`).join(""):`<p class="dm-st">${t("nt_empty")}</p>`;
+    $("#dm-n-all").hidden=!j.unread}catch{box.innerHTML=dmBox("error");dmRetry(box,ld)}};
+$("#dm-n-all").onclick=async()=>{try{await api("POST","/api/notifications/read",{});DM.load["dm-notif"]()}catch{}};
+/* contacts (tel:/sms: links only: nothing is sent by the app) */
+DM.load["dm-cont"]=async function ld(){const box=$("#dm-c-list");box.innerHTML=dmBox("loading");
+  try{const j=await api("GET","/api/safety/contacts");const l=j.contacts||[];
+    box.innerHTML=l.length?l.map(c=>`<div class="dm-row"><span><b>${esc(c.name)}</b><small class="num" dir="ltr">${esc(c.phone)}</small></span><span class="dm-end"><a class="dm-link" href="tel:${esc(c.phone)}">${t("c_call")}</a><a class="dm-link" href="sms:${esc(c.phone)}">${t("c_sms")}</a></span></div>`).join(""):`<p class="dm-st">${t("c_none")}</p>`;
+  }catch{box.innerHTML=dmBox("error");dmRetry(box,ld)}};
+$("#dm-c-form").onsubmit=async ev=>{ev.preventDefault();const e=$("#dm-c-err");e.textContent="";
+  try{await api("POST","/api/safety/contacts",{name:$("#dm-c-name").value.trim(),phone:$("#dm-c-phone").value.trim()});$("#dm-c-name").value="";$("#dm-c-phone").value="";DM.load["dm-cont"]()}
+  catch(x){e.textContent=x.status===400?t("c_bad"):t("c_fail")}};
+/* settings */
+const dmTheme=()=>{try{const v=localStorage.getItem("kherja-theme");return v==="light"||v==="dark"?v:"system"}catch{return"system"}};
+DM.load["dm-set"]=()=>{const th=dmTheme();$$("#dm-theme button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.th===th)));$$("#dm-lang button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lg===L)))};
+$$("#dm-theme button").forEach(b=>b.onclick=()=>{const v=b.dataset.th;try{v==="system"?localStorage.removeItem("kherja-theme"):localStorage.setItem("kherja-theme",v)}catch{}
+  v==="system"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=v;DM.load["dm-set"]()});
+$$("#dm-lang button").forEach(b=>b.onclick=async()=>{if(b.dataset.lg===L)return;$("#dm-s-err").textContent="";try{await api("POST","/api/me",{lang:b.dataset.lg});location.reload()}catch{$("#dm-s-err").textContent=t("lang_fail")}});
+/* report (latest ride) */
+DM.rk=null;
+DM.load["dm-rep"]=()=>{DM.rk=null;$("#dm-r-body").value="";$("#dm-r-err").textContent="";$("#dm-r-form").hidden=false;$("#dm-r-done").hidden=true;$$("#dm-r-kinds button").forEach(b=>b.setAttribute("aria-checked","false"))};
+$$("#dm-r-kinds button").forEach(b=>b.onclick=()=>{DM.rk=b.dataset.k;$$("#dm-r-kinds button").forEach(x=>x.setAttribute("aria-checked",String(x===b)))});
+$("#dm-r-form").onsubmit=async ev=>{ev.preventDefault();const e=$("#dm-r-err");e.textContent="";if(!DM.rk){e.textContent=t("rp_pick");return}
+  try{const r=((await api("GET","/api/rides")).rides||[])[0];if(!r){e.textContent=t("rp_none");return}
+    await api("POST",`/api/rides/${r.id}/report`,{kind:DM.rk,body:$("#dm-r-body").value.trim()||undefined});$("#dm-r-form").hidden=true;$("#dm-r-done").hidden=false}catch{e.textContent=t("rp_fail")}};
+/* account menu (inserted above logout) */
+{const m=document.createElement("ul");m.className="dm-menu";m.id="dm-menu";
+  const it=[["dm-act","hist","m_act"],["dm-notif","bell","m_notif"],["dm-cont","users","m_contacts"],["dm-set","gear","m_settings"],["dm-rep","alert","report_btn"]];
+  m.innerHTML=it.map(([id,ic,k])=>`<li><button type="button" data-dm="${id}"><svg class="ic" aria-hidden="true"><use href="#dmi-${ic}"/></svg><span data-i="${k}"></span><svg class="ic row-chev" aria-hidden="true"><use href="#dmi-chev"/></svg></button></li>`).join("");
+  $("#s-account").insertBefore(m,$("#logout"));$$("#dm-menu [data-dm]").forEach(b=>b.onclick=()=>dmGo(b.dataset.dm))}
+applyI18n();
+</script>
+
+<script>
+/* Kherja shell. Scope: IIFE, so it cannot collide with the globals of the mounted role view.
+   Authority: the role ALWAYS comes from the server (GET /api/me, POST /api/auth/verify). The URL path is only a
+   starting-screen hint; the picker is only sent when an account is created; nothing is read from localStorage. */
+(function(){
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const T={
+ ar:{brand_h:"طريقك، بسعرك",brand_s:"اقترح سعر رحلتك واختر السائق الذي يناسبك.",continue:"متابعة",
+  phone_h:"رقم هاتفك",phone_s:"سنرسل لك رمز التحقق.",d_h:"اربح بسعر عادل",d_s:"سجّل كسائق أو موصّل، وارفع وثائقك مرة واحدة.",phone_l:"رقم الهاتف",send_code:"إرسال الرمز",
+  otp_h:"أدخل الرمز",otp_s:"أرسلناه إلى",demo_code:"رمز التجربة:",verify:"تأكيد",otp_g:"رمز التحقق",
+  invalid:"رقم غير صحيح",bad_code:"الرمز غير صحيح",too_many:"محاولات كثيرة، انتظر قليلًا",net:"تعذّر الاتصال",sms_unavail:"خدمة رسائل التحقق غير مفعّلة على هذا الخادم بعد، لذلك لا يمكن تسجيل الدخول الآن. تواصل مع الدعم.",sms_failed:"تعذّر إرسال رمز التحقق. حاول مرة أخرى لاحقًا.",
+  role_l:"للحسابات الجديدة: أنا",role_rider:"راكب",role_driver:"سائق",
+  n_admin_h:"هذا حساب إدارة",n_admin_s:"حسابات الإدارة لا تستعمل تطبيق خرجة. استعمل لوحة الإدارة.",
+  n_wrong_h:"تعذّر فتح الواجهة",n_wrong_s:"حسابك لا يملك صلاحية هذه الواجهة. أعد المحاولة أو سجّل الخروج.",
+  n_net_h:"تعذّر الاتصال",n_net_s:"تحقّق من الاتصال ثم أعد المحاولة.",retry:"إعادة المحاولة",logout:"تسجيل الخروج",
+  as_rider:"هذا الرقم مسجّل كراكب، فتحنا واجهة الراكب.",as_driver:"هذا الرقم مسجّل كسائق، فتحنا واجهة السائق."},
+ fr:{brand_h:"Votre route, votre prix",brand_s:"Proposez votre prix et choisissez votre chauffeur.",continue:"Continuer",
+  phone_h:"Votre numéro",phone_s:"Nous vous enverrons un code de vérification.",d_h:"Gagnez au juste prix",d_s:"Inscrivez-vous comme chauffeur ou livreur, envoyez vos documents une fois.",phone_l:"Numéro de téléphone",send_code:"Envoyer le code",
+  otp_h:"Saisissez le code",otp_s:"Envoyé au",demo_code:"Code de test :",verify:"Valider",otp_g:"Code de vérification",
+  invalid:"Numéro invalide",bad_code:"Code incorrect",too_many:"Trop d'essais, patientez",net:"Connexion impossible",sms_unavail:"L'envoi des codes de vérification n'est pas encore configuré sur ce serveur : connexion impossible pour le moment. Contactez le support.",sms_failed:"Envoi du code impossible. Réessayez plus tard.",
+  role_l:"Nouveau compte : je suis",role_rider:"Passager",role_driver:"Chauffeur",
+  n_admin_h:"Compte administrateur",n_admin_s:"Les comptes administrateur n'utilisent pas l'application Kherja. Utilisez la console d'administration.",
+  n_wrong_h:"Interface indisponible",n_wrong_s:"Votre compte n'a pas accès à cette interface. Réessayez ou déconnectez-vous.",
+  n_net_h:"Connexion impossible",n_net_s:"Vérifiez votre connexion puis réessayez.",retry:"Réessayer",logout:"Se déconnecter",
+  as_rider:"Ce numéro est inscrit comme passager : interface passager ouverte.",as_driver:"Ce numéro est inscrit comme chauffeur : interface chauffeur ouverte."}
+};
+let L='ar',phoneN='';
+// Entry hint ONLY (which gate screen to show first and which picker option is preselected). Never an authorisation.
+const hint=/\/driver\/?$/.test(location.pathname)?'driver':'rider';
+let picked=hint;
+const t=k=>(T[L]&&T[L][k])||k;
+const api=async(m,p,b)=>{const r=await fetch(p,{method:m,headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined,credentials:'same-origin'});
+  let j={};try{j=await r.json()}catch{}if(!r.ok)throw Object.assign(new Error(j.error||r.status),{status:r.status});return j};
+function screen(id){$$('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+function toast(m){const e=$('#toast');if(!e)return;e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3400)}
+function applyI18n(){document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';
+  $$('[data-i]').forEach(e=>{const v=t(e.dataset.i);if(typeof v==='string')e.textContent=v});$$('[data-aria]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.aria)));
+  const ph=$('#phone-h');if(ph){ph.textContent=t(picked==='driver'?'d_h':'phone_h');$('#phone-s').textContent=t(picked==='driver'?'d_s':'phone_s')}
+  $$('[data-lang]').forEach(b=>{const on=b.dataset.lang===L;b.setAttribute('aria-pressed',on);const sp=b.querySelector('span');if(sp)sp.textContent=on?'✓':''});
+  $$('[data-role]').forEach(b=>b.setAttribute('aria-checked',b.dataset.role===picked))}
+
+/* ---- notice (never logs out by itself) ---- */
+function notice(kind){const k=kind==='admin'?'n_admin':kind==='wrong_role'?'n_wrong':'n_net';
+  const old=$('#s-notice');if(old)old.remove();$('#app').appendChild($('#tpl-notice').content.cloneNode(true));
+  $('#notice-h').textContent=t(k+'_h');$('#notice-s').textContent=t(k+'_s');$('#notice-retry').textContent=t('retry');$('#notice-logout').textContent=t('logout');$('#notice-retry').hidden=kind==='admin';
+  $('#notice-retry').onclick=()=>location.reload();
+  $('#notice-logout').onclick=async()=>{try{await api('POST','/api/auth/logout')}catch{}location.reload()};
+  screen('s-notice')}
+
+/* ---- gate ---- */
+$$('[data-lang]').forEach(b=>b.onclick=()=>{L=b.dataset.lang;applyI18n()});
+$$('[data-role]').forEach(b=>b.onclick=()=>{picked=b.dataset.role;applyI18n()});
+$('#go-phone').onclick=()=>screen('s-phone');
+$('#send-otp').onclick=async()=>{const v=$('#phone').value.replace(/\D/g,'');
+  if(!/^0[567]\d{8}$/.test(v)){$('#phone-err').textContent=t('invalid');$('#phone').focus();return}
+  let o;try{o=await api('POST','/api/auth/otp',{phone:v})}catch(e){$('#phone-err').textContent=e.status===429?t('too_many'):e.status===503?t('sms_unavail'):e.status===502?t('sms_failed'):t('net');return}
+  $('#demo-hint').hidden=!(o&&o.dev===true);$('#phone-err').textContent='';phoneN=v;$('#otp-to').textContent='+213 '+v.slice(1);screen('s-otp');$('#otp input').focus()};
+$$('#otp input').forEach((i,n,all)=>{i.oninput=()=>{i.value=i.value.replace(/\D/g,'');if(i.value&&all[n+1])all[n+1].focus()};i.onkeydown=e=>{if(e.key==='Backspace'&&!i.value&&all[n-1])all[n-1].focus()}});
+$('#verify').onclick=async()=>{const code=$$('#otp input').map(i=>i.value).join('');let r;
+  try{r=await api('POST','/api/auth/verify',{phone:phoneN,code,role:picked,lang:L})}catch(e){$('#otp-err').textContent=e.status===429?t('too_many'):t('bad_code');return}
+  $('#otp-err').textContent='';mount(r.user,picked)};
+
+/* ---- role resolution: the ONLY place a view is chosen, and it reads the server's answer ---- */
+function mount(user,pickedRole){
+  const role=user&&user.role,view=role==='rider'?'passenger':role==='driver'?'driver':null;
+  if(!view){$$('[data-gate]').forEach(s=>s.remove());return notice(role==='admin'?'admin':'wrong_role')}
+  if(user.lang==='ar'||user.lang==='fr')L=user.lang;
+  $$('[data-gate]').forEach(s=>s.remove());
+  window.Kherja=Object.freeze({lang:L,user:Object.freeze({id:user.id,name:user.name||'',role,lang:L}),role,notice,relaunch:()=>location.reload()});
+  $('#app').appendChild($('#view-'+view).content.cloneNode(true));
+  const s=document.createElement('script');s.textContent=$('#code-'+view).textContent;document.body.appendChild(s);
+  if(pickedRole&&pickedRole!==role)toast(t(role==='driver'?'as_driver':'as_rider'));
+}
+async function launch(){applyI18n();
+  let me;try{me=await api('GET','/api/me')}catch(e){if(e.status===401){$('#inline-lang').hidden=hint!=='driver';screen(hint==='driver'?'s-phone':'s-lang');return}notice('net');return}
+  mount(me)}
+launch();
+})();
+</script>
+</body>
+</html>

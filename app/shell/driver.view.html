@@ -1,0 +1,42 @@
+<section class="screen scroll" id="s-profile">
+  <h1 data-i="prof_h"></h1><p class="sub" data-i="prof_s"></p>
+  <label class="field"><span data-i="name_l"></span><input class="input" id="name" autocomplete="name"></label>
+  <div class="field"><span data-i="veh_l"></span>
+    <div class="seg" role="group" data-aria="veh_l"><button data-veh="car" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg><span data-i="veh_car"></span></button><button data-veh="moto" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-moto"/></svg><span data-i="veh_moto"></span></button></div></div>
+  <label class="field"><span data-i="model_l"></span><input class="input" id="model" placeholder="Renault Symbol"></label>
+  <label class="field"><span data-i="plate_l"></span><input class="input num" id="plate" placeholder="12345-116-16" style="text-align:start"></label>
+  <label class="chk"><input type="checkbox" id="woman"> <span data-i="woman_l"></span></label>
+  <div class="err" id="prof-err" role="alert"></div>
+  <button class="btn primary" id="save-prof" data-i="next"></button>
+</section>
+
+<section class="screen scroll" id="s-docs">
+  <div class="hdr"><h1 data-i="docs_h"></h1></div>
+  <p class="sub" data-i="docs_s"></p>
+  <div class="card"><b><span id="docs-count">0</span>/4</b><div class="bar"><i id="docs-bar" style="width:0"></i></div></div>
+  <div id="docs-list"></div>
+  <p class="sub" style="font-size:13px" data-i="docs_priv"></p>
+</section>
+
+<section class="screen scroll" id="s-home">
+  <div class="hdr"><h1 id="hello"></h1>
+    <button class="sw" id="online" role="switch" aria-checked="false" data-aria="online_l"></button></div>
+  <div id="banner"></div>
+  <p class="sub" id="dr-s"></p>
+  <div id="dr-req"></div>
+</section>
+
+<section class="screen scroll" id="s-account">
+  <div class="hdr"><h1 data-i="acc_h"></h1></div>
+  <div class="card" id="acc-card"></div>
+  <div class="card vcard" id="veh-card"></div>
+  <div class="vsheet" id="vsheet" role="dialog" aria-modal="true" aria-labelledby="vtitle" hidden></div></div>
+  <button class="btn ghost" id="logout" style="width:100%;margin-bottom:12px" data-i="logout"></button>
+  <button class="btn danger" id="delete" style="width:100%" data-i="delete"></button>
+</section>
+
+<nav class="tabbar" aria-label="Main">
+  <button data-tab="home" aria-current="page"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span data-i="tab_home"></span></button>
+  <button data-tab="docs"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg><span data-i="tab_docs"></span></button>
+  <button data-tab="account"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span data-i="tab_acc"></span></button>
+</nav>

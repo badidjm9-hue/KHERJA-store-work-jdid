@@ -1,0 +1,14 @@
+<!-- Mes courses (history) + ride details; data: GET /api/rides, GET /api/rides/:id -->
+  <section class="screen page" id="s-hist" aria-labelledby="hist-h">
+    <header class="ph"><span></span><h1 id="hist-h" data-i="hist_h"></h1><span></span></header>
+    <div class="pb">
+      <div class="chips" role="group" data-aria="hist_f"><button type="button" data-f="all" aria-pressed="true" data-i="f_all"></button><button type="button" data-f="completed" aria-pressed="false" data-i="f_done"></button><button type="button" data-f="cancelled" aria-pressed="false" data-i="f_canc"></button></div>
+      <div id="hist-list"></div>
+    </div>
+    <nav class="ptabs" data-ptabs="hist"></nav>
+  </section>
+
+  <section class="screen page" id="s-hdet" aria-labelledby="hdet-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="hdet-h" data-i="hdet_h"></h1><span></span></header>
+    <div class="pb" id="hdet-body"></div>
+  </section>

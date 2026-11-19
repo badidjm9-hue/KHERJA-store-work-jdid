@@ -1,0 +1,25 @@
+feature,area,priority,original,clone,notes
+Phone + OTP login,auth,must,yes,partial,"UI+API ok, real SMS gateway missing"
+Rider sets own fare,core,must,yes,yes,"UI + API wired, e2e"
+Driver offers / counters,core,must,yes,yes,"wired, e2e with 2 browsers"
+Offers list with rating car price ETA,core,must,yes,yes,"wired, live from API"
+Live driver tracking,core,must,yes,partial,"status live, car position simulated, no GPS"
+Cash payment,pay,must,yes,yes,
+Ride rating,core,must,yes,yes,"wired, e2e"
+Ride history + receipt,core,should,yes,partial,"API only, no screen"
+Trip sharing,safety,must,yes,partial,button shows toast only
+SOS button,safety,must,yes,partial,button shows toast only
+Arabic RTL + French,i18n,must,yes,yes,tested
+Driver onboarding docs,driver,should,yes,partial,profile API only
+Driver earnings,driver,should,yes,no,
+Price lock after accept,fix,must,no,yes,DB trigger + UI
+Driver cancel-rate on card,fix,should,no,yes,shown on card + API
+Women-rider preference,safety,should,no,yes,UI + API filter
+Human support escalation,fix,could,no,no,
+City-to-city rides,extra,could,yes,no,later
+Courier delivery,extra,should,yes,yes,"food/parcel, price negotiation, call links; e2e tested; contacts hidden after ride"
+Freight,extra,skip,yes,skip,out of scope
+inDrive.Money,extra,skip,yes,skip,regulated
+Driver licence document check,safety,must,no,no,regulatory risk
+Accept-distance cap 8 km,fix,should,no,yes,from reviews digest
+Passenger vehicle choice (car/moto),core,must,no,yes,"Rider selection stored on request; driver feed and offer endpoint enforce matching vehicle type"

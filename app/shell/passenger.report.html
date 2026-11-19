@@ -1,0 +1,19 @@
+<!-- Signaler un problème. Data: POST /api/rides/:id/report {kind: price_dispute|safety|other, body} -->
+  <section class="screen page" id="s-report" aria-labelledby="rp-h">
+    <header class="ph"><button type="button" class="ph-back" data-back><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button><h1 id="rp-h" data-i="report_btn"></h1><span></span></header>
+    <div class="pb">
+      <form id="rp-form" novalidate>
+        <h2 class="sec" data-i="rp_type"></h2>
+        <div class="rp-kinds" role="radiogroup" data-aria="rp_type">
+          <button type="button" role="radio" aria-checked="false" data-k="price_dispute"><span class="dot"></span><span data-i="k_price"></span></button>
+          <button type="button" role="radio" aria-checked="false" data-k="safety"><span class="dot"></span><span data-i="k_safety"></span></button>
+          <button type="button" role="radio" aria-checked="false" data-k="other"><span class="dot"></span><span data-i="k_other"></span></button>
+        </div>
+        <h2 class="sec" data-i="rp_desc"></h2>
+        <textarea class="input rp-text" id="rp-body" maxlength="1000" rows="5" data-ph="rp_ph"></textarea>
+        <p class="set-err" id="rp-err" role="alert" hidden></p>
+        <button type="submit" class="btn primary" id="rp-send" data-i="rp_send"></button>
+      </form>
+      <div class="st-box" id="rp-done" hidden role="status"><span class="ok-badge" aria-hidden="true"></span><b data-i="rp_ok"></b><button type="button" class="btn ghost" id="rp-close" data-i="back"></button></div>
+    </div>
+  </section>

@@ -1,0 +1,1 @@
+buildTabbar();applyI18n();
