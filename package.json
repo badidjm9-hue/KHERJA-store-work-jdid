@@ -19,5 +19,13 @@
     "mobile:ios": "npx cap open ios",
     "mobile:preflight": "node scripts/mobile-release-check.js",
     "mobile:build": "node app/build-shell.js && node app/build-apps.js && npm run mobile:preflight && npx cap sync"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/ios": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
   }
 }
