@@ -1,0 +1,3 @@
+"NSLocationWhenInUseUsageDescription" = "KHERJA uses your location while the app is open to set your pickup point and find nearby drivers. Drivers also share their position while online so riders can be matched. You can enter a pickup address manually instead.";
+"NSCameraUsageDescription" = "KHERJA uses the camera so drivers can photograph their licence, vehicle documents and profile photo.";
+"NSPhotoLibraryUsageDescription" = "KHERJA lets you choose an existing photo of your documents or profile picture to upload.";

@@ -52,7 +52,7 @@ for (const [lang, fr, name, vp] of [['Arabic RTL 390', false, 'تسجيل الخ
     await p.screenshot({ path: process.env.SHOTS ? `${process.env.SHOTS}/p21-passenger-${fr ? 'fr' : 'ar'}.png` : undefined, type: 'png' }).catch(() => {});
     await btn.click(); await p.waitForSelector('#s-lang.on'); assert.equal(p.logoutCalls, 1, 'exactly one logout request');
     assert.equal((await p.request.get(base + '/api/me')).status(), 401, 'server session revoked'); assert.ok(!(await p.evaluate(() => !!window.Kherja)), 'no leftover role object');
-    const keys = await p.evaluate(() => Object.keys(localStorage).concat(Object.keys(sessionStorage))); assert.deepEqual(keys.filter(k => k !== 'kherja-theme'), [], 'no session state kept client-side');
+    const keys = await p.evaluate(() => Object.keys(localStorage).concat(Object.keys(sessionStorage))); assert.deepEqual(keys.filter(k => k !== 'kherja-theme' && k !== 'kj.loc.rationale'), [], 'no session state kept client-side (device preferences kherja-theme and the install-level kj.loc.rationale flag are allowed)');
     assert.equal((await c.cookies()).filter(k => k.name === 'sid' && k.value).length, 0, 'sid cookie cleared'); await p.reload(); await p.waitForSelector('#s-lang.on'); assert.equal(p.logoutCalls, 1); }));
 }
 test('passenger logout failure (network): stays signed in, tells the user, never reloads into the gate; retry then succeeds', async () => withApp({ dev: true }, async ({ ctx, page, account, withSid, base }) => {

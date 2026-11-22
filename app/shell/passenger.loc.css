@@ -1,0 +1,5 @@
+.kj-area{width:100%;min-height:44px;border-radius:var(--r-sm,12px);border:1.5px solid var(--border-input,#AFC5F0);background:var(--surface,#fff);color:var(--text,#101B35);padding:0 12px;font:inherit;margin-bottom:6px}
+
+/* The manual-area dropdown makes the route-search panel taller (top 74px + ~264px). Keep the bottom sheet below it on short screens;
+   the sheet already scrolls inside the space that remains (see the #s-map .sheet rule in index.html). */
+#s-map .map-search:has(#kj-area)~.sheet,#s-map:has(#kj-area) .sheet{max-height:calc(100% - 346px)}

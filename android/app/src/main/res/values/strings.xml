@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">KHERJA</string>
+    <string name="title_activity_main">KHERJA</string>
+    <string name="package_name">com.kherja.app</string>
+    <string name="custom_url_scheme">com.kherja.app</string>
+</resources>

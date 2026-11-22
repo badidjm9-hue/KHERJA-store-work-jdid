@@ -130,11 +130,16 @@ async function tick(){try{const on=$('#online').getAttribute('aria-checked')==='
      (r.already_offered?(()=>{const o=OF[r.id],st=o?o.status:'pending';return `<p class="sub of-st ${st}" role="status" ${st==='pending'&&o?`data-exp="${o.expires_at}"`:''} style="margin:0">${st==='expired'?t('of_exp'):st==='declined'?t('of_dec'):`${t('of_wait')} <span class="num dcd"></span>`}</p>`})():`<div class="row" style="margin:0"><button class="btn ghost" data-c>${t('bid_counter')} <span class="num">${r.price+50}</span></button><button class="btn primary" data-a>${t('bid_same')}</button></div>`);
     const bid=p=>async()=>{try{await api('POST',`/api/requests/${r.id}/offers`,{price:p,eta_min:4});toast('✓');sig='';tick()}catch{toast(t('offer_gone'))}};
     const a=el.querySelector('[data-a]');if(a){a.onclick=bid(r.price);el.querySelector('[data-c]').onclick=bid(r.price+50)}box.appendChild(el)})}catch(e){if(e.status===401)location.reload()}}
-function position(){return new Promise((res,rej)=>{if(!navigator.geolocation)return rej(new Error('no geo'));navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude}),rej,{timeout:8000,maximumAge:15000})})}
+/* Location goes through KJLoc (foreground only, runtime permission, explanation sheet). interactive=true only for the driver's own tap. */
+async function position(interactive){const r=await KJLoc.ensure({role:'driver',interactive:interactive===true,high:true,timeout:8000,maxAge:15000});
+  if(!r.ok)throw Object.assign(new Error('loc'),{reason:r.reason});return {lat:r.lat,lng:r.lng}}
+/* Permission revoked or location lost while online: stop sharing, go offline on the server, tell the driver. Never keep a stale position live. */
+function goOfflineNoLocation(){clearInterval(locTimer);locTimer=null;api('POST','/api/driver/online',{online:false}).catch(()=>{});
+  const sw=$('#online');if(sw)sw.setAttribute('aria-checked','false');sig='';renderHome();toast(t('loc_need'))}
 $('#online').onclick=async()=>{const sw=$('#online');if(sw.disabled)return;const on=sw.getAttribute('aria-checked')!=='true';
-  try{if(on){let pos;try{pos=await position()}catch{toast(t('loc_need'));return}await api('POST','/api/driver/online',{online:true,...pos});
-      clearInterval(locTimer);locTimer=setInterval(async()=>{try{await api('POST','/api/driver/online',{online:true,...await position()})}catch{}},20000)}
-    else{clearInterval(locTimer);await api('POST','/api/driver/online',{online:false})}}catch{toast(t('no_online'));return}
+  try{if(on){let pos;try{pos=await position(true)}catch{toast(t('loc_need'));return}await api('POST','/api/driver/online',{online:true,...pos});
+      clearInterval(locTimer);locTimer=setInterval(async()=>{try{await api('POST','/api/driver/online',{online:true,...await position(false)})}catch(e){if(e&&(e.reason==='denied'||e.reason==='unsupported'))goOfflineNoLocation()}},20000)}
+    else{clearInterval(locTimer);locTimer=null;await api('POST','/api/driver/online',{online:false})}}catch{toast(t('no_online'));return}
   sw.setAttribute('aria-checked',on);sig='';renderHome();tick()};
 
 /* account */

@@ -1,0 +1,3 @@
+"NSLocationWhenInUseUsageDescription" = "KHERJA utilise votre position lorsque l’application est ouverte pour définir votre point de départ et trouver les chauffeurs proches. Les chauffeurs partagent aussi leur position lorsqu’ils sont en ligne afin d’être associés aux passagers. Vous pouvez saisir l’adresse de départ manuellement.";
+"NSCameraUsageDescription" = "KHERJA utilise l’appareil photo pour permettre aux chauffeurs de photographier leur permis, les documents du véhicule et leur photo de profil.";
+"NSPhotoLibraryUsageDescription" = "KHERJA vous permet de choisir une photo existante de vos documents ou de votre profil à envoyer.";

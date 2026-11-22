@@ -45,3 +45,6 @@
 .map-search[hidden]{display:none}
 /* Small screens: the route-search panel (top) must never cover the bottom sheet controls. The sheet scrolls inside the space below the panel. */
 #s-map .sheet{max-height:calc(100% - 262px);overflow-y:auto;overscroll-behavior:contain}
+
+/* "My location" must stay tappable: the base rule pinned it at top:80px, directly under the route-search panel (z-index 8). In the shell it sits in the topbar row with the other chips. */
+#s-map .topbar #my-location{position:static;inset:auto;min-width:0;min-height:44px;height:auto}

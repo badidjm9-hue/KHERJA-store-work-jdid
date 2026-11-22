@@ -101,14 +101,23 @@ async function geocodeAddress(q){const url='https://nominatim.openstreetmap.org/
 async function reverseGeocode(lat,lng){const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,{headers:{'Accept-Language':L==='ar'?'ar':'fr'}});if(!r.ok)throw new Error('reverse unavailable');const a=await r.json();return a.display_name||`${lat.toFixed(5)}, ${lng.toFixed(5)}`;}
 async function drawRoute(a,b){try{const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`);if(!r.ok)throw new Error('route unavailable');const data=await r.json();if(!data.routes?.length)throw new Error('route not found');const route=data.routes[0];if(routeLayer)leafletMap.removeLayer(routeLayer);routeLayer=window.L.geoJSON(route.geometry,{style:{color:'#075BFF',weight:6,opacity:.85}}).addTo(leafletMap);leafletMap.fitBounds(routeLayer.getBounds(),{padding:[60,60]});routeDistanceKm=route.distance/1000;$('#map-route-info').textContent=`${routeDistanceKm.toFixed(1)} km · ${Math.round(route.duration/60)} min`;updateSuggestedFare();return route;}catch(e){$('#map-route-info').textContent=L==='ar'?'تعذر حساب المسار حالياً':'Route indisponible';throw e;}}
 $('#map-route').onclick=async()=>{const from=$('#map-from').value.trim(),to=$('#map-to').value.trim();if(!from||!to){$('#map-route-info').textContent=L==='ar'?'أدخل نقطة الانطلاق والوصول':'Saisissez départ et destination';return;}const btn=$('#map-route');btn.disabled=true;$('#map-route-info').textContent=L==='ar'?'جاري البحث…':'Recherche…';try{const a=await geocodeAddress(from);await new Promise(r=>setTimeout(r,1100));const b=await geocodeAddress(to);routePoints={pickup:a,dropoff:b};mapPickNext='pickup';if(pickupMarker)leafletMap.removeLayer(pickupMarker);if(dropoffMarker)leafletMap.removeLayer(dropoffMarker);pickupMarker=window.L.marker([a.lat,a.lng]).addTo(leafletMap).bindPopup(a.label);dropoffMarker=window.L.marker([b.lat,b.lng]).addTo(leafletMap).bindPopup(b.label);await drawRoute(a,b);}catch(e){$('#map-route-info').textContent=L==='ar'?'لم نجد العنوان أو الخدمة غير متاحة':'Adresse introuvable / service indisponible';}finally{btn.disabled=false;}};
-async function locatePassenger(){
-  if(!navigator.geolocation){toast(L==='ar'?'المتصفح لا يدعم تحديد الموقع':'La géolocalisation n’est pas disponible');return}
-  navigator.geolocation.getCurrentPosition(pos=>{
-    const point={lat:pos.coords.latitude,lng:pos.coords.longitude};
-    if(leafletMap){leafletMap.setView([point.lat,point.lng],16);if(leafletUserMarker)leafletUserMarker.setLatLng([point.lat,point.lng]);}else toast(L==='ar'?'تم تحديد موقعك':'Position détectée');
-  },()=>toast(L==='ar'?'اسمح بالوصول إلى موقعك من إعدادات المتصفح':'Autorisez la localisation dans les réglages du navigateur'),{enableHighAccuracy:true,timeout:10000,maximumAge:15000});
+let locBusy=false;
+function applyPickupFix(p,label){ // the detected device position becomes the real pickup point of the ride request
+  if(!routePoints)routePoints={};
+  routePoints.pickup={lat:p.lat,lng:p.lng,label};
+  const f=$('#map-from');if(f)f.value=label;
+  if(leafletMap){leafletMap.setView([p.lat,p.lng],16);if(leafletUserMarker)leafletUserMarker.setLatLng([p.lat,p.lng]);}
+  updateSuggestedFare();
 }
-$('#my-location').onclick=locatePassenger;
+async function locatePassenger(auto){ // auto=true: silent start-up attempt (never shows the denied sheet, never re-prompts)
+  if(locBusy)return;locBusy=true;const b=$('#my-location');if(b)b.setAttribute('aria-busy','true');
+  try{
+    const r=await KJLoc.ensure({role:'rider',interactive:auto!==true,high:true,timeout:12000});
+    if(r.ok){applyPickupFix(r,KJLoc.text('here'));toast(r.approx?KJLoc.text('approx'):KJLoc.text('ok'))}
+    else if(auto!==true){const f=$('#kj-area')||$('#map-from');if(f)f.focus()} // not granted: manual pickup stays fully available
+  }finally{locBusy=false;if(b)b.removeAttribute('aria-busy')}
+}
+$('#my-location').onclick=()=>locatePassenger(false);
 let carRaf;
 function moveCar(from,to,ms,done){ // car follows route from t=from..to (0..1); along route, approach from outside
   const route=$("#route"),len=route.getTotalLength(),car=$("#car");cancelAnimationFrame(carRaf);
@@ -242,7 +251,7 @@ const stop=()=>{clearInterval(poll);poll=null};
 const PK=()=>routePoints?.pickup&&Number.isFinite(routePoints.pickup.lat)&&Number.isFinite(routePoints.pickup.lng)?routePoints.pickup:({lat:36.7538,lng:3.0588,label:t('from_val')}),DS=()=>routePoints?.dropoff&&Number.isFinite(routePoints.dropoff.lat)&&Number.isFinite(routePoints.dropoff.lng)?routePoints.dropoff:({lat:36.6910,lng:3.2154,label:t('to_val')});
 function reqPayload(){const base={pickup:PK(),dropoff:DS(),price:S.price,note:$('#note').value.trim()||undefined,women_only:$('#women').checked,vehicle_type:S.vehicleType};
   if(S.kind!=='delivery')return base; // demo coordinates: no geocoder yet, addresses are typed labels
-  return {...base,women_only:false,kind:'delivery',pickup:{lat:36.7538,lng:3.0588,label:$('#dl-from').value.trim()||t('dl_from_ph')},dropoff:{lat:36.7332,lng:3.0870,label:$('#dl-to').value.trim()||t('dl_to_ph')},
+  return {...base,women_only:false,kind:'delivery',pickup:{lat:PK().lat,lng:PK().lng,label:$('#dl-from').value.trim()||t('dl_from_ph')},dropoff:{lat:36.7332,lng:3.0870,label:$('#dl-to').value.trim()||t('dl_to_ph')},
     item_type:S.item,item_note:$('#dl-note').value.trim(),recipient_name:$('#dl-rn').value.trim()||undefined,recipient_phone:$('#dl-rp').value.trim()||undefined}}
 $('#sim-next').hidden=true;
 

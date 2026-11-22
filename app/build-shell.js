@@ -14,13 +14,13 @@ const extra = [['home','<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path
  ['list','<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>'],['flag2','<path d="M5 22V4"/><path d="M5 4h13l-2 4 2 4H5"/>'],['users','<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3.5-5 7-5s7 1.5 7 5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 15c2.5.5 4 2 4 5"/>']];
 const sprite = m[0].replace('</svg>', extra.map(([n, p]) => `<symbol id="i-${n}" ${A}>${p}</symbol>`).join('') + '</svg>');
 // optional passenger feature modules (nav, hist, prof, safety, report): shell/passenger.<name>.{html,js,css}, concatenated in this order
-const MODS = ['nav', 'hist', 'prof', 'safety', 'report', 'notif', 'init'].filter(n => fs.existsSync(path.join(__dirname, `shell/passenger.${n}.js`)));
+const MODS = ['nav', 'hist', 'prof', 'safety', 'report', 'notif', 'loc', 'init'].filter(n => fs.existsSync(path.join(__dirname, `shell/passenger.${n}.js`)));
 const modPart = ext => MODS.map(n => { const p = `shell/passenger.${n}.${ext}`; return fs.existsSync(path.join(__dirname, p)) ? rd(p) : ''; }).join('\n');
 let h = rd('shell/shell.template.html');
 const put = (k, v) => { if (!h.includes(k)) throw new Error('placeholder missing: ' + k); h = h.split(k).join(v); };
-for (const code of ['shell/passenger.view.js', 'shell/driver.view.js', 'shell/driver.more.js', ...MODS.map(n => `shell/passenger.${n}.js`)]) if (/<\/script/i.test(rd(code))) throw new Error(code + ' contains </script');
-put('/*__CSS__*/', css); put('/*__DRIVER_CSS__*/', rd('shell/driver.extra.css')); put('/*__SHELL_CSS__*/', rd('shell/shell.extra.css') + '\n' + modPart('css') + '\n' + rd('shell/driver.more.css'));
+for (const code of ['shell/kj-location.js', 'shell/passenger.view.js', 'shell/driver.view.js', 'shell/driver.more.js', ...MODS.map(n => `shell/passenger.${n}.js`)]) if (/<\/script/i.test(rd(code))) throw new Error(code + ' contains </script');
+put('/*__CSS__*/', css); put('/*__DRIVER_CSS__*/', rd('shell/driver.extra.css')); put('/*__SHELL_CSS__*/', rd('shell/shell.extra.css') + '\n' + rd('shell/kj-location.css') + '\n' + modPart('css') + '\n' + rd('shell/driver.more.css'));
 put('<!--__SPRITE__-->', sprite); put('<!--__LOGO__-->', logo[0]);
 put('<!--__VIEW_PASSENGER__-->', rd('shell/passenger.view.html') + '\n' + modPart('html')); put('<!--__VIEW_DRIVER__-->', rd('shell/driver.view.html') + '\n' + rd('shell/driver.more.html'));
-put('/*__JS_PASSENGER__*/', rd('shell/passenger.view.js') + '\n' + modPart('js')); put('/*__JS_DRIVER__*/', rd('shell/driver.view.js') + '\n' + rd('shell/driver.more.js'));
+put('/*__JS_PASSENGER__*/', rd('shell/kj-location.js') + '\n' + rd('shell/passenger.view.js') + '\n' + modPart('js')); put('/*__JS_DRIVER__*/', rd('shell/kj-location.js') + '\n' + rd('shell/driver.view.js') + '\n' + rd('shell/driver.more.js'));
 fs.writeFileSync(path.join(__dirname, 'kherja.html'), h); console.log('kherja.html', h.length);

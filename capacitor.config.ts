@@ -6,7 +6,6 @@ const config: CapacitorConfig = {
   appId: 'com.kherja.app',
   appName: 'KHERJA',
   webDir: 'app',
-  bundledWebRuntime: false,
   server: productionOrigin
     ? { url: productionOrigin, cleartext: false }
     : undefined,
@@ -16,6 +15,9 @@ const config: CapacitorConfig = {
   },
   ios: {
     contentInset: 'automatic',
+    // capacitor-native-settings ships private `App-prefs:` URLs on iOS (App Review risk); iOS opens the app's
+    // Settings page through the public `app-settings:` URL instead, so only Geolocation is linked on iOS.
+    includePlugins: ['@capacitor/geolocation'],
   },
 };
 

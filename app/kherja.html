@@ -427,6 +427,23 @@ a.btn{text-decoration:none}
 /* Small screens: the route-search panel (top) must never cover the bottom sheet controls. The sheet scrolls inside the space below the panel. */
 #s-map .sheet{max-height:calc(100% - 262px);overflow-y:auto;overscroll-behavior:contain}
 
+/* "My location" must stay tappable: the base rule pinned it at top:80px, directly under the route-search panel (z-index 8). In the shell it sits in the topbar row with the other chips. */
+#s-map .topbar #my-location{position:static;inset:auto;min-width:0;min-height:44px;height:auto}
+
+/* Location permission sheet (KJLoc). Uses the shared KHERJA tokens so light/dark and RTL follow the app. */
+.kjl-ov{position:fixed;inset:0;z-index:1000;display:flex;align-items:flex-end;justify-content:center;background:rgba(16,27,53,.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom));padding-top:max(16px,env(safe-area-inset-top));animation:kjl-fade .18s ease-out}
+.kjl-card{width:100%;max-width:460px;background:var(--surface,#fff);color:var(--text,#101B35);border:1px solid var(--border,#DCE7FA);border-radius:var(--r-lg,28px);padding:24px 20px 20px;box-shadow:0 24px 60px -18px rgba(16,27,53,.45);text-align:center;max-height:100%;overflow:auto;animation:kjl-rise .22s cubic-bezier(.2,.8,.2,1)}
+.kjl-ic{width:56px;height:56px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:var(--soft,#E5EFFF);color:var(--accent,#075BFF)}
+.kjl-h{margin:0 0 8px;font-size:20px;line-height:1.3;font-weight:800}
+.kjl-p{margin:0 0 8px;font-size:15px;line-height:1.55;color:var(--text,#101B35)}
+.kjl-f{margin:0 0 8px;font-size:13px;line-height:1.5;color:var(--muted,#5E6B86)}
+.kjl-row{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.kjl-row .btn{width:100%;min-height:48px}
+@keyframes kjl-fade{from{opacity:0}to{opacity:1}}
+@keyframes kjl-rise{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.kjl-ov,.kjl-card{animation:none}}
+@media (min-width:600px){.kjl-ov{align-items:center}}
+
 /* ===== passenger extra screens (Stage 3 passenger): shared page chrome. Scoped by id/class; driver & admin untouched ===== */
 .screen.page{padding:0;background:var(--bg);overflow:clip}
 .screen.page:not(.on){visibility:hidden;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility 0s .25s}
@@ -523,6 +540,12 @@ a.btn{text-decoration:none}
 .ph-act{background:none;border:0;color:var(--accent-text);font:inherit;font-weight:600;font-size:14px;min-height:44px;padding:0 4px;cursor:pointer}
 .hrow.unread{border-inline-start:3px solid var(--accent)}
 .del-box{margin-top:28px}.del-box p{color:var(--muted);font-size:14px}.del-box .row{display:flex;gap:8px}.del-box .row .btn{flex:1}
+
+.kj-area{width:100%;min-height:44px;border-radius:var(--r-sm,12px);border:1.5px solid var(--border-input,#AFC5F0);background:var(--surface,#fff);color:var(--text,#101B35);padding:0 12px;font:inherit;margin-bottom:6px}
+
+/* The manual-area dropdown makes the route-search panel taller (top 74px + ~264px). Keep the bottom sheet below it on short screens;
+   the sheet already scrolls inside the space that remains (see the #s-map .sheet rule in index.html). */
+#s-map .map-search:has(#kj-area)~.sheet,#s-map:has(#kj-area) .sheet{max-height:calc(100% - 346px)}
 
 
 .dm-menu{flex:none;list-style:none;margin:0 0 14px;padding:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
@@ -845,6 +868,7 @@ a.btn{text-decoration:none}
     <div class="pb"><div id="nt-list"></div></div>
   </section>
 
+
 </template>
 <template id="view-driver"><section class="screen scroll" id="s-profile">
   <h1 data-i="prof_h"></h1><p class="sub" data-i="prof_s"></p>
@@ -916,7 +940,218 @@ a.btn{text-decoration:none}
   <div class="err" id="dm-r-err" role="alert"></div><button class="btn primary" type="submit" data-i="rp_send"></button></form>
   <p class="dm-ok" id="dm-r-done" role="status" hidden data-i="rp_ok"></p></section>
 </template>
-<script type="text/plain" id="code-passenger">const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+<script type="text/plain" id="code-passenger">/* KHERJA location permission layer (shared by the passenger and driver views; exposed as window.KJLoc).
+   Rules it enforces:
+   - Foreground / While-Using location only. Never requests Always or background location.
+   - Runtime request only, and only after our own explanation sheet; never at install or launch without context.
+   - After a denial it never re-prompts by itself. It shows a denied sheet only when the user taps a location action.
+   - Never blocks the app: every sheet offers "choose manually"; callers fall back to manual pickup.
+   - Native (Capacitor) uses @capacitor/geolocation; plain browsers use navigator.geolocation. */
+(function () {
+  if (window.KJLoc) return;
+  var W = window, doc = document;
+  var cap = function () { return W.Capacitor; };
+  var isNative = function () { try { return !!(cap() && cap().isNativePlatform && cap().isNativePlatform()); } catch (e) { return false; } };
+  var plugin = function (n) { try { return cap() && cap().Plugins && cap().Plugins[n]; } catch (e) { return null; } };
+  var platform = function () { try { return cap().getPlatform(); } catch (e) { return 'web'; } };
+  var lang = function () { return doc.documentElement.lang === 'fr' ? 'fr' : 'ar'; };
+
+  var TX = {
+    ar: {
+      r_title: 'نحددو موقعك',
+      r_body_rider: 'باش نحددو موقعك بدقة ونلقاو لك السائقين القريبين، نحتاجو إذن الوصول للموقع. تقدر تختار موقع الانطلاق يدوياً إذا ما حبيتش تشارك موقعك.',
+      r_body_driver: 'باش تظهر للركاب القريبين وتستقبل الطلبات، نحتاجو موقعك كي تكون متصل. موقعك ما يتشاركش كي تولي غير متصل.',
+      r_fine: 'نستعملو الموقع غير وأنت تستعمل التطبيق.',
+      allow: 'السماح بالموقع', manual: 'نختار يدوياً', close: 'إغلاق', retry: 'إعادة المحاولة', settings: 'فتح الإعدادات',
+      d_title: 'الموقع غير مفعّل',
+      d_body: 'ما عندناش إذن الوصول لموقعك. تقدر تختار موقع الانطلاق يدوياً، أو تفتح الإعدادات وتسمح بالموقع.',
+      d_body_driver: 'بدون الموقع ما نقدروش نظهروك للركاب القريبين. افتح الإعدادات واسمح بالموقع باش تتصل.',
+      d_ios_hint: 'الإعدادات ‹ خرجة ‹ الموقع ‹ أثناء استخدام التطبيق',
+      s_title: 'خدمة الموقع (GPS) مطفية',
+      s_body: 'فعّل خدمة الموقع من إعدادات الهاتف باش نحددو موقعك، أو اختر الانطلاق يدوياً.',
+      u_title: 'تعذّر تحديد موقعك',
+      u_body: 'ما قدرناش نحددو موقعك دابا. جرّب مرة أخرى أو اختر الانطلاق يدوياً.',
+      detecting: 'جاري تحديد موقعك…', ok: 'تم تحديد موقعك', approx: 'الموقع تقريبي، تأكد من نقطة الانطلاق', here: 'موقعي الحالي'
+    },
+    fr: {
+      r_title: 'Utiliser votre position',
+      r_body_rider: 'Pour déterminer votre position avec précision et trouver les chauffeurs proches de vous, KHERJA a besoin d’accéder à votre localisation. Vous pouvez aussi choisir votre point de départ manuellement si vous préférez ne pas la partager.',
+      r_body_driver: 'Pour apparaître auprès des passagers proches et recevoir des demandes, KHERJA a besoin de votre position tant que vous êtes en ligne. Elle n’est plus partagée dès que vous passez hors ligne.',
+      r_fine: 'Votre position n’est utilisée que lorsque l’application est ouverte.',
+      allow: 'Autoriser la localisation', manual: 'Choisir manuellement', close: 'Fermer', retry: 'Réessayer', settings: 'Ouvrir les réglages',
+      d_title: 'Localisation désactivée',
+      d_body: 'KHERJA n’a pas accès à votre position. Vous pouvez choisir le départ manuellement ou ouvrir les réglages pour autoriser la localisation.',
+      d_body_driver: 'Sans localisation, nous ne pouvons pas vous montrer aux passagers proches. Ouvrez les réglages et autorisez la localisation pour passer en ligne.',
+      d_ios_hint: 'Réglages › KHERJA › Localisation › Lorsque l’app est active',
+      s_title: 'Le GPS est désactivé',
+      s_body: 'Activez la localisation dans les réglages de l’appareil, ou choisissez le départ manuellement.',
+      u_title: 'Position indisponible',
+      u_body: 'Impossible de vous localiser pour le moment. Réessayez ou choisissez le départ manuellement.',
+      detecting: 'Localisation en cours…', ok: 'Position détectée', approx: 'Position approximative, vérifiez le point de départ', here: 'Ma position actuelle'
+    }
+  };
+  var tx = function (k) { return TX[lang()][k]; };
+
+  /* ---- one-time rationale flag (per install). Failure to persist only means the sheet may show again. ---- */
+  var FLAG = 'kj.loc.rationale';
+  var seenRationale = function () { try { return !!localStorage.getItem(FLAG); } catch (e) { return false; } };
+  var markRationale = function () { try { localStorage.setItem(FLAG, String(Date.now())); } catch (e) {} };
+
+  /* ---- permission status: granted | granted_approx | prompt | prompt_again | denied | unsupported ---- */
+  function fromNative(r) {
+    if (!r) return 'prompt';
+    if (r.location === 'granted') return 'granted';
+    if (r.coarseLocation === 'granted') return 'granted_approx';
+    if (r.location === 'denied' && (r.coarseLocation === 'denied' || r.coarseLocation == null)) return 'denied';
+    if (r.location === 'prompt-with-rationale' || r.coarseLocation === 'prompt-with-rationale') return 'prompt_again';
+    return 'prompt';
+  }
+  function status() {
+    if (isNative()) {
+      var g = plugin('Geolocation');
+      if (!g) return Promise.resolve('unsupported');
+      return g.checkPermissions().then(fromNative, function () { return 'unsupported'; });
+    }
+    if (!navigator.geolocation) return Promise.resolve('unsupported');
+    if (!navigator.permissions || !navigator.permissions.query) return Promise.resolve('prompt');
+    return navigator.permissions.query({ name: 'geolocation' }).then(function (p) {
+      return p.state === 'granted' ? 'granted' : p.state === 'denied' ? 'denied' : 'prompt';
+    }, function () { return 'prompt'; });
+  }
+  function request() {
+    if (!isNative()) return Promise.resolve('prompt'); // browsers prompt on the first position read
+    return plugin('Geolocation').requestPermissions({ permissions: ['location', 'coarseLocation'] }).then(fromNative, function () { return 'denied'; });
+  }
+
+  /* ---- position ---- */
+  function classify(e, st) {
+    var m = String((e && (e.message || e.errorMessage)) || e || '') + ' ' + String((e && e.code) || '');
+    if (st === 'denied' || /denied|not authori[sz]ed|permission/i.test(m) || (e && e.code === 1 && !isNative())) return 'denied';
+    if (/not enabled|services?.*(off|disabled|unavailable)|location.*disabled|GLOC-0007/i.test(m)) return 'services_off';
+    if (/time.?out|timed out/i.test(m) || (e && e.code === 3 && !isNative())) return 'timeout';
+    return 'unavailable';
+  }
+  function fmt(p) {
+    var c = (p && p.coords) || {};
+    return { lat: c.latitude, lng: c.longitude, accuracy: c.accuracy };
+  }
+  function getPosition(o) {
+    o = o || {};
+    var opts = { enableHighAccuracy: o.high !== false, timeout: o.timeout || 10000, maximumAge: o.maxAge == null ? 15000 : o.maxAge };
+    var p = isNative()
+      ? plugin('Geolocation').getCurrentPosition(opts)
+      : new Promise(function (res, rej) { navigator.geolocation.getCurrentPosition(res, rej, opts); });
+    return p.then(fmt).then(function (r) {
+      if (!isFinite(r.lat) || !isFinite(r.lng)) throw new Error('invalid position');
+      return r;
+    }).catch(function (e) {
+      return status().then(function (st) { var err = new Error('loc'); err.kind = classify(e, st); throw err; });
+    });
+  }
+
+  /* ---- open system settings (user-initiated only) ---- */
+  function openSettings(kind) {
+    try {
+      if (isNative() && platform() === 'ios') { W.location.href = 'app-settings:'; return true; } // public URL (UIApplication.openSettingsURLString)
+      if (isNative() && platform() === 'android') {
+        var ns = plugin('NativeSettings');
+        if (ns) { ns.open({ optionAndroid: kind === 'services_off' ? 'location' : 'application_details', optionIOS: 'app' }); return true; }
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  /* ---- sheet UI (consistent with KHERJA tokens; see shell/kj-location.css) ---- */
+  var openSheet = null;
+  function sheet(kind, o) {
+    o = o || {};
+    if (openSheet) return openSheet;
+    var driver = o.role === 'driver';
+    return (openSheet = new Promise(function (resolve) {
+      var prev = doc.activeElement;
+      var ov = doc.createElement('div');
+      ov.className = 'kjl-ov'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
+      var title = kind === 'rationale' ? tx('r_title') : kind === 'denied' ? tx('d_title') : kind === 'services_off' ? tx('s_title') : tx('u_title');
+      var body = kind === 'rationale' ? (driver ? tx('r_body_driver') : tx('r_body_rider')) :
+        kind === 'denied' ? (driver ? tx('d_body_driver') : tx('d_body')) : kind === 'services_off' ? tx('s_body') : tx('u_body');
+      var card = doc.createElement('div'); card.className = 'kjl-card';
+      var ic = doc.createElement('div'); ic.className = 'kjl-ic'; ic.setAttribute('aria-hidden', 'true');
+      ic.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+      var h = doc.createElement('h2'); h.className = 'kjl-h'; h.id = 'kjl-h'; h.textContent = title;
+      ov.setAttribute('aria-labelledby', 'kjl-h');
+      var p = doc.createElement('p'); p.className = 'kjl-p'; p.textContent = body;
+      card.append(ic, h, p);
+      if (kind === 'rationale') { var f = doc.createElement('p'); f.className = 'kjl-f'; f.textContent = tx('r_fine'); card.append(f); }
+      if (kind === 'denied' && isNative() && platform() === 'ios') { var hint = doc.createElement('p'); hint.className = 'kjl-f'; hint.textContent = tx('d_ios_hint'); card.append(hint); }
+      var row = doc.createElement('div'); row.className = 'kjl-row';
+      var done = function (v) { ov.remove(); openSheet = null; try { if (prev && prev.focus) prev.focus(); } catch (e) {} resolve(v); };
+      var mk = function (cls, label, v) { var b = doc.createElement('button'); b.type = 'button'; b.className = 'btn ' + cls; b.textContent = label; b.onclick = function () { done(v); }; row.append(b); return b; };
+      var first;
+      if (kind === 'rationale') { first = mk('primary', tx('allow'), 'allow'); if (!driver) mk('ghost', tx('manual'), 'manual'); else mk('ghost', tx('close'), 'manual'); }
+      else if (kind === 'denied' || kind === 'services_off') {
+        var sb = doc.createElement('button'); sb.type = 'button'; sb.className = 'btn primary'; sb.textContent = tx('settings');
+        sb.onclick = function () { openSettings(kind); done('settings'); }; row.append(sb); first = sb;
+        mk('ghost', driver ? tx('close') : tx('manual'), 'manual');
+      } else { first = mk('primary', tx('retry'), 'retry'); mk('ghost', driver ? tx('close') : tx('manual'), 'manual'); }
+      card.append(row); ov.append(card);
+      ov.addEventListener('keydown', function (e) { if (e.key === 'Escape') done('manual'); });
+      ov.addEventListener('click', function (e) { if (e.target === ov) done('manual'); });
+      doc.body.appendChild(ov);
+      try { first.focus(); } catch (e) {}
+    }));
+  }
+
+  /* ---- main entry point -------------------------------------------------------------------------
+     ensure({role:'rider'|'driver', interactive:bool})
+       interactive=true  : the user tapped a location action. May show the rationale, denied or GPS sheets.
+       interactive=false : automatic use at screen start. Reads silently if already allowed; shows the rationale at
+                           most once per install; never prompts after a denial and never shows the denied sheet.
+     Resolves {ok:true, lat, lng, accuracy, approx} or {ok:false, reason:'manual'|'denied'|'services_off'|'timeout'|
+     'unavailable'|'unsupported'|'suppressed'}. Callers must fall back to manual pickup when ok is false. */
+  function ensure(o) {
+    o = o || {};
+    return status().then(function (st) {
+      if (st === 'unsupported') return { ok: false, reason: 'unsupported' };
+      if (st === 'denied') {
+        if (!o.interactive) return { ok: false, reason: 'denied' };
+        return sheet('denied', o).then(function () { return { ok: false, reason: 'denied' }; });
+      }
+      var need = st === 'prompt' || st === 'prompt_again';
+      var step = Promise.resolve(st);
+      if (need) {
+        if (!o.interactive && (st === 'prompt_again' || seenRationale())) return { ok: false, reason: 'suppressed' };
+        step = sheet('rationale', o).then(function (c) {
+          markRationale();
+          if (c !== 'allow') return 'manual';
+          return request();
+        });
+      }
+      return step.then(function (s2) {
+        if (s2 === 'manual') return { ok: false, reason: 'manual' };
+        if (isNative() && (s2 === 'denied' || s2 === 'prompt' || s2 === 'prompt_again')) return { ok: false, reason: 'denied' };
+        return read(o, s2);
+      });
+    });
+  }
+  function read(o, st) {
+    return getPosition(o).then(function (pos) {
+      pos.ok = true; pos.approx = st === 'granted_approx' || (pos.accuracy != null && pos.accuracy > 1000);
+      return pos;
+    }, function (err) {
+      var reason = err.kind || 'unavailable';
+      if (!o.interactive) return { ok: false, reason: reason };
+      if (reason === 'denied') return sheet('denied', o).then(function () { return { ok: false, reason: 'denied' }; });
+      return sheet(reason === 'services_off' ? 'services_off' : 'unavailable', o).then(function (c) {
+        if (c === 'retry') return read(o, st);
+        return { ok: false, reason: reason };
+      });
+    });
+  }
+
+  W.KJLoc = { status: status, ensure: ensure, getPosition: getPosition, openSettings: openSettings, text: tx, isNative: isNative };
+})();
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const T={
  ar:{brand_h:"طريقك، بسعرك",brand_s:"اقترح سعر رحلتك واختر السائق الذي يناسبك.",continue:"متابعة",
   phone_h:"رقم هاتفك",phone_s:"سنرسل لك رمز التحقق.",phone_l:"رقم الهاتف",send_code:"إرسال الرمز",
@@ -1019,14 +1254,23 @@ async function geocodeAddress(q){const url='https://nominatim.openstreetmap.org/
 async function reverseGeocode(lat,lng){const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,{headers:{'Accept-Language':L==='ar'?'ar':'fr'}});if(!r.ok)throw new Error('reverse unavailable');const a=await r.json();return a.display_name||`${lat.toFixed(5)}, ${lng.toFixed(5)}`;}
 async function drawRoute(a,b){try{const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`);if(!r.ok)throw new Error('route unavailable');const data=await r.json();if(!data.routes?.length)throw new Error('route not found');const route=data.routes[0];if(routeLayer)leafletMap.removeLayer(routeLayer);routeLayer=window.L.geoJSON(route.geometry,{style:{color:'#075BFF',weight:6,opacity:.85}}).addTo(leafletMap);leafletMap.fitBounds(routeLayer.getBounds(),{padding:[60,60]});routeDistanceKm=route.distance/1000;$('#map-route-info').textContent=`${routeDistanceKm.toFixed(1)} km · ${Math.round(route.duration/60)} min`;updateSuggestedFare();return route;}catch(e){$('#map-route-info').textContent=L==='ar'?'تعذر حساب المسار حالياً':'Route indisponible';throw e;}}
 $('#map-route').onclick=async()=>{const from=$('#map-from').value.trim(),to=$('#map-to').value.trim();if(!from||!to){$('#map-route-info').textContent=L==='ar'?'أدخل نقطة الانطلاق والوصول':'Saisissez départ et destination';return;}const btn=$('#map-route');btn.disabled=true;$('#map-route-info').textContent=L==='ar'?'جاري البحث…':'Recherche…';try{const a=await geocodeAddress(from);await new Promise(r=>setTimeout(r,1100));const b=await geocodeAddress(to);routePoints={pickup:a,dropoff:b};mapPickNext='pickup';if(pickupMarker)leafletMap.removeLayer(pickupMarker);if(dropoffMarker)leafletMap.removeLayer(dropoffMarker);pickupMarker=window.L.marker([a.lat,a.lng]).addTo(leafletMap).bindPopup(a.label);dropoffMarker=window.L.marker([b.lat,b.lng]).addTo(leafletMap).bindPopup(b.label);await drawRoute(a,b);}catch(e){$('#map-route-info').textContent=L==='ar'?'لم نجد العنوان أو الخدمة غير متاحة':'Adresse introuvable / service indisponible';}finally{btn.disabled=false;}};
-async function locatePassenger(){
-  if(!navigator.geolocation){toast(L==='ar'?'المتصفح لا يدعم تحديد الموقع':'La géolocalisation n’est pas disponible');return}
-  navigator.geolocation.getCurrentPosition(pos=>{
-    const point={lat:pos.coords.latitude,lng:pos.coords.longitude};
-    if(leafletMap){leafletMap.setView([point.lat,point.lng],16);if(leafletUserMarker)leafletUserMarker.setLatLng([point.lat,point.lng]);}else toast(L==='ar'?'تم تحديد موقعك':'Position détectée');
-  },()=>toast(L==='ar'?'اسمح بالوصول إلى موقعك من إعدادات المتصفح':'Autorisez la localisation dans les réglages du navigateur'),{enableHighAccuracy:true,timeout:10000,maximumAge:15000});
+let locBusy=false;
+function applyPickupFix(p,label){ // the detected device position becomes the real pickup point of the ride request
+  if(!routePoints)routePoints={};
+  routePoints.pickup={lat:p.lat,lng:p.lng,label};
+  const f=$('#map-from');if(f)f.value=label;
+  if(leafletMap){leafletMap.setView([p.lat,p.lng],16);if(leafletUserMarker)leafletUserMarker.setLatLng([p.lat,p.lng]);}
+  updateSuggestedFare();
 }
-$('#my-location').onclick=locatePassenger;
+async function locatePassenger(auto){ // auto=true: silent start-up attempt (never shows the denied sheet, never re-prompts)
+  if(locBusy)return;locBusy=true;const b=$('#my-location');if(b)b.setAttribute('aria-busy','true');
+  try{
+    const r=await KJLoc.ensure({role:'rider',interactive:auto!==true,high:true,timeout:12000});
+    if(r.ok){applyPickupFix(r,KJLoc.text('here'));toast(r.approx?KJLoc.text('approx'):KJLoc.text('ok'))}
+    else if(auto!==true){const f=$('#kj-area')||$('#map-from');if(f)f.focus()} // not granted: manual pickup stays fully available
+  }finally{locBusy=false;if(b)b.removeAttribute('aria-busy')}
+}
+$('#my-location').onclick=()=>locatePassenger(false);
 let carRaf;
 function moveCar(from,to,ms,done){ // car follows route from t=from..to (0..1); along route, approach from outside
   const route=$("#route"),len=route.getTotalLength(),car=$("#car");cancelAnimationFrame(carRaf);
@@ -1160,7 +1404,7 @@ const stop=()=>{clearInterval(poll);poll=null};
 const PK=()=>routePoints?.pickup&&Number.isFinite(routePoints.pickup.lat)&&Number.isFinite(routePoints.pickup.lng)?routePoints.pickup:({lat:36.7538,lng:3.0588,label:t('from_val')}),DS=()=>routePoints?.dropoff&&Number.isFinite(routePoints.dropoff.lat)&&Number.isFinite(routePoints.dropoff.lng)?routePoints.dropoff:({lat:36.6910,lng:3.2154,label:t('to_val')});
 function reqPayload(){const base={pickup:PK(),dropoff:DS(),price:S.price,note:$('#note').value.trim()||undefined,women_only:$('#women').checked,vehicle_type:S.vehicleType};
   if(S.kind!=='delivery')return base; // demo coordinates: no geocoder yet, addresses are typed labels
-  return {...base,women_only:false,kind:'delivery',pickup:{lat:36.7538,lng:3.0588,label:$('#dl-from').value.trim()||t('dl_from_ph')},dropoff:{lat:36.7332,lng:3.0870,label:$('#dl-to').value.trim()||t('dl_to_ph')},
+  return {...base,women_only:false,kind:'delivery',pickup:{lat:PK().lat,lng:PK().lng,label:$('#dl-from').value.trim()||t('dl_from_ph')},dropoff:{lat:36.7332,lng:3.0870,label:$('#dl-to').value.trim()||t('dl_to_ph')},
     item_type:S.item,item_note:$('#dl-note').value.trim(),recipient_name:$('#dl-rn').value.trim()||undefined,recipient_phone:$('#dl-rp').value.trim()||undefined}}
 $('#sim-next').hidden=true;
 
@@ -1410,9 +1654,243 @@ $("#del-no").onclick=()=>{$("#del-ask").hidden=true;$("#del-start").hidden=false
 $("#del-yes").onclick=async()=>{const e=$("#del-err");e.hidden=true;
   try{await kapi("DELETE","/api/me");location.reload()}catch{e.textContent=t("del_fail");e.hidden=false}};
 
+/* Passenger location start-up + manual pickup fallback (runs after passenger.view.js; before passenger.init.js). */
+(function(){
+  /* Approximate district centres in Algiers for people who do not share their location. Deliberately coarse
+     (the label says so). Replace with a real geocoder/map once a provider is approved (see STORE-RELEASE-PREP.md). */
+  const AREAS=[['Alger Centre','الجزائر الوسطى',36.7737,3.0603],['Bab El Oued','باب الوادي',36.7894,3.0517],['Hussein Dey','حسين داي',36.7408,3.1006],
+    ['El Harrach','الحراش',36.7219,3.1394],['Kouba','القبة',36.7261,3.0830],['Hydra','حيدرة',36.7436,3.0394],['Bab Ezzouar','باب الزوار',36.7233,3.1827],
+    ['Aéroport Houari Boumediene','مطار هواري بومدين',36.6910,3.2154]];
+  const host=document.querySelector('#map-search'),from=document.querySelector('#map-from');
+  if(host&&from&&!document.querySelector('#kj-area')){
+    const sel=document.createElement('select');sel.id='kj-area';sel.className='kj-area';
+    const fill=()=>{const fr=document.documentElement.lang==='fr';sel.setAttribute('aria-label',fr?'Zone de départ':'منطقة الانطلاق');
+      sel.replaceChildren(new Option(fr?'Choisir la zone de départ':'اختر منطقة الانطلاق',''),...AREAS.map((a,i)=>new Option(fr?a[0]:a[1],String(i))))};
+    fill();sel.onfocus=fill;
+    sel.onchange=()=>{const a=AREAS[+sel.value];if(!a)return;const fr=document.documentElement.lang==='fr';
+      applyPickupFix({lat:a[2],lng:a[3]},(fr?a[0]:a[1])+(fr?' (zone approximative)':' (منطقة تقريبية)'))};
+    host.insertBefore(sel,from);
+  }
+  /* First relevant use: when the map screen first appears, explain (once per install) and detect the current position. */
+  const sm=document.querySelector('#s-map');let started=false;
+  const start=()=>{if(started||!sm||!sm.classList.contains('on'))return;started=true;setTimeout(()=>locatePassenger(true),400)};
+  if(sm){new MutationObserver(start).observe(sm,{attributes:true,attributeFilter:['class']});start()}
+})();
+
 buildTabbar();applyI18n();
 </script>
-<script type="text/plain" id="code-driver">const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+<script type="text/plain" id="code-driver">/* KHERJA location permission layer (shared by the passenger and driver views; exposed as window.KJLoc).
+   Rules it enforces:
+   - Foreground / While-Using location only. Never requests Always or background location.
+   - Runtime request only, and only after our own explanation sheet; never at install or launch without context.
+   - After a denial it never re-prompts by itself. It shows a denied sheet only when the user taps a location action.
+   - Never blocks the app: every sheet offers "choose manually"; callers fall back to manual pickup.
+   - Native (Capacitor) uses @capacitor/geolocation; plain browsers use navigator.geolocation. */
+(function () {
+  if (window.KJLoc) return;
+  var W = window, doc = document;
+  var cap = function () { return W.Capacitor; };
+  var isNative = function () { try { return !!(cap() && cap().isNativePlatform && cap().isNativePlatform()); } catch (e) { return false; } };
+  var plugin = function (n) { try { return cap() && cap().Plugins && cap().Plugins[n]; } catch (e) { return null; } };
+  var platform = function () { try { return cap().getPlatform(); } catch (e) { return 'web'; } };
+  var lang = function () { return doc.documentElement.lang === 'fr' ? 'fr' : 'ar'; };
+
+  var TX = {
+    ar: {
+      r_title: 'نحددو موقعك',
+      r_body_rider: 'باش نحددو موقعك بدقة ونلقاو لك السائقين القريبين، نحتاجو إذن الوصول للموقع. تقدر تختار موقع الانطلاق يدوياً إذا ما حبيتش تشارك موقعك.',
+      r_body_driver: 'باش تظهر للركاب القريبين وتستقبل الطلبات، نحتاجو موقعك كي تكون متصل. موقعك ما يتشاركش كي تولي غير متصل.',
+      r_fine: 'نستعملو الموقع غير وأنت تستعمل التطبيق.',
+      allow: 'السماح بالموقع', manual: 'نختار يدوياً', close: 'إغلاق', retry: 'إعادة المحاولة', settings: 'فتح الإعدادات',
+      d_title: 'الموقع غير مفعّل',
+      d_body: 'ما عندناش إذن الوصول لموقعك. تقدر تختار موقع الانطلاق يدوياً، أو تفتح الإعدادات وتسمح بالموقع.',
+      d_body_driver: 'بدون الموقع ما نقدروش نظهروك للركاب القريبين. افتح الإعدادات واسمح بالموقع باش تتصل.',
+      d_ios_hint: 'الإعدادات ‹ خرجة ‹ الموقع ‹ أثناء استخدام التطبيق',
+      s_title: 'خدمة الموقع (GPS) مطفية',
+      s_body: 'فعّل خدمة الموقع من إعدادات الهاتف باش نحددو موقعك، أو اختر الانطلاق يدوياً.',
+      u_title: 'تعذّر تحديد موقعك',
+      u_body: 'ما قدرناش نحددو موقعك دابا. جرّب مرة أخرى أو اختر الانطلاق يدوياً.',
+      detecting: 'جاري تحديد موقعك…', ok: 'تم تحديد موقعك', approx: 'الموقع تقريبي، تأكد من نقطة الانطلاق', here: 'موقعي الحالي'
+    },
+    fr: {
+      r_title: 'Utiliser votre position',
+      r_body_rider: 'Pour déterminer votre position avec précision et trouver les chauffeurs proches de vous, KHERJA a besoin d’accéder à votre localisation. Vous pouvez aussi choisir votre point de départ manuellement si vous préférez ne pas la partager.',
+      r_body_driver: 'Pour apparaître auprès des passagers proches et recevoir des demandes, KHERJA a besoin de votre position tant que vous êtes en ligne. Elle n’est plus partagée dès que vous passez hors ligne.',
+      r_fine: 'Votre position n’est utilisée que lorsque l’application est ouverte.',
+      allow: 'Autoriser la localisation', manual: 'Choisir manuellement', close: 'Fermer', retry: 'Réessayer', settings: 'Ouvrir les réglages',
+      d_title: 'Localisation désactivée',
+      d_body: 'KHERJA n’a pas accès à votre position. Vous pouvez choisir le départ manuellement ou ouvrir les réglages pour autoriser la localisation.',
+      d_body_driver: 'Sans localisation, nous ne pouvons pas vous montrer aux passagers proches. Ouvrez les réglages et autorisez la localisation pour passer en ligne.',
+      d_ios_hint: 'Réglages › KHERJA › Localisation › Lorsque l’app est active',
+      s_title: 'Le GPS est désactivé',
+      s_body: 'Activez la localisation dans les réglages de l’appareil, ou choisissez le départ manuellement.',
+      u_title: 'Position indisponible',
+      u_body: 'Impossible de vous localiser pour le moment. Réessayez ou choisissez le départ manuellement.',
+      detecting: 'Localisation en cours…', ok: 'Position détectée', approx: 'Position approximative, vérifiez le point de départ', here: 'Ma position actuelle'
+    }
+  };
+  var tx = function (k) { return TX[lang()][k]; };
+
+  /* ---- one-time rationale flag (per install). Failure to persist only means the sheet may show again. ---- */
+  var FLAG = 'kj.loc.rationale';
+  var seenRationale = function () { try { return !!localStorage.getItem(FLAG); } catch (e) { return false; } };
+  var markRationale = function () { try { localStorage.setItem(FLAG, String(Date.now())); } catch (e) {} };
+
+  /* ---- permission status: granted | granted_approx | prompt | prompt_again | denied | unsupported ---- */
+  function fromNative(r) {
+    if (!r) return 'prompt';
+    if (r.location === 'granted') return 'granted';
+    if (r.coarseLocation === 'granted') return 'granted_approx';
+    if (r.location === 'denied' && (r.coarseLocation === 'denied' || r.coarseLocation == null)) return 'denied';
+    if (r.location === 'prompt-with-rationale' || r.coarseLocation === 'prompt-with-rationale') return 'prompt_again';
+    return 'prompt';
+  }
+  function status() {
+    if (isNative()) {
+      var g = plugin('Geolocation');
+      if (!g) return Promise.resolve('unsupported');
+      return g.checkPermissions().then(fromNative, function () { return 'unsupported'; });
+    }
+    if (!navigator.geolocation) return Promise.resolve('unsupported');
+    if (!navigator.permissions || !navigator.permissions.query) return Promise.resolve('prompt');
+    return navigator.permissions.query({ name: 'geolocation' }).then(function (p) {
+      return p.state === 'granted' ? 'granted' : p.state === 'denied' ? 'denied' : 'prompt';
+    }, function () { return 'prompt'; });
+  }
+  function request() {
+    if (!isNative()) return Promise.resolve('prompt'); // browsers prompt on the first position read
+    return plugin('Geolocation').requestPermissions({ permissions: ['location', 'coarseLocation'] }).then(fromNative, function () { return 'denied'; });
+  }
+
+  /* ---- position ---- */
+  function classify(e, st) {
+    var m = String((e && (e.message || e.errorMessage)) || e || '') + ' ' + String((e && e.code) || '');
+    if (st === 'denied' || /denied|not authori[sz]ed|permission/i.test(m) || (e && e.code === 1 && !isNative())) return 'denied';
+    if (/not enabled|services?.*(off|disabled|unavailable)|location.*disabled|GLOC-0007/i.test(m)) return 'services_off';
+    if (/time.?out|timed out/i.test(m) || (e && e.code === 3 && !isNative())) return 'timeout';
+    return 'unavailable';
+  }
+  function fmt(p) {
+    var c = (p && p.coords) || {};
+    return { lat: c.latitude, lng: c.longitude, accuracy: c.accuracy };
+  }
+  function getPosition(o) {
+    o = o || {};
+    var opts = { enableHighAccuracy: o.high !== false, timeout: o.timeout || 10000, maximumAge: o.maxAge == null ? 15000 : o.maxAge };
+    var p = isNative()
+      ? plugin('Geolocation').getCurrentPosition(opts)
+      : new Promise(function (res, rej) { navigator.geolocation.getCurrentPosition(res, rej, opts); });
+    return p.then(fmt).then(function (r) {
+      if (!isFinite(r.lat) || !isFinite(r.lng)) throw new Error('invalid position');
+      return r;
+    }).catch(function (e) {
+      return status().then(function (st) { var err = new Error('loc'); err.kind = classify(e, st); throw err; });
+    });
+  }
+
+  /* ---- open system settings (user-initiated only) ---- */
+  function openSettings(kind) {
+    try {
+      if (isNative() && platform() === 'ios') { W.location.href = 'app-settings:'; return true; } // public URL (UIApplication.openSettingsURLString)
+      if (isNative() && platform() === 'android') {
+        var ns = plugin('NativeSettings');
+        if (ns) { ns.open({ optionAndroid: kind === 'services_off' ? 'location' : 'application_details', optionIOS: 'app' }); return true; }
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  /* ---- sheet UI (consistent with KHERJA tokens; see shell/kj-location.css) ---- */
+  var openSheet = null;
+  function sheet(kind, o) {
+    o = o || {};
+    if (openSheet) return openSheet;
+    var driver = o.role === 'driver';
+    return (openSheet = new Promise(function (resolve) {
+      var prev = doc.activeElement;
+      var ov = doc.createElement('div');
+      ov.className = 'kjl-ov'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
+      var title = kind === 'rationale' ? tx('r_title') : kind === 'denied' ? tx('d_title') : kind === 'services_off' ? tx('s_title') : tx('u_title');
+      var body = kind === 'rationale' ? (driver ? tx('r_body_driver') : tx('r_body_rider')) :
+        kind === 'denied' ? (driver ? tx('d_body_driver') : tx('d_body')) : kind === 'services_off' ? tx('s_body') : tx('u_body');
+      var card = doc.createElement('div'); card.className = 'kjl-card';
+      var ic = doc.createElement('div'); ic.className = 'kjl-ic'; ic.setAttribute('aria-hidden', 'true');
+      ic.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+      var h = doc.createElement('h2'); h.className = 'kjl-h'; h.id = 'kjl-h'; h.textContent = title;
+      ov.setAttribute('aria-labelledby', 'kjl-h');
+      var p = doc.createElement('p'); p.className = 'kjl-p'; p.textContent = body;
+      card.append(ic, h, p);
+      if (kind === 'rationale') { var f = doc.createElement('p'); f.className = 'kjl-f'; f.textContent = tx('r_fine'); card.append(f); }
+      if (kind === 'denied' && isNative() && platform() === 'ios') { var hint = doc.createElement('p'); hint.className = 'kjl-f'; hint.textContent = tx('d_ios_hint'); card.append(hint); }
+      var row = doc.createElement('div'); row.className = 'kjl-row';
+      var done = function (v) { ov.remove(); openSheet = null; try { if (prev && prev.focus) prev.focus(); } catch (e) {} resolve(v); };
+      var mk = function (cls, label, v) { var b = doc.createElement('button'); b.type = 'button'; b.className = 'btn ' + cls; b.textContent = label; b.onclick = function () { done(v); }; row.append(b); return b; };
+      var first;
+      if (kind === 'rationale') { first = mk('primary', tx('allow'), 'allow'); if (!driver) mk('ghost', tx('manual'), 'manual'); else mk('ghost', tx('close'), 'manual'); }
+      else if (kind === 'denied' || kind === 'services_off') {
+        var sb = doc.createElement('button'); sb.type = 'button'; sb.className = 'btn primary'; sb.textContent = tx('settings');
+        sb.onclick = function () { openSettings(kind); done('settings'); }; row.append(sb); first = sb;
+        mk('ghost', driver ? tx('close') : tx('manual'), 'manual');
+      } else { first = mk('primary', tx('retry'), 'retry'); mk('ghost', driver ? tx('close') : tx('manual'), 'manual'); }
+      card.append(row); ov.append(card);
+      ov.addEventListener('keydown', function (e) { if (e.key === 'Escape') done('manual'); });
+      ov.addEventListener('click', function (e) { if (e.target === ov) done('manual'); });
+      doc.body.appendChild(ov);
+      try { first.focus(); } catch (e) {}
+    }));
+  }
+
+  /* ---- main entry point -------------------------------------------------------------------------
+     ensure({role:'rider'|'driver', interactive:bool})
+       interactive=true  : the user tapped a location action. May show the rationale, denied or GPS sheets.
+       interactive=false : automatic use at screen start. Reads silently if already allowed; shows the rationale at
+                           most once per install; never prompts after a denial and never shows the denied sheet.
+     Resolves {ok:true, lat, lng, accuracy, approx} or {ok:false, reason:'manual'|'denied'|'services_off'|'timeout'|
+     'unavailable'|'unsupported'|'suppressed'}. Callers must fall back to manual pickup when ok is false. */
+  function ensure(o) {
+    o = o || {};
+    return status().then(function (st) {
+      if (st === 'unsupported') return { ok: false, reason: 'unsupported' };
+      if (st === 'denied') {
+        if (!o.interactive) return { ok: false, reason: 'denied' };
+        return sheet('denied', o).then(function () { return { ok: false, reason: 'denied' }; });
+      }
+      var need = st === 'prompt' || st === 'prompt_again';
+      var step = Promise.resolve(st);
+      if (need) {
+        if (!o.interactive && (st === 'prompt_again' || seenRationale())) return { ok: false, reason: 'suppressed' };
+        step = sheet('rationale', o).then(function (c) {
+          markRationale();
+          if (c !== 'allow') return 'manual';
+          return request();
+        });
+      }
+      return step.then(function (s2) {
+        if (s2 === 'manual') return { ok: false, reason: 'manual' };
+        if (isNative() && (s2 === 'denied' || s2 === 'prompt' || s2 === 'prompt_again')) return { ok: false, reason: 'denied' };
+        return read(o, s2);
+      });
+    });
+  }
+  function read(o, st) {
+    return getPosition(o).then(function (pos) {
+      pos.ok = true; pos.approx = st === 'granted_approx' || (pos.accuracy != null && pos.accuracy > 1000);
+      return pos;
+    }, function (err) {
+      var reason = err.kind || 'unavailable';
+      if (!o.interactive) return { ok: false, reason: reason };
+      if (reason === 'denied') return sheet('denied', o).then(function () { return { ok: false, reason: 'denied' }; });
+      return sheet(reason === 'services_off' ? 'services_off' : 'unavailable', o).then(function (c) {
+        if (c === 'retry') return read(o, st);
+        return { ok: false, reason: reason };
+      });
+    });
+  }
+
+  W.KJLoc = { status: status, ensure: ensure, getPosition: getPosition, openSettings: openSettings, text: tx, isNative: isNative };
+})();
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const T={
  ar:{d_h:"اربح بسعر عادل",d_s:"سجّل كسائق أو موصّل، وارفع وثائقك مرة واحدة.",phone_l:"رقم الهاتف",send_code:"إرسال الرمز",otp_h:"أدخل الرمز",otp_s:"أرسلناه إلى",demo_code:"رمز التجربة:",verify:"تأكيد",
   invalid:"رقم غير صحيح",bad_code:"الرمز غير صحيح",too_many:"محاولات كثيرة، انتظر قليلًا",net:"تعذّر الاتصال",otp_g:"رمز التحقق",
@@ -1544,11 +2022,16 @@ async function tick(){try{const on=$('#online').getAttribute('aria-checked')==='
      (r.already_offered?(()=>{const o=OF[r.id],st=o?o.status:'pending';return `<p class="sub of-st ${st}" role="status" ${st==='pending'&&o?`data-exp="${o.expires_at}"`:''} style="margin:0">${st==='expired'?t('of_exp'):st==='declined'?t('of_dec'):`${t('of_wait')} <span class="num dcd"></span>`}</p>`})():`<div class="row" style="margin:0"><button class="btn ghost" data-c>${t('bid_counter')} <span class="num">${r.price+50}</span></button><button class="btn primary" data-a>${t('bid_same')}</button></div>`);
     const bid=p=>async()=>{try{await api('POST',`/api/requests/${r.id}/offers`,{price:p,eta_min:4});toast('✓');sig='';tick()}catch{toast(t('offer_gone'))}};
     const a=el.querySelector('[data-a]');if(a){a.onclick=bid(r.price);el.querySelector('[data-c]').onclick=bid(r.price+50)}box.appendChild(el)})}catch(e){if(e.status===401)location.reload()}}
-function position(){return new Promise((res,rej)=>{if(!navigator.geolocation)return rej(new Error('no geo'));navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude}),rej,{timeout:8000,maximumAge:15000})})}
+/* Location goes through KJLoc (foreground only, runtime permission, explanation sheet). interactive=true only for the driver's own tap. */
+async function position(interactive){const r=await KJLoc.ensure({role:'driver',interactive:interactive===true,high:true,timeout:8000,maxAge:15000});
+  if(!r.ok)throw Object.assign(new Error('loc'),{reason:r.reason});return {lat:r.lat,lng:r.lng}}
+/* Permission revoked or location lost while online: stop sharing, go offline on the server, tell the driver. Never keep a stale position live. */
+function goOfflineNoLocation(){clearInterval(locTimer);locTimer=null;api('POST','/api/driver/online',{online:false}).catch(()=>{});
+  const sw=$('#online');if(sw)sw.setAttribute('aria-checked','false');sig='';renderHome();toast(t('loc_need'))}
 $('#online').onclick=async()=>{const sw=$('#online');if(sw.disabled)return;const on=sw.getAttribute('aria-checked')!=='true';
-  try{if(on){let pos;try{pos=await position()}catch{toast(t('loc_need'));return}await api('POST','/api/driver/online',{online:true,...pos});
-      clearInterval(locTimer);locTimer=setInterval(async()=>{try{await api('POST','/api/driver/online',{online:true,...await position()})}catch{}},20000)}
-    else{clearInterval(locTimer);await api('POST','/api/driver/online',{online:false})}}catch{toast(t('no_online'));return}
+  try{if(on){let pos;try{pos=await position(true)}catch{toast(t('loc_need'));return}await api('POST','/api/driver/online',{online:true,...pos});
+      clearInterval(locTimer);locTimer=setInterval(async()=>{try{await api('POST','/api/driver/online',{online:true,...await position(false)})}catch(e){if(e&&(e.reason==='denied'||e.reason==='unsupported'))goOfflineNoLocation()}},20000)}
+    else{clearInterval(locTimer);locTimer=null;await api('POST','/api/driver/online',{online:false})}}catch{toast(t('no_online'));return}
   sw.setAttribute('aria-checked',on);sig='';renderHome();tick()};
 
 /* account */
