@@ -144,17 +144,27 @@ function createApp({ dbPath = ':memory:', dev = false, devAdmin = false, now = (
   const all = (sql, ...a) => db.prepare(sql).all(...a);
   const run = (sql, ...a) => db.prepare(sql).run(...a);
   const notify = (uid, kind, ref, detail) => { try { run('insert into notifications(user_id,kind,ref_id,detail) values(?,?,?,?)', uid, kind, ref ?? null, detail ?? null); } catch {} };
-  const tx = fn => { db.exec('begin immediate'); try { const r = fn(); db.exec('commit'); return r; } catch (e) { db.exec('rollback'); throw e; } };
+  const tx = fn => { db.exec('begin immediate'); try { const r = fn(); db.exec('commit'); return r; } catch (e) { try { db.exec('rollback'); } catch {} throw e; } };
 
   const lockVehicle = uid => run('update drivers set vehicle_locked=1 where user_id=?', uid);
   const normPlate = p => String(p || '').normalize('NFKC').replace(/[\u0660-\u0669]/g, c => c.charCodeAt(0) - 0x660).replace(/[\u06f0-\u06f9]/g, c => c.charCodeAt(0) - 0x6f0).replace(/[\s\-_.]/g, '').toUpperCase();
   const plateTaken = (plate, uid) => { const n = normPlate(plate);
     return all('select plate from drivers where user_id<>?', uid).some(r => normPlate(r.plate) === n) || !!q("select 1 from driver_change_requests where status='pending' and plate_norm=? and user_id<>?", n, uid); };
   const ev = (rid, uid, action, actorRole, actorId, fields) => run('insert into driver_change_events(request_id,user_id,action,actor_role,actor_id,fields) values(?,?,?,?,?,?)', rid, uid, action, actorRole, actorId, fields || null);
-  // Expire every pending offer whose server deadline has passed. Idempotent; called before any read or accept, at boot, and on a timer.
+  // Expire parent requests and their pending offers together; then expire standalone offer deadlines.
+  const expireRequests = () => tx(() => {
+    const ts = now();
+    const expired = all("select id from requests where status='open' and expires_at<=?", ts);
+    for (const r of expired) {
+      run("update offers set status='expired' where request_id=? and status='pending'", r.id);
+      run("update requests set status='expired' where id=? and status='open' and expires_at<=?", r.id, ts);
+    }
+    return expired.length;
+  });
   const expireOffers = () => run("update offers set status='expired' where status='pending' and expires_at<=?", now());
-  expireOffers();
-  const sweeper = setInterval(() => { try { expireOffers(); } catch {} }, 1000); sweeper.unref();
+  const sweepLifecycle = () => { expireRequests(); expireOffers(); };
+  sweepLifecycle();
+  const sweeper = setInterval(() => { try { sweepLifecycle(); } catch {} }, 1000); sweeper.unref();
   { const devAdminOn = dev && devAdmin;
     const cfg = admin || (process.env.ADMIN_PHONE && process.env.ADMIN_PASSWORD ? { phone: process.env.ADMIN_PHONE, password: process.env.ADMIN_PASSWORD } : null) || (devAdminOn ? DEV_ADMIN : null);
     if (cfg && cfg.password === DEV_ADMIN.password && !devAdminOn) throw new Error('refusing to start: the development admin password cannot be used unless dev mode and dev admin are both enabled');
@@ -307,18 +317,32 @@ function createApp({ dbPath = ':memory:', dev = false, devAdmin = false, now = (
     const info = run('insert into requests(rider_id,p_lat,p_lng,p_label,d_lat,d_lng,d_label,price,note,women_only,expires_at,kind,item_type,item_note,recipient_name,recipient_phone,vehicle_type) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', u.id, p.lat, p.lng, p.label, d.lat, d.lng, d.label, price, str(b.note, 200, 'note', false), b.women_only ? 1 : 0, now() + 5 * 60e3, kind, item_type, item_note, rname, rphone, vehicleType);
     return { id: Number(info.lastInsertRowid), fare_quote: fareQuote }; });
   add('GET', '/api/requests/(\\d+)/offers', (req, b, ctx, m) => { const u = auth(req); const r = ownReq(u, +m[1]);
-    expireOffers(); return { server_now: now(), offer_ttl_ms: OFFER_TTL_MS, offers: all("select id,driver_id,price,eta_min,expires_at from offers where request_id=? and status='pending' and expires_at>?", r.id, now()).map(o => ({ ...o, driver: publicDriver(o.driver_id) })) }; });
-  add('POST', '/api/requests/(\\d+)/cancel', (req, b, ctx, m) => { const u = auth(req); const r = ownReq(u, +m[1]); if (r.status !== 'open') throw new HttpError(409, 'not open'); run("update requests set status='cancelled' where id=?", r.id); return { ok: true }; });
+    expireRequests(); expireOffers(); const current = ownReq(u, r.id); if (current.status !== 'open') return { server_now: now(), offer_ttl_ms: OFFER_TTL_MS, offers: [] };
+    return { server_now: now(), offer_ttl_ms: OFFER_TTL_MS, offers: all("select id,driver_id,price,eta_min,expires_at from offers where request_id=? and status='pending' and expires_at>?", r.id, now()).map(o => ({ ...o, driver: publicDriver(o.driver_id) })) }; });
+  add('POST', '/api/requests/(\\d+)/cancel', (req, b, ctx, m) => { const u = auth(req); const id = +m[1];
+    const changed = tx(() => { const r = ownReq(u, id); if (r.status !== 'open' || r.expires_at <= now()) throw new HttpError(409, 'not open');
+      const result = run("update requests set status='cancelled' where id=? and rider_id=? and status='open' and expires_at>?", id, u.id, now());
+      if (!result.changes) throw new HttpError(409, 'not open');
+      run("update offers set status='declined' where request_id=? and status='pending'", id); return true; });
+    return { ok: changed }; });
   add('POST', '/api/requests/(\\d+)/offers', (req, b, ctx, m) => { const u = auth(req); role(u, 'driver');
     const d = q('select * from drivers where user_id=? and online=1', u.id); if (!d) throw deny();
     const r = q("select * from requests where id=? and status='open' and expires_at>?", +m[1], now()); if (!r) throw nf();
     if (r.women_only && !d.is_woman) throw deny(); if (r.kind !== 'delivery' && r.vehicle_type !== d.vehicle_type) throw deny(); if (km(d.lat, d.lng, r.p_lat, r.p_lng) > 8) throw deny();
     const price = int(b.price, 50, 100000, 'price'); if (price > Math.round(r.price * 1.5)) throw bad('price too far above rider offer');
     const eta = int(b.eta_min, 0, 120, 'eta_min');
-    try { const i = run('insert into offers(request_id,driver_id,price,eta_min,expires_at) values(?,?,?,?,?)', r.id, u.id, price, eta, now() + OFFER_TTL_MS); notify(r.rider_id, 'new_offer', r.id, String(price)); return { id: Number(i.lastInsertRowid), expires_at: now() + OFFER_TTL_MS }; }
+    try { const created = tx(() => { const current = q("select * from requests where id=? and status='open' and expires_at>?", r.id, now()); if (!current) throw new HttpError(409, 'request unavailable');
+        const i = run('insert into offers(request_id,driver_id,price,eta_min,expires_at) values(?,?,?,?,?)', current.id, u.id, price, eta, now() + OFFER_TTL_MS);
+        return { id: Number(i.lastInsertRowid), expires_at: now() + OFFER_TTL_MS, rider_id: current.rider_id }; });
+      notify(created.rider_id, 'new_offer', r.id, String(price)); return { id: created.id, expires_at: created.expires_at }; }
     catch (e) { if (/UNIQUE/.test(e.message)) throw new HttpError(409, 'already offered'); throw e; } });
   add('POST', '/api/offers/(\\d+)/accept', (req, b, ctx, m) => { const u = auth(req); role(u, 'rider'); expireOffers();
     const res = tx(() => { const o = q('select * from offers where id=?', +m[1]); if (!o) throw nf(); const r = ownReq(u, o.request_id);
+      if (r.status === 'open' && r.expires_at <= now()) {
+        run("update offers set status='expired' where request_id=? and status='pending'", r.id);
+        run("update requests set status='expired' where id=? and status='open' and expires_at<=?", r.id, now());
+        return { fail: 'request expired' };
+      }
       if (o.status === 'expired' || (o.status === 'pending' && o.expires_at <= now())) { run("update offers set status='expired' where id=? and status='pending'", o.id); return { fail: 'offer expired' }; }
       if (r.status !== 'open' || o.status !== 'pending') throw new HttpError(409, 'not available');
       const d = q('select * from drivers where user_id=?', o.driver_id);
@@ -338,7 +362,9 @@ function createApp({ dbPath = ':memory:', dev = false, devAdmin = false, now = (
     if (to === 'cancelled') { if (!['en_route', 'arrived'].includes(r.status)) throw new HttpError(409, 'cannot cancel'); }
     else if (u.id !== r.driver_id) throw deny();
     if (!(NEXT[r.status] || []).includes(to)) throw new HttpError(409, 'bad transition');
-    run('update rides set status=? where id=?', to, r.id); notify(u.id === r.driver_id ? r.rider_id : r.driver_id, 'ride_status', r.id, to); return { status: to }; });
+    const changed = tx(() => run('update rides set status=? where id=? and status=?', to, r.id, r.status));
+    if (!changed.changes) throw new HttpError(409, 'ride status changed; refresh and retry');
+    notify(u.id === r.driver_id ? r.rider_id : r.driver_id, 'ride_status', r.id, to); return { status: to }; });
   add('POST', '/api/rides/(\\d+)/cash-collected', (req, b, ctx, m) => { const u = auth(req); const r = myRide(u, +m[1]);
     if (u.id !== r.driver_id) throw deny(); if (r.status !== 'completed') throw new HttpError(409, 'ride not completed');
     const payment = q('select payment_method,payment_status from rides where id=?', r.id);
