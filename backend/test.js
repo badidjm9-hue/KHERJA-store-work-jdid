@@ -223,3 +223,29 @@ test('server fare quote endpoint and minimum fare enforcement', async () => {
   assert.equal((await rider.call('POST', '/api/requests', { pickup: P, dropoff: D, price: 350, vehicle_type: 'car' })).s, 200);
   b.s.close();
 });
+
+
+test('expired parent request expires its offers and cannot be accepted', async () => {
+  const b = await boot(); const { rider, driver } = await setup(b);
+  const rq = await rider.call('POST', '/api/requests', { pickup: P, dropoff: D, price: 400 });
+  const of = await driver.call('POST', `/api/requests/${rq.j.id}/offers`, { price: 400, eta_min: 3 });
+  assert.equal(of.s, 200);
+  b.s.db.prepare('update requests set expires_at=? where id=?').run(Date.now() - 1, rq.j.id);
+  assert.equal((await rider.call('GET', `/api/requests/${rq.j.id}/offers`)).j.offers.length, 0);
+  assert.equal(b.s.db.prepare('select status from requests where id=?').get(rq.j.id).status, 'expired');
+  assert.equal(b.s.db.prepare('select status from offers where id=?').get(of.j.id).status, 'expired');
+  assert.equal((await rider.call('POST', `/api/offers/${of.j.id}/accept`)).s, 409);
+  b.s.close();
+});
+
+test('cancelling a request atomically declines pending offers', async () => {
+  const b = await boot(); const { rider, driver } = await setup(b);
+  const rq = await rider.call('POST', '/api/requests', { pickup: P, dropoff: D, price: 400 });
+  const of = await driver.call('POST', `/api/requests/${rq.j.id}/offers`, { price: 400, eta_min: 3 });
+  assert.equal(of.s, 200);
+  assert.equal((await rider.call('POST', `/api/requests/${rq.j.id}/cancel`)).s, 200);
+  assert.equal(b.s.db.prepare('select status from requests where id=?').get(rq.j.id).status, 'cancelled');
+  assert.equal(b.s.db.prepare('select status from offers where id=?').get(of.j.id).status, 'declined');
+  assert.equal((await rider.call('POST', `/api/offers/${of.j.id}/accept`)).s, 409);
+  b.s.close();
+});
